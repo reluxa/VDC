@@ -1,12 +1,39 @@
 package org.reluxa;
 
-import com.vaadin.cdi.UIScoped;
+import javax.inject.Inject;
 
-@UIScoped
+import org.reluxa.db.Session;
+import org.reluxa.model.User;
+
+import com.db4o.ObjectSet;
+
 public class LoginController {
 
-	public void sayHello() {
-		System.out.println("Hello2!");
+	@Inject
+	Session db;
+	
+	public void createUser(String userName, String password) {
+		User user = createUserTemplate(userName, password);
+		db.store(user);
 	}
+
+	
+	public boolean queryUser(String username, String password) {
+		User user = createUserTemplate(username, password);
+		ObjectSet<User> users = db.queryByExample(user);
+		return users.size() > 0;
+	}
+	
+	private User createUserTemplate(String userName, String password) {
+		User user = new User();
+		user.setUsername(userName);
+		user.setPassword(password);
+		return user;
+	}
+	
+	public void doSomthing() {
+		
+	}
+	
 	
 }

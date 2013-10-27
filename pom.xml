@@ -10,6 +10,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<vaadin.version>7.1.7</vaadin.version>
+		<db4o.version>8.1-SNAPSHOT</db4o.version>
 	</properties>
 
 
@@ -18,7 +19,7 @@
 
 	<developers>
 		<developer>
-			<name>Peter Bagrij</name>
+			<name>ReLuXa</name>
 		</developer>
 	</developers>
 	<licenses>
@@ -70,10 +71,33 @@
 			<version>6.0</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- Db4o -->
+		<dependency>
+      		<groupId>com.db4o</groupId>
+      		<artifactId>db4o-full-java5</artifactId>
+      		<version>${db4o.version}</version>
+    	</dependency>
+		
 	</dependencies>
 
+	<repositories>
+		<repository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>http://repo.maven.apache.org/maven2</url>
+		</repository>
+		<repository>
+			<id>source.db4o</id>
+			<url>http://source.db4o.com/maven</url>
+		</repository>
+	</repositories>
+
 	<build>
-	    	<finalName>example</finalName>
+		<finalName>example</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

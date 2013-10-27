@@ -12,14 +12,13 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-@CDIView("login")
-public class LoginView extends VerticalLayout implements View,
+@CDIView("signup")
+public class SignupView extends VerticalLayout implements View,
 		Button.ClickListener {
 
 	@Inject
@@ -28,34 +27,29 @@ public class LoginView extends VerticalLayout implements View,
 	private TextField username;
 
 	private PasswordField password;
+	
+	private PasswordField retype;
 
-	public LoginView() {
+	public SignupView() {
 		setSizeFull();
 		VerticalLayout inner = new VerticalLayout();
 		inner.setWidth(null);
 		inner.addComponent(new Label(
-				"<h2>Please enter the login credentials<h2>", ContentMode.HTML));
+				"<h2>Please enter the desired username<h2>", ContentMode.HTML));
 		FormLayout logingForm = new FormLayout();
 		logingForm.setWidth(null);
 		username = new TextField("username");
 		logingForm.addComponent(username);
 		password = new PasswordField("password");
+		retype = new PasswordField("retype");
 		logingForm.addComponent(password);
+		logingForm.addComponent(retype);
 		inner.addComponent(logingForm);
-		Button loginButton = new Button("Zita3");
-		loginButton.addClickListener(this);
 		HorizontalLayout buttonLine = new HorizontalLayout();
 		buttonLine.setSpacing(true);
-		buttonLine.addComponent(loginButton);
-		Button signup = new Button("Signup");
-		signup.addClickListener(new Button.ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().getNavigator().navigateTo("signup");
-			}
-		});
-		buttonLine.addComponent(signup);
-		buttonLine.setComponentAlignment(loginButton, Alignment.TOP_RIGHT);
+		Button signupButton = new Button("Signup");
+		signupButton.addClickListener(this);
+		buttonLine.addComponent(signupButton);
 		logingForm.addComponent(buttonLine);
 		addComponent(inner);
 		setComponentAlignment(inner, Alignment.MIDDLE_CENTER);
@@ -68,15 +62,7 @@ public class LoginView extends VerticalLayout implements View,
 
 	@Override
 	public void buttonClick(ClickEvent event) {
-		newMethod();
-		if (loginController.queryUser((String)username.getValue(),(String)username.getValue())) {
-			Notification.show("Login successful", Notification.Type.WARNING_MESSAGE);
-		} else {
-			Notification.show("Invalid username or password", Notification.Type.WARNING_MESSAGE);
-		}
-	}
-	
-	public void newMethod() {
-		System.out.println("valami2");
+		loginController.createUser((String)username.getValue(),(String)username.getValue());
+		UI.getCurrent().getNavigator().navigateTo("");
 	}
 }

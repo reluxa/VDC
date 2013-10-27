@@ -3,6 +3,7 @@ package org.reluxa;
 import javax.inject.Inject;
 
 import com.vaadin.cdi.CDIUI;
+import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
@@ -11,18 +12,19 @@ import com.vaadin.ui.UI;
 @SuppressWarnings("serial")
 public class MyVaadinUI extends UI
 {
-	
+
 	@Inject
-	LoginController loginController;
-	
+	private CDIViewProvider viewProvider;
+
     Navigator navigator;
 
     @Override
     protected void init(VaadinRequest request) {
+    	
         getPage().setTitle("Navigation Example");
         navigator = new Navigator(this, this);
-        navigator.addView("", new LoginView());
-        loginController.sayHello();
+        navigator.addView("", viewProvider.getView("login"));
+        navigator.addView("signup", viewProvider.getView("signup"));
     }
 
 }
