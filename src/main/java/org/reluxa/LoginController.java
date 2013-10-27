@@ -16,7 +16,6 @@ public class LoginController {
 		User user = createUserTemplate(userName, password);
 		db.store(user);
 	}
-
 	
 	public boolean queryUser(String username, String password) {
 		User user = createUserTemplate(username, password);
@@ -30,10 +29,5 @@ public class LoginController {
 		user.setPassword(password);
 		return user;
 	}
-	
-	public void doSomthing() {
-		
-	}
-	
 	
 }

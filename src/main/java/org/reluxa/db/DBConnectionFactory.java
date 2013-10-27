@@ -8,7 +8,7 @@ import com.db4o.ObjectContainer;
 @Singleton
 public class DBConnectionFactory {
 
-	ObjectContainer db = Db4oEmbedded.openFile("D:\\database.data");
+	private ObjectContainer db = Db4oEmbedded.openFile("D:\\database.data");
 
 	public ObjectContainer getConnection() {
 		return db;

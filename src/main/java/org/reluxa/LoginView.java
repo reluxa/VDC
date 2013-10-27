@@ -68,15 +68,14 @@ public class LoginView extends VerticalLayout implements View,
 
 	@Override
 	public void buttonClick(ClickEvent event) {
-		newMethod();
-		if (loginController.queryUser((String)username.getValue(),(String)username.getValue())) {
-			Notification.show("Login successful", Notification.Type.WARNING_MESSAGE);
+		if (loginController.queryUser((String) username.getValue(),
+				(String) username.getValue())) {
+			Notification.show("Login successful",
+					Notification.Type.WARNING_MESSAGE);
 		} else {
-			Notification.show("Invalid username or password", Notification.Type.WARNING_MESSAGE);
+			Notification.show("Invalid username or password",
+					Notification.Type.WARNING_MESSAGE);
 		}
 	}
-	
-	public void newMethod() {
-		System.out.println("valami2");
-	}
+
 }
