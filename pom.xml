@@ -71,14 +71,29 @@
 			<version>6.0</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<!-- Db4o -->
 		<dependency>
-      		<groupId>com.db4o</groupId>
-      		<artifactId>db4o-full-java5</artifactId>
-      		<version>${db4o.version}</version>
-    	</dependency>
-		
+			<groupId>com.db4o</groupId>
+			<artifactId>db4o-full-java5</artifactId>
+			<version>${db4o.version}</version>
+		</dependency>
+
+		<!-- webutilities -->
+		<dependency>
+			<groupId>com.googlecode.webutilities</groupId>
+			<artifactId>webutilities</artifactId>
+			<version>0.0.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+
+
+
 	</dependencies>
 
 	<repositories>
@@ -130,9 +145,9 @@
 				<configuration>
 					<tomeeVersion>1.5.2</tomeeVersion>
 					<tomeeClassifier>plus</tomeeClassifier>
-				        <webapps>
-				          <webapp>org.reluxa:example:1.0-SNAPSHOT</webapp>
-				        </webapps>
+					<webapps>
+						<webapp>org.reluxa:example:1.0-SNAPSHOT</webapp>
+					</webapps>
 				</configuration>
 			</plugin>
 		</plugins>

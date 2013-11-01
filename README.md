@@ -15,7 +15,13 @@ Nice web framework purely written in java. Lot of compoments and a visual editor
 
 **CDI** - https://github.com/vaadin/cdi
 
+**WebUtilities** - http://code.google.com/p/webutilities/
+
+On the fly applies gzip compression on the downloaded content. The appsize has been reduced from 1.3 Mbytes to 0.3 Mbytes on startup.
+
 **Spring loaded** - https://github.com/spring-projects/spring-loaded
+
+
 
 Requirements
 ------------

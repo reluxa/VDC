@@ -10,7 +10,7 @@ import com.vaadin.ui.UI;
 
 @CDIUI
 @SuppressWarnings("serial")
-public class MyVaadinUI extends UI
+public class ExampleUI extends UI
 {
 
 	@Inject
@@ -20,7 +20,6 @@ public class MyVaadinUI extends UI
 
     @Override
     protected void init(VaadinRequest request) {
-    	
         getPage().setTitle("Navigation Example");
         navigator = new Navigator(this, this);
         navigator.addView("", viewProvider.getView("login"));

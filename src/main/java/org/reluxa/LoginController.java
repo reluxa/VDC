@@ -12,8 +12,7 @@ public class LoginController {
 	@Inject
 	Session db;
 	
-	public void createUser(String userName, String password) {
-		User user = createUserTemplate(userName, password);
+	public void createUser(User user) {
 		db.store(user);
 	}
 	

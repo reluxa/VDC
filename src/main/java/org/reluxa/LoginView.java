@@ -38,11 +38,13 @@ public class LoginView extends VerticalLayout implements View,
 		FormLayout logingForm = new FormLayout();
 		logingForm.setWidth(null);
 		username = new TextField("username");
+		username.setRequired(true);
 		logingForm.addComponent(username);
 		password = new PasswordField("password");
+		password.setRequired(true);
 		logingForm.addComponent(password);
 		inner.addComponent(logingForm);
-		Button loginButton = new Button("Zita3");
+		Button loginButton = new Button("Login");
 		loginButton.addClickListener(this);
 		HorizontalLayout buttonLine = new HorizontalLayout();
 		buttonLine.setSpacing(true);

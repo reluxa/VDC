@@ -1,9 +1,13 @@
 package org.reluxa.model;
 
+import javax.validation.constraints.NotNull;
+
 public class User {
 	
+	@NotNull
 	private String username;
 	
+	@NotNull
 	private String password;
 
 	public String getUsername() {

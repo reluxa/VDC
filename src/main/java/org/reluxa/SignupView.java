@@ -2,7 +2,12 @@ package org.reluxa;
 
 import javax.inject.Inject;
 
+import org.reluxa.model.User;
+
 import com.vaadin.cdi.CDIView;
+import com.vaadin.data.Item;
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -12,8 +17,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -23,34 +26,34 @@ public class SignupView extends VerticalLayout implements View,
 
 	@Inject
 	LoginController loginController;
-
-	private TextField username;
-
-	private PasswordField password;
 	
-	private PasswordField retype;
+	private User user = new User();
 
 	public SignupView() {
-		setSizeFull();
 		VerticalLayout inner = new VerticalLayout();
 		inner.setWidth(null);
 		inner.addComponent(new Label(
 				"<h2>Please enter the desired username<h2>", ContentMode.HTML));
-		FormLayout logingForm = new FormLayout();
-		logingForm.setWidth(null);
-		username = new TextField("username");
-		logingForm.addComponent(username);
-		password = new PasswordField("password");
-		retype = new PasswordField("retype");
-		logingForm.addComponent(password);
-		logingForm.addComponent(retype);
-		inner.addComponent(logingForm);
+
+		setSizeFull();
+		User user = new User();
+		Item item = new BeanItem<User>(user);
+		FormLayout form = new FormLayout();
+	    FieldGroup fieldGroup = new FieldGroup(item);
+	    fieldGroup.setBuffered(false);
+	    
+	    fieldGroup.getUnboundPropertyIds();
+        for (final Object propertyId : fieldGroup.getUnboundPropertyIds()) {
+            form.addComponent(fieldGroup.buildAndBind(propertyId));
+        }
+		
+		inner.addComponent(form);
 		HorizontalLayout buttonLine = new HorizontalLayout();
 		buttonLine.setSpacing(true);
 		Button signupButton = new Button("Signup");
 		signupButton.addClickListener(this);
 		buttonLine.addComponent(signupButton);
-		logingForm.addComponent(buttonLine);
+		form.addComponent(buttonLine);
 		addComponent(inner);
 		setComponentAlignment(inner, Alignment.MIDDLE_CENTER);
 	}
@@ -62,7 +65,7 @@ public class SignupView extends VerticalLayout implements View,
 
 	@Override
 	public void buttonClick(ClickEvent event) {
-		loginController.createUser((String)username.getValue(),(String)username.getValue());
+		loginController.createUser(user);
 		UI.getCurrent().getNavigator().navigateTo("");
 	}
 }
