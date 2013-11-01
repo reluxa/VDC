@@ -18,6 +18,12 @@ Nice web framework purely written in java. Lot of compoments and a visual editor
 **Spring loaded** - https://github.com/spring-projects/spring-loaded
 
 
+Installation
+------------
+
+* Type mvn clean install tomee:run
+* Open http://localhost:8080/example
+
 Setup Development Environment
 -----------------------------
 

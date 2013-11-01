@@ -130,6 +130,9 @@
 				<configuration>
 					<tomeeVersion>1.5.2</tomeeVersion>
 					<tomeeClassifier>plus</tomeeClassifier>
+				        <webapps>
+				          <webapp>org.reluxa:example:1.0-SNAPSHOT</webapp>
+				        </webapps>
 				</configuration>
 			</plugin>
 		</plugins>
