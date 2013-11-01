@@ -23,7 +23,7 @@ public class LoginView extends VerticalLayout implements View,
 		Button.ClickListener {
 
 	@Inject
-	LoginController loginController;
+	private LoginController loginController;
 
 	private TextField username;
 
