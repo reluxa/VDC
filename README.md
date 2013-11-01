@@ -33,7 +33,7 @@ Installation
 ------------
 
 * Type mvn clean install tomee:run
-* Open http://localhost:8080/example
+* Open http://127.0.0.1:8080/example
 
 Setup Development Environment
 -----------------------------
