@@ -17,6 +17,11 @@ Nice web framework purely written in java. Lot of compoments and a visual editor
 
 **Spring loaded** - https://github.com/spring-projects/spring-loaded
 
+Requirements
+------------
+
+* JDK 1.7
+* Maven 3.x
 
 Installation
 ------------
