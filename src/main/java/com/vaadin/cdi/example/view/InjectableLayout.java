@@ -15,27 +15,27 @@ import com.vaadin.ui.VerticalLayout;
 @Dependent
 public class InjectableLayout extends VerticalLayout {
 
-    // Inject a new instance of a component.
-    // A component instance cannot be used in multiple layouts, but a named
-    // instance could be made available to another class for other use.
-    @Inject
-    @New
-    private Label label;
+	// Inject a new instance of a component.
+	// A component instance cannot be used in multiple layouts, but a named
+	// instance could be made available to another class for other use.
+	@Inject
+	@New
+	private Label label;
 
-    // An alternative to this would be injection with @Named.
-    @Inject
-    @UIScoped
-    private CounterService layoutCounter;
+	// An alternative to this would be injection with @Named.
+	@Inject
+	@UIScoped
+	private CounterService layoutCounter;
 
-    public InjectableLayout() {
-        setSizeUndefined();
-    }
+	public InjectableLayout() {
+		setSizeUndefined();
+	}
 
-    @PostConstruct
-    private void initLayout() {
-        addComponent(new Label("Injected layout " + layoutCounter.next()));
+	@PostConstruct
+	private void initLayout() {
+		addComponent(new Label("Injected layout " + layoutCounter.next()));
 
-        label.setValue("Injected label in an injected layout");
-        addComponent(label);
-    }
+		label.setValue("Injected label in an injected layout");
+		addComponent(label);
+	}
 }

@@ -7,13 +7,13 @@ import com.vaadin.cdi.UIScoped;
  */
 @UIScoped
 public class LoggableEvent {
-    private final String value;
+	private final String value;
 
-    public LoggableEvent(String value) {
-        this.value = value;
-    }
+	public LoggableEvent(String value) {
+		this.value = value;
+	}
 
-    public String getValue() {
-        return value;
-    }
+	public String getValue() {
+		return value;
+	}
 }

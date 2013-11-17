@@ -11,23 +11,20 @@ import com.vaadin.ui.VerticalLayout;
 @CDIView(value = EventLogView.VIEW_ID)
 public class EventLogView extends AbstractView {
 
-    public static final String VIEW_ID = "events";
+	public static final String VIEW_ID = "events";
 
-    private VerticalLayout layout = new VerticalLayout(new Label("Event log:"));
-    private long startTime = System.currentTimeMillis();
+	private VerticalLayout layout = new VerticalLayout(new Label("Event log:"));
+	private long startTime = System.currentTimeMillis();
 
-    @Override
-    protected Component buildContent() {
-        layout.setSizeUndefined();
+	@Override
+	protected Component buildContent() {
+		layout.setSizeUndefined();
 
-        return layout;
-    }
+		return layout;
+	}
 
-    protected void logEvent(@Observes
-    LoggableEvent event) {
-        layout.addComponent(new Label(""
-                + (System.currentTimeMillis() - startTime) + "ms: "
-                + event.getValue()));
-    }
+	protected void logEvent(@Observes LoggableEvent event) {
+		layout.addComponent(new Label("" + (System.currentTimeMillis() - startTime) + "ms: " + event.getValue()));
+	}
 
 }

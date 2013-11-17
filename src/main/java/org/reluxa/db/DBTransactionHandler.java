@@ -16,15 +16,15 @@ public class DBTransactionHandler implements Filter {
 
 	@Inject
 	SessionImpl sessionImpl;
-	
+
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+	    ServletException {
 		boolean hadException = false;
 		try {
 			chain.doFilter(request, response);

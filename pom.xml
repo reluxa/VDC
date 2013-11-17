@@ -92,8 +92,27 @@
 			<version>1.7.5</version>
 		</dependency>
 
+		<!-- Lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.12.2</version>
+			<scope>provided</scope>
+		</dependency>
+
+<!-- Guaava -->
+<dependency>
+	<groupId>com.google.guava</groupId>
+	<artifactId>guava-collections</artifactId>
+	<version>r03</version>
+</dependency>
 
 
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>

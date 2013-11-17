@@ -18,26 +18,25 @@ import com.db4o.query.QueryComparator;
 
 @RequestScoped
 public class SessionImpl implements Session {
-	
+
 	@Inject
 	DBConnectionFactory connectionFactory;
-	
-	private static int counter=0;;
-	
+
+	private static int counter = 0;;
+
 	private boolean rollbackOnly;
 
 	private ObjectContainer delegate;
-	
+
 	private int id;
-	
+
 	@PostConstruct
 	public void init() {
 		delegate = connectionFactory.getConnection().ext().openSession();
 		id = counter++;
 	}
 
-	public void activate(Object arg0, int arg1) throws Db4oIOException,
-			DatabaseClosedException {
+	public void activate(Object arg0, int arg1) throws Db4oIOException, DatabaseClosedException {
 		delegate.activate(arg0, arg1);
 	}
 
@@ -45,18 +44,15 @@ public class SessionImpl implements Session {
 		return delegate.close();
 	}
 
-	public void commit() throws Db4oIOException, DatabaseClosedException,
-			DatabaseReadOnlyException {
+	public void commit() throws Db4oIOException, DatabaseClosedException, DatabaseReadOnlyException {
 		delegate.commit();
 	}
 
-	public void deactivate(Object arg0, int arg1)
-			throws DatabaseClosedException {
+	public void deactivate(Object arg0, int arg1) throws DatabaseClosedException {
 		delegate.deactivate(arg0, arg1);
 	}
 
-	public void delete(Object arg0) throws Db4oIOException,
-			DatabaseClosedException, DatabaseReadOnlyException {
+	public void delete(Object arg0) throws Db4oIOException, DatabaseClosedException, DatabaseReadOnlyException {
 		delegate.delete(arg0);
 	}
 
@@ -68,40 +64,35 @@ public class SessionImpl implements Session {
 		return delegate.query();
 	}
 
-	public <TargetType> ObjectSet<TargetType> query(Class<TargetType> arg0)
-			throws Db4oIOException, DatabaseClosedException {
+	public <TargetType> ObjectSet<TargetType> query(Class<TargetType> arg0) throws Db4oIOException,
+	    DatabaseClosedException {
 		return delegate.query(arg0);
 	}
 
-	public <TargetType> ObjectSet<TargetType> query(Predicate<TargetType> arg0,
-			Comparator<TargetType> arg1) throws Db4oIOException,
-			DatabaseClosedException {
+	public <TargetType> ObjectSet<TargetType> query(Predicate<TargetType> arg0, Comparator<TargetType> arg1)
+	    throws Db4oIOException, DatabaseClosedException {
 		return delegate.query(arg0, arg1);
 	}
 
-	public <TargetType> ObjectSet<TargetType> query(Predicate<TargetType> arg0,
-			QueryComparator<TargetType> arg1) throws Db4oIOException,
-			DatabaseClosedException {
+	public <TargetType> ObjectSet<TargetType> query(Predicate<TargetType> arg0, QueryComparator<TargetType> arg1)
+	    throws Db4oIOException, DatabaseClosedException {
 		return delegate.query(arg0, arg1);
 	}
 
-	public <TargetType> ObjectSet<TargetType> query(Predicate<TargetType> arg0)
-			throws Db4oIOException, DatabaseClosedException {
+	public <TargetType> ObjectSet<TargetType> query(Predicate<TargetType> arg0) throws Db4oIOException,
+	    DatabaseClosedException {
 		return delegate.query(arg0);
 	}
 
-	public <T> ObjectSet<T> queryByExample(Object arg0) throws Db4oIOException,
-			DatabaseClosedException {
+	public <T> ObjectSet<T> queryByExample(Object arg0) throws Db4oIOException, DatabaseClosedException {
 		return delegate.queryByExample(arg0);
 	}
 
-	public void rollback() throws Db4oIOException, DatabaseClosedException,
-			DatabaseReadOnlyException {
+	public void rollback() throws Db4oIOException, DatabaseClosedException, DatabaseReadOnlyException {
 		delegate.rollback();
 	}
 
-	public void store(Object arg0) throws DatabaseClosedException,
-			DatabaseReadOnlyException {
+	public void store(Object arg0) throws DatabaseClosedException, DatabaseReadOnlyException {
 		delegate.store(arg0);
 	}
 
@@ -109,14 +100,14 @@ public class SessionImpl implements Session {
 	public void setRollbackOnly() {
 		rollbackOnly = true;
 	}
-	
+
 	public boolean isRollbackOnly() {
 		return rollbackOnly;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Session["+id+"] is" + (ext().isClosed()?"closed":"open");  
+		return "Session[" + id + "] is" + (ext().isClosed() ? "closed" : "open");
 	}
-	
+
 }

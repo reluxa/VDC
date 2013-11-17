@@ -8,14 +8,14 @@ import com.vaadin.cdi.UIScoped;
 @UIScoped
 public class CounterService implements Serializable {
 
-    private final AtomicInteger COUNTER = new AtomicInteger(0);
+	private final AtomicInteger COUNTER = new AtomicInteger(0);
 
-    public int next() {
-        return COUNTER.incrementAndGet();
-    }
+	public int next() {
+		return COUNTER.incrementAndGet();
+	}
 
-    public int get() {
-        return COUNTER.get();
-    }
+	public int get() {
+		return COUNTER.get();
+	}
 
 }

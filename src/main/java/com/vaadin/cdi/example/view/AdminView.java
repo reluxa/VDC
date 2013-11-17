@@ -18,64 +18,63 @@ import com.vaadin.ui.VerticalLayout;
 // @RolesAllowed(...)
 public class AdminView extends AbstractView {
 
-    public static final String VIEW_ID = "admin";
+	public static final String VIEW_ID = "admin";
 
-    // UI scoped
-    @Inject
-    private CounterService counterService;
+	// UI scoped
+	@Inject
+	private CounterService counterService;
 
-    // This is a separate instance, not the default UI scoped one
-    @Inject
-    @Dependent
-    @New
-    private CounterService privateCounter;
+	// This is a separate instance, not the default UI scoped one
+	@Inject
+	@Dependent
+	@New
+	private CounterService privateCounter;
 
-    private Label uiScopedCountLabel = new Label();
-    private Label privateCountLabel = new Label();
+	private Label uiScopedCountLabel = new Label();
+	private Label privateCountLabel = new Label();
 
-    @Override
-    protected Component buildContent() {
-        VerticalLayout layout = new VerticalLayout();
-        layout.setSizeUndefined();
+	@Override
+	protected Component buildContent() {
+		VerticalLayout layout = new VerticalLayout();
+		layout.setSizeUndefined();
 
-        Label label = new Label("Admin only content here");
-        label.setSizeUndefined();
-        layout.addComponent(label);
+		Label label = new Label("Admin only content here");
+		label.setSizeUndefined();
+		layout.addComponent(label);
 
-        uiScopedCountLabel.setSizeUndefined();
-        layout.addComponent(uiScopedCountLabel);
+		uiScopedCountLabel.setSizeUndefined();
+		layout.addComponent(uiScopedCountLabel);
 
-        privateCountLabel.setSizeUndefined();
-        layout.addComponent(privateCountLabel);
+		privateCountLabel.setSizeUndefined();
+		layout.addComponent(privateCountLabel);
 
-        Button incrementButton = new Button("Increment UI scoped");
-        layout.addComponent(incrementButton);
-        incrementButton.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                counterService.next();
-                updateLabels();
-            }
-        });
+		Button incrementButton = new Button("Increment UI scoped");
+		layout.addComponent(incrementButton);
+		incrementButton.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				counterService.next();
+				updateLabels();
+			}
+		});
 
-        Button incrementButton2 = new Button("Increment private");
-        layout.addComponent(incrementButton2);
-        incrementButton2.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                privateCounter.next();
-                updateLabels();
-            }
-        });
+		Button incrementButton2 = new Button("Increment private");
+		layout.addComponent(incrementButton2);
+		incrementButton2.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				privateCounter.next();
+				updateLabels();
+			}
+		});
 
-        updateLabels();
+		updateLabels();
 
-        return layout;
-    }
+		return layout;
+	}
 
-    private void updateLabels() {
-        uiScopedCountLabel.setValue("UI scoped counter = "
-                + counterService.get());
-        privateCountLabel.setValue("Private counter = " + privateCounter.get());
-    }
+	private void updateLabels() {
+		uiScopedCountLabel.setValue("UI scoped counter = " + counterService.get());
+		privateCountLabel.setValue("Private counter = " + privateCounter.get());
+	}
 }
