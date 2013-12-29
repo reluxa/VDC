@@ -29,4 +29,8 @@
     -->
     <!-- <set-configuration-property name="devModeRedirectEnabled" value="true" /> -->
 
+
+    <inherits name="org.vaadin.easyuploads.Widgetset" />
+
+    <inherits name="com.ejt.vaadin.loginform.WidgetSet" />
 </module>

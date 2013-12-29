@@ -29,7 +29,7 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-@CDIView
+//@CDIView(LoginView.LOGIN_VIEW)
 public class LoginView extends VerticalLayout implements View, Button.ClickListener {
 
 	public static final String LOGIN_VIEW = "";

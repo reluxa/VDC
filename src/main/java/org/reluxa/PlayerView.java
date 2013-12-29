@@ -1,7 +1,10 @@
 package org.reluxa;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+
 import javax.annotation.security.RolesAllowed;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import org.reluxa.model.Player;
@@ -9,18 +12,24 @@ import org.reluxa.playerservice.DeletePlayerEvent;
 import org.reluxa.playerservice.PlayerService;
 import org.reluxa.vaadin.widget.CustomBeanItemContainer;
 import org.reluxa.vaadin.widget.GeneratedForm;
+import org.vaadin.easyuploads.MultiFileUpload;
 
+import com.google.gwt.thirdparty.guava.common.io.Files;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.StreamResource;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.DragAndDropWrapper;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
@@ -55,7 +64,6 @@ public class PlayerView extends AbstractView {
 			}
 		});
 		VerticalLayout tablePanel = new VerticalLayout();
-		// tablePanel.setSizeFull();
 		HorizontalLayout buttonPanel = new HorizontalLayout();
 		Button deletePlayerButton = new Button("Delete");
 		deletePlayerButton.addClickListener(new ClickListener() {
@@ -75,9 +83,10 @@ public class PlayerView extends AbstractView {
 		});
 		buttonPanel.addComponent(deletePlayerButton);
 		buttonPanel.addComponent(createPlayer);
+		buttonPanel.setSpacing(true);
 
 		tablePanel.setSpacing(true);
-		tablePanel.addComponent(new Label("<h1>Player Administration</h1>", ContentMode.HTML));
+		tablePanel.addComponent(new Label("<h1>Player administration</h1>", ContentMode.HTML));
 		tablePanel.addComponent(table);
 		tablePanel.addComponent(buttonPanel);
 		tablePanel.addComponent(detailHolder);
@@ -94,6 +103,7 @@ public class PlayerView extends AbstractView {
 			return;
 		}
 		HorizontalLayout detailButtons = new HorizontalLayout();
+		detailButtons.setSpacing(true);
 		detailForm.setBean(bean);
 		Button saveButton = new Button("Save", new ClickListener() {
 			@Override
@@ -117,7 +127,76 @@ public class PlayerView extends AbstractView {
 		
 		detailHolder.addComponent(new Label("<h2>"+getDetailHeader(editMode)+"</h2>", ContentMode.HTML));
 		detailHolder.addComponent(detailForm);
+		
+		detailHolder.addComponent(getProfileImage(bean));
 		detailHolder.addComponent(detailButtons);
+	}
+	
+	
+	public Component getProfileImage(final Player bean) {
+		
+		VerticalLayout layout = new VerticalLayout();
+
+		final Image img = new Image(null,null);
+		img.setHeight("100px");
+
+		if (bean != null && bean.getImage() != null && bean.getImage().length > 0) {
+			img.setSource(new StreamResource(new ImageStreamSource(bean.getImage()), System.currentTimeMillis()+"profile.jpg"));
+		} else {
+			img.setSource(new ThemeResource("img/player.jpg"));
+		}
+		
+		MultiFileUpload upload = new MultiFileUpload() {
+			
+	    private DragAndDropWrapper dropZone;
+			
+			@Override
+			protected void handleFile(File file, String fileName, String mimeType, long length) {
+				try {
+	        bean.setImage(Files.toByteArray(file));
+	        img.setSource(new StreamResource(new ImageStreamSource(Files.toByteArray(file)), System.currentTimeMillis()+"profile.jpg"));
+	        //img.setImmediate(true);
+	        //img.markAsDirtyRecursive();
+	        //System.out.println("File has been uploaded2");
+        } catch (IOException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        }
+			}
+			
+			@Override
+			public void attach() {
+				super.attach();
+				Iterator<Component> iter = iterator();
+				while (iter.hasNext()) {
+					Component comp = iter.next();
+					if (comp instanceof DragAndDropWrapper) {
+						removeComponent(comp);
+						break;
+					}
+				}
+        if (supportsFileDrops()) {
+            customPrepareDropZone();
+        }
+      }
+
+			private void customPrepareDropZone() {
+        if (dropZone == null) {
+          dropZone = new DragAndDropWrapper(img);
+          //dropZone.setStyleName("v-multifileupload-dropzone");
+          dropZone.setSizeUndefined();
+          addComponent(dropZone, 1);
+          dropZone.setDropHandler(this);
+          addStyleName("no-horizontal-drag-hints");
+          addStyleName("no-vertical-drag-hints");
+        }
+      }
+		};
+		upload.setUploadButtonCaption("Change image...");
+
+		layout.addComponent(img);
+		layout.addComponent(upload);
+		return layout;
 	}
 	
 	private String getDetailHeader(EditMode editMode) {

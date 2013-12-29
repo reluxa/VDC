@@ -3,6 +3,7 @@ package org.reluxa;
 import javax.inject.Inject;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.cdi.CDIUI;
 import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.navigator.Navigator;
@@ -12,6 +13,7 @@ import com.vaadin.ui.UI;
 @CDIUI
 @SuppressWarnings("serial")
 @Theme("mytheme")
+@Widgetset("org.reluxa.AppWidgetSet")
 public class ExampleApp extends UI {
 
 	@Inject

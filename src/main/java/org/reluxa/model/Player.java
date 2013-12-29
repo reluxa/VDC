@@ -80,6 +80,9 @@ public class Player implements Validatable, IDObject {
 	  return password != null && password.equals(passwordRetype);
   }
   
+  private byte[] image;
+
+  
   private transient long id;
 
 }
