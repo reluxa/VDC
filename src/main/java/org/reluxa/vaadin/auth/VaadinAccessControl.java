@@ -25,7 +25,12 @@ public class VaadinAccessControl extends AccessControl {
 	@Override
 	public boolean isUserInRole(String role) {
 		Player player = loginService.getUser(getPrincipalName());
-		return player.getRoles() != null && player.getRoles().contains(role);
+		if (Player.ROLE_USER.equals(role) && player != null) {
+			return true;
+		} else if (Player.ROLE_ADMIN.equals(role) && player != null) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

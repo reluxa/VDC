@@ -1,5 +1,7 @@
 package org.reluxa;
 
+import java.util.Iterator;
+
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
@@ -11,15 +13,19 @@ import org.reluxa.vaadin.widget.SimpleNavigationButton;
 
 import com.vaadin.cdi.CDIView;
 import com.vaadin.cdi.CDIViewProvider;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -39,6 +45,7 @@ public class LoginView extends VerticalLayout implements View, Button.ClickListe
 	private GeneratedForm<Player> loginForm = null;
 
 	public LoginView() {
+		this.setStyleName("root");
 		setSizeFull();
 		VerticalLayout inner = new VerticalLayout();
 		inner.setWidth(null);
@@ -58,14 +65,28 @@ public class LoginView extends VerticalLayout implements View, Button.ClickListe
 		setComponentAlignment(inner, Alignment.MIDDLE_CENTER);
 	}
 
+	private void addEnterListenerOnPasswordField() {
+	  Iterator<Component> iter = loginForm.getFormElements();
+		while (iter.hasNext()) {
+			Component comp = iter.next();
+			if (comp instanceof PasswordField) {
+				((PasswordField)comp).addShortcutListener(new ShortcutListener("Submit",ShortcutAction.KeyCode.ENTER, null) {
+					@Override
+					public void handleAction(Object sender, Object target) {
+						buttonClick(null);
+					}
+				});
+			}
+		}
+  }
+
 	@Override
 	public void enter(ViewChangeEvent event) {
-		System.out.println("Enter was called");
 		model = new Player();
 		loginForm.setBean(model);
-		
+		addEnterListenerOnPasswordField();
 		if (accessControl.isUserSignedIn()) {
-			UI.getCurrent().getNavigator().navigateTo(MainView.VIEW_NAME);
+			UI.getCurrent().getNavigator().navigateTo(PlayerView.VIEW_NAME);
 		}
 	}
 
@@ -73,7 +94,7 @@ public class LoginView extends VerticalLayout implements View, Button.ClickListe
 	public void buttonClick(ClickEvent event) {
 		if (!StringUtils.isEmpty(model.getEmail()) && !StringUtils.isEmpty(model.getPassword()) && accessControl.login(model)) {
 			Notification.show("Login successful", Notification.Type.TRAY_NOTIFICATION);
-			UI.getCurrent().getNavigator().navigateTo(MainView.VIEW_NAME);
+			UI.getCurrent().getNavigator().navigateTo(PlayerView.VIEW_NAME);
 		} else {
 			Notification.show("Invalid username or password", Notification.Type.WARNING_MESSAGE);
 		}

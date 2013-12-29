@@ -1,5 +1,6 @@
 package org.reluxa.vaadin.widget;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import org.reluxa.vaadin.util.BeanIntrospector;
@@ -9,6 +10,7 @@ import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.AbstractTextField;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.DefaultFieldFactory;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
@@ -34,14 +36,16 @@ public class GeneratedForm<T> extends VerticalLayout {
 	}
 	
 	@SuppressWarnings("rawtypes")
-  public void setBean(T bean) {
+  public void setBean(final T bean) {
 		form.removeAllComponents();
+		if (bean == null) {
+			return;
+		}
 		Map<String, Class<? extends com.vaadin.ui.Field>> fieldTypeMap = BeanIntrospector.getFieldMap(bean.getClass(), context);
 		Item item = new BeanItem<T>(bean, BeanIntrospector.getDetailFieldsForView(bean.getClass(), context));
 		FieldGroup fieldGroup = new BeanFieldGroup<T>(beanType);
 		fieldGroup.setItemDataSource(item);
 		fieldGroup.setBuffered(false);
-		
 		for (final Object propertyId : fieldGroup.getUnboundPropertyIds()) {
 			Field<?> field = null;
 			if (!Field.class.equals(fieldTypeMap.get(propertyId))) {
@@ -54,6 +58,11 @@ public class GeneratedForm<T> extends VerticalLayout {
 			}
 			form.addComponent(field);
 		}
+	}
+	
+	
+	public Iterator<Component> getFormElements() {
+		return form.iterator();
 	}
 
 }

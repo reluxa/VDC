@@ -1,14 +1,16 @@
 package org.reluxa.player;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.reluxa.DuplicateUserException;
-import org.reluxa.PlayerService;
 import org.reluxa.model.Player;
+import org.reluxa.playerservice.PlayerService;
 import org.reluxa.vaadin.widget.GeneratedForm;
 
 import com.vaadin.cdi.CDIView;
@@ -63,9 +65,6 @@ public class RegisterPlayer extends VerticalLayout implements View, Button.Click
 	@Override
 	public void buttonClick(ClickEvent event) {
 		try {
-			List<String> roles = new ArrayList<>();
-			roles.add(Player.ROLE_USER);
-			user.setRoles(roles);
 	    playerService.createUser(user);
 	    UI.getCurrent().getNavigator().navigateTo("");
 	    Notification.show("User created successfully.", Type.TRAY_NOTIFICATION);

@@ -10,57 +10,76 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 import org.reluxa.LoginView;
-import org.reluxa.MainView;
+import org.reluxa.PlayerView;
 import org.reluxa.player.RegisterPlayer;
 import org.reluxa.vaadin.annotation.Detail;
 import org.reluxa.vaadin.annotation.GUI;
+import org.reluxa.vaadin.annotation.Table;
 import org.reluxa.vaadin.util.ValidationPattern;
 
 import com.vaadin.ui.PasswordField;
 
 @Data
-public class Player {
+@SelfValidating(message="passwords should match")
+public class Player implements Validatable, IDObject {
 
 	public static final String ROLE_USER = "user";
+	public static final String ROLE_ADMIN = "admin";
 	
-	@GUI({ 
+	@GUI(
+	detail = { 
 		@Detail(context = RegisterPlayer.class, order = 1), 
 		@Detail(context = LoginView.class, order = 1),
-		@Detail(context = MainView.class, order = 1)
+		@Detail(context = PlayerView.class, order = 1)
+	}, table = {
+		@Table(context = PlayerView.class, order = 2)
 	})
 	@Pattern(message = "Please provide a valid email address!", regexp = ValidationPattern.EMAIL_PATTERN)
 	@NotNull
 	private String email;
 
-	@GUI({ 
+	@GUI(detail = { 
 		@Detail(context = RegisterPlayer.class, order = 2, type = PasswordField.class),
 		@Detail(context = LoginView.class, order = 2, type = PasswordField.class)
 	})
 	@Size(min = 6, message = "Password minimum length is 6 characters")
 	private String password;
 
-	@GUI({
+	@GUI(detail = {
 		@Detail(context = RegisterPlayer.class, order = 3, type = PasswordField.class) 
 	})
 	@Size(min = 6)
 	private transient String passwordRetype;
 
-	@GUI({ 
+	@GUI(detail = { 
 		@Detail(context = RegisterPlayer.class, order = 4),
-		@Detail(context = MainView.class, order = 2)
+		@Detail(context = PlayerView.class, order = 2)
+	}, table = {
+		@Table(context = PlayerView.class, order = 1)
 	})
 	@NotNull
 	private String fullName;
 
 	private List<Bid> bids;
 	
-	@GUI({ 
-		@Detail(context = MainView.class, order = 3)
+	@GUI(detail = { 
+		@Detail(context = PlayerView.class, order = 4)
+	}, table = {
+		@Table(context = PlayerView.class, order = 2)	
 	})
-	private List<String> roles;
+	private boolean admin;
 
-	@GUI({ 
-		@Detail(context = MainView.class, order = 3)
-	})
+	@GUI(detail = { 
+		@Detail(context = PlayerView.class, order = 3)
+	}, table = {
+			@Table(context = PlayerView.class, order = 4)	
+		})
 	private Date membershipValidUntil;
+
+  public boolean isValid() {
+	  return password != null && password.equals(passwordRetype);
+  }
+  
+  private transient long id;
+
 }
