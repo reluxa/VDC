@@ -2,6 +2,8 @@ package org.reluxa.model;
 
 import java.util.List;
 
+import org.reluxa.bid.Bid;
+
 import lombok.Data;
 
 @Data

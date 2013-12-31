@@ -1,12 +1,13 @@
-package org.reluxa;
+package org.reluxa.login;
 
 import java.util.Iterator;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.reluxa.model.Player;
-import org.reluxa.player.RegisterPlayer;
+import org.reluxa.player.Player;
+import org.reluxa.player.view.PlayerView;
+import org.reluxa.player.view.RegisterPlayer;
 import org.reluxa.vaadin.auth.VaadinAccessControl;
 import org.reluxa.vaadin.widget.GeneratedForm;
 import org.reluxa.vaadin.widget.SimpleNavigationButton;

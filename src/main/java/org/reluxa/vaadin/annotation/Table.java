@@ -4,6 +4,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import com.vaadin.ui.Field;
+import com.vaadin.ui.Table.ColumnGenerator;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Table {
@@ -12,6 +13,6 @@ public @interface Table {
 
 	int order() default Integer.MAX_VALUE;
 
-	Class<? extends Field> type() default Field.class;
+	Class<? extends ColumnGenerator> type() default ColumnGenerator.class;
 	
 }

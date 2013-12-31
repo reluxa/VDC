@@ -1,4 +1,4 @@
-package org.reluxa.model;
+package org.reluxa.player;
 
 import java.util.Date;
 import java.util.List;
@@ -9,9 +9,14 @@ import javax.validation.constraints.Size;
 
 import lombok.Data;
 
-import org.reluxa.LoginView;
-import org.reluxa.PlayerView;
-import org.reluxa.player.RegisterPlayer;
+import org.reluxa.bid.Bid;
+import org.reluxa.bid.CurrentWeekBidView;
+import org.reluxa.login.LoginView;
+import org.reluxa.model.IDObject;
+import org.reluxa.model.SelfValidating;
+import org.reluxa.model.Validatable;
+import org.reluxa.player.view.PlayerView;
+import org.reluxa.player.view.RegisterPlayer;
 import org.reluxa.vaadin.annotation.Detail;
 import org.reluxa.vaadin.annotation.GUI;
 import org.reluxa.vaadin.annotation.Table;
@@ -55,7 +60,8 @@ public class Player implements Validatable, IDObject {
 		@Detail(context = RegisterPlayer.class, order = 4),
 		@Detail(context = PlayerView.class, order = 2)
 	}, table = {
-		@Table(context = PlayerView.class, order = 1)
+		@Table(context = PlayerView.class, order = 1),
+		@Table(context = CurrentWeekBidView.class, order = 1)
 	})
 	@NotNull
 	private String fullName;
@@ -70,7 +76,7 @@ public class Player implements Validatable, IDObject {
 	private boolean admin;
 
 	@GUI(detail = { 
-		@Detail(context = PlayerView.class, order = 3)
+			@Detail(context = PlayerView.class, order = 3)
 	}, table = {
 			@Table(context = PlayerView.class, order = 4)	
 		})

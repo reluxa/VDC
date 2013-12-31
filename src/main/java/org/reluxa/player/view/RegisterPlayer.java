@@ -1,4 +1,4 @@
-package org.reluxa.player;
+package org.reluxa.player.view;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -8,9 +8,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.reluxa.DuplicateUserException;
-import org.reluxa.model.Player;
-import org.reluxa.playerservice.PlayerService;
+import org.reluxa.player.Player;
+import org.reluxa.player.service.DuplicateUserException;
+import org.reluxa.player.service.PlayerService;
 import org.reluxa.vaadin.widget.GeneratedForm;
 
 import com.vaadin.cdi.CDIView;

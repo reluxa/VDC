@@ -1,4 +1,4 @@
-package org.reluxa;
+package org.reluxa.player.service;
 
 public class DuplicateUserException extends Exception {
 

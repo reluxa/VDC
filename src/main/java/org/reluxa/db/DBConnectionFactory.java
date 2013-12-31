@@ -24,17 +24,19 @@ public class DBConnectionFactory {
 		EmbeddedConfigurationImpl embeddedConfig = new EmbeddedConfigurationImpl(config);
 		db = Db4oEmbedded.openFile(embeddedConfig,"D:\\database.data");
 		
-		EventRegistryFactory.forObjectContainer(db).created().addListener(new EventListener4<ObjectInfoEventArgs>() {
-			@Override
-			public void onEvent(Event4<ObjectInfoEventArgs> arg0, ObjectInfoEventArgs arg1) {
-				System.out.println("object created..:"+arg0+arg1);
-			}
-		});
+//		EventRegistryFactory.forObjectContainer(db).created().addListener(new EventListener4<ObjectInfoEventArgs>() {
+//			@Override
+//			public void onEvent(Event4<ObjectInfoEventArgs> arg0, ObjectInfoEventArgs arg1) {
+//				System.out.println("object created..:"+arg0+arg1);
+//			}
+//		});
 		
 		EventRegistryFactory.forObjectContainer(db).activated().addListener(new EventListener4<ObjectInfoEventArgs>() {
 			@Override
 			public void onEvent(Event4<ObjectInfoEventArgs> arg0, ObjectInfoEventArgs arg1) {
-			 ((IDObject)arg1.object()).setId(arg1.info().getInternalID());
+				if (arg1.object() instanceof IDObject) {
+					((IDObject)arg1.object()).setId(arg1.info().getInternalID());
+				}
 			}
 		});
 

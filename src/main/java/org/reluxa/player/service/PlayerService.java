@@ -1,11 +1,10 @@
-package org.reluxa.playerservice;
+package org.reluxa.player.service;
 import java.util.Collection;
 
 import javax.enterprise.event.Observes;
 
 import org.reluxa.AbstractService;
-import org.reluxa.DuplicateUserException;
-import org.reluxa.model.Player;
+import org.reluxa.player.Player;
 
 import com.db4o.ObjectSet;
 

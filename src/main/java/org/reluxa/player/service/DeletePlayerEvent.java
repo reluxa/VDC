@@ -1,10 +1,10 @@
-package org.reluxa.playerservice;
+package org.reluxa.player.service;
 
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import org.reluxa.model.Player;
+import org.reluxa.player.Player;
 
 @Data
 @RequiredArgsConstructor

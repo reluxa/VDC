@@ -4,11 +4,10 @@ import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.reluxa.LoginService;
-import org.reluxa.model.Player;
+import org.reluxa.login.service.LoginService;
+import org.reluxa.player.Player;
 
 import com.vaadin.cdi.access.AccessControl;
-import com.vaadin.sass.internal.util.StringUtil;
 import com.vaadin.ui.UI;
 
 @Alternative
@@ -27,7 +26,7 @@ public class VaadinAccessControl extends AccessControl {
 	@Override
 	public boolean isUserInRole(String role) {
 		if (getPrincipalName() != null) {
-			Player player = loginService.getUser(getPrincipalName());
+			Player player = getCurrentPlayer();
 			if (Player.ROLE_USER.equals(role) && player != null) {
 				return true;
 			} else if (Player.ROLE_ADMIN.equals(role) && player != null) {
@@ -40,6 +39,10 @@ public class VaadinAccessControl extends AccessControl {
 	@Override
 	public String getPrincipalName() {
 		return (String) UI.getCurrent().getSession().getAttribute(USER_EMAIL);
+	}
+	
+	public Player getCurrentPlayer() {
+		return loginService.getUser(getPrincipalName());
 	}
 
 	

@@ -1,4 +1,4 @@
-package org.reluxa;
+package org.reluxa.player.view;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,10 +7,13 @@ import java.util.Iterator;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 
-import org.reluxa.model.Player;
-import org.reluxa.playerservice.DeletePlayerEvent;
-import org.reluxa.playerservice.PlayerService;
-import org.reluxa.vaadin.widget.CustomBeanItemContainer;
+import org.reluxa.AbstractView;
+import org.reluxa.player.Player;
+import org.reluxa.player.service.DeletePlayerEvent;
+import org.reluxa.player.service.DuplicateUserException;
+import org.reluxa.player.service.PlayerService;
+import org.reluxa.vaadin.util.ImageStreamSource;
+import org.reluxa.vaadin.widget.TableFactory;
 import org.reluxa.vaadin.widget.GeneratedForm;
 import org.vaadin.easyuploads.MultiFileUpload;
 
@@ -48,7 +51,7 @@ public class PlayerView extends AbstractView {
 	@Inject
 	private PlayerService playerService;
 
-	private CustomBeanItemContainer<Player> container = new CustomBeanItemContainer<>(Player.class, PlayerView.class);
+	private TableFactory<Player> container = new TableFactory<>(Player.class, PlayerView.class);
 
 	private GeneratedForm<Player> detailForm = new GeneratedForm<>(Player.class, PlayerView.class);
 	
@@ -102,6 +105,10 @@ public class PlayerView extends AbstractView {
 		if (bean == null) {
 			return;
 		}
+		
+		HorizontalLayout columns = new HorizontalLayout();
+		columns.setSpacing(true);
+		
 		HorizontalLayout detailButtons = new HorizontalLayout();
 		detailButtons.setSpacing(true);
 		detailForm.setBean(bean);
@@ -126,10 +133,12 @@ public class PlayerView extends AbstractView {
 		detailButtons.addComponent(saveButton);
 		
 		detailHolder.addComponent(new Label("<h2>"+getDetailHeader(editMode)+"</h2>", ContentMode.HTML));
-		detailHolder.addComponent(detailForm);
-		
-		detailHolder.addComponent(getProfileImage(bean));
+		detailHolder.addComponent(columns);
 		detailHolder.addComponent(detailButtons);
+		
+		columns.addComponent(getProfileImage(bean));
+		columns.addComponent(detailForm);
+
 	}
 	
 	

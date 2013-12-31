@@ -19,6 +19,9 @@ public class CustomBeanItemContainer<BEANTYPE> extends BeanItemContainer<BEANTYP
 	public Collection<String> getContainerPropertyIds() {
 		return BeanIntrospector.getTableFieldsForView(getBeanType(), viewName);
 	}
-
-
+	
+	public void replaceAll(Collection<? extends BEANTYPE> collection) {
+		this.removeAllItems();
+		this.addAll(collection);
+	}
 }

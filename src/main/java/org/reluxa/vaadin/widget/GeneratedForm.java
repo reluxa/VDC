@@ -56,6 +56,9 @@ public class GeneratedForm<T> extends VerticalLayout {
 			if (field instanceof AbstractTextField) {
 				((AbstractTextField) field).setNullRepresentation("");
 			}
+			
+			field.setId(propertyId.toString());
+			
 			form.addComponent(field);
 		}
 	}

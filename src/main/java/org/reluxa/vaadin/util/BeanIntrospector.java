@@ -14,6 +14,7 @@ import org.reluxa.vaadin.annotation.GUI;
 import org.reluxa.vaadin.annotation.Table;
 
 import com.google.common.collect.TreeMultimap;
+import com.vaadin.ui.Table.ColumnGenerator;
 
 public class BeanIntrospector {
 
@@ -76,6 +77,18 @@ public class BeanIntrospector {
 			}
 		});
 		return map.values();
+	}
+	
+	
+	public static Map<String, Class<? extends ColumnGenerator>> getGeneratorFieldsForTable(Class<?> clazz, Class<?> forView) {
+		final HashMap<String, Class<? extends ColumnGenerator>> map = new HashMap<>();
+		visit(clazz, forView, new TableMatcher() {
+			@Override
+			public void found(Table table, Field field) {
+				map.put(field.getName(),table.type());
+			}
+		});
+		return map;
 	}
 
 	private static void visit(Class<?> clazz, Class<?> forView, DetailMatcher matcher) {

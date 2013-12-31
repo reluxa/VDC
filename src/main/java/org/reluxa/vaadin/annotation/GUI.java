@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface GUI {
 	
-	Detail[] detail();
+	Detail[] detail() default {};
 	
 	Table[] table() default {};
 	

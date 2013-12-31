@@ -1,4 +1,4 @@
-package org.reluxa;
+package org.reluxa.vaadin.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

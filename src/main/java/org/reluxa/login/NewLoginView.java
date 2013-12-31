@@ -1,9 +1,10 @@
-package org.reluxa;
+package org.reluxa.login;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.reluxa.player.RegisterPlayer;
+import org.reluxa.player.view.PlayerView;
+import org.reluxa.player.view.RegisterPlayer;
 import org.reluxa.vaadin.auth.VaadinAccessControl;
 import org.reluxa.vaadin.widget.SimpleNavigationButton;
 
@@ -60,6 +61,7 @@ public class NewLoginView extends VerticalLayout implements View {
 		inner.setWidth(null);
 		inner.addComponent(new Label("<h2>Please enter the login credentials<h2>", ContentMode.HTML));
 
+		formLayout.addComponent(loginForm);
 		formLayout.addComponent(loginForm.getUserNameField());
 		formLayout.addComponent(loginForm.getPasswordField());
 

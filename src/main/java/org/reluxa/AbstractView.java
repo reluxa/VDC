@@ -3,6 +3,9 @@ package org.reluxa;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.reluxa.bid.CurrentWeekBidView;
+import org.reluxa.login.LoginView;
+import org.reluxa.player.view.PlayerView;
 import org.reluxa.vaadin.auth.VaadinAccessControl;
 
 import com.vaadin.navigator.View;
@@ -58,20 +61,16 @@ public abstract class AbstractView extends VerticalLayout implements View {
 	
 	public MenuBar getMenuBar() {
 		MenuBar menu = new MenuBar();
-		menu.addItem("Events", new Command() {
+		menu.addItem("My Bids", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				accessControl.logout();
-				UI.getCurrent().getNavigator().navigateTo(LoginView.LOGIN_VIEW);
-				Notification.show("Successfullly logged out.", Type.TRAY_NOTIFICATION);
+				UI.getCurrent().getNavigator().navigateTo(CurrentWeekBidView.VIEW_NAME);
 			}
 		});				
 		menu.addItem("Players", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				accessControl.logout();
-				UI.getCurrent().getNavigator().navigateTo(LoginView.LOGIN_VIEW);
-				Notification.show("Successfullly logged out.", Type.TRAY_NOTIFICATION);
+				UI.getCurrent().getNavigator().navigateTo(PlayerView.VIEW_NAME);
 			}
 		});		
 		menu.addItem("Logout", new Command() {

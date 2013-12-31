@@ -1,6 +1,7 @@
-package org.reluxa;
+package org.reluxa.login.service;
 
-import org.reluxa.model.Player;
+import org.reluxa.AbstractService;
+import org.reluxa.player.Player;
 
 import com.db4o.ObjectSet;
 
