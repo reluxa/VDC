@@ -2,14 +2,13 @@ package org.reluxa.bid;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.reluxa.AbstractView;
-import org.reluxa.bid.Bid.BidStatus;
-import org.reluxa.bid.Bid.BidType;
 import org.reluxa.bid.service.BidService;
 import org.reluxa.player.Player;
 import org.reluxa.player.service.PlayerService;
@@ -93,20 +92,23 @@ public class CurrentWeekBidView extends AbstractView {
 		createButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
+//				for (int i=0;i<1000;i++) {
 				Bid bid = new Bid();
+				bid.setUid(UUID.randomUUID());
 				bid.setCreationTime(new Date());
 				bid.setCreator(accessControl.getCurrentPlayer());
-				
-				String value = (String)box.getValue();
+
+				String value = (String) box.getValue();
 				if ("Bid alone".equals(value)) {
-					bid.setType(BidType.SINGLE);
-					bid.setStatus(BidStatus.PENDING);
+					bid.setType(BidType.SINGLE.toString());
+					bid.setStatus(BidStatus.PENDING.toString());
 				} else {
-					bid.setPartner((Player)friends.getValue());
-					bid.setType(BidType.WITH_FRIEND);
-					bid.setStatus(BidStatus.WAITING_FOR_APPOVAL);
+					bid.setPartner((Player) friends.getValue());
+					bid.setType(BidType.WITH_FRIEND.toString());
+					bid.setStatus(BidStatus.WAITING_FOR_APPOVAL.toString());
 				}
 				bidService.createBid(bid);
+//				}
 			}
 		});
 		
@@ -123,19 +125,17 @@ public class CurrentWeekBidView extends AbstractView {
   }
 	
 	public void updateModel(@Observes BidModelChanged event) {
-		System.out.println(this);
-		System.out.println("update modell was called...");
 		if (event.getDeleted() != null) {
 			for(Bid bid : event.getDeleted()) {
 				System.out.println("Before:"+bids.size());
 				bids.removeItem(bid);
 				System.out.println("After:"+bids.size());
-				//bidsTable.removeItem(bid);
+				bidsTable.removeItem(bid);
 			}
 		}
 		if (event.getCreated() != null) {
 			bids.addItem(event.getCreated());
-			//bidsTable.addItem(event.getCreated());
+			bidsTable.addItem(event.getCreated());
 		}
 		//bidsTable.setContainerDataSource(bids);
 		//bidsTable.markAsDirtyRecursive();

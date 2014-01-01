@@ -95,7 +95,7 @@ public class LoginView extends VerticalLayout implements View, Button.ClickListe
 	public void buttonClick(ClickEvent event) {
 		if (!StringUtils.isEmpty(model.getEmail()) && !StringUtils.isEmpty(model.getPassword()) && accessControl.login(model)) {
 			Notification.show("Login successful", Notification.Type.TRAY_NOTIFICATION);
-			UI.getCurrent().getNavigator().navigateTo(PlayerView.VIEW_NAME);
+			//UI.getCurrent().getNavigator().navigateTo(PlayerView.VIEW_NAME);
 		} else {
 			Notification.show("Invalid username or password", Notification.Type.WARNING_MESSAGE);
 		}

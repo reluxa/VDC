@@ -33,4 +33,6 @@
     <inherits name="org.vaadin.easyuploads.Widgetset" />
 
     <inherits name="com.ejt.vaadin.loginform.WidgetSet" />
+
+    <inherits name="com.github.wolfie.refresher.RefresherWidgetset" />
 </module>

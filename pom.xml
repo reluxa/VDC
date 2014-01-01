@@ -66,8 +66,14 @@
 		<dependency>
    			<groupId>org.vaadin.addons</groupId>
    			<artifactId>loginform</artifactId>
-   			<version>0.1.1</version>
+   			<version>0.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.vaadin.addons</groupId>
+		        <artifactId>refresher</artifactId>
+		        <version>1.2.1.7</version>
+		</dependency>
+
 
 		<!-- Vaadin CDI -->
 		<dependency>
@@ -184,6 +190,12 @@
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-maven-plugin</artifactId>
 				<version>7.1.9</version>
+                                <configuration>
+	    				<webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory>
+    					<hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets</hostedWebapp>
+					<persistentunitcachedir>${project.build.directory}</persistentunitcachedir>
+					<deploy>${project.build.directory}/gwt-deploy</deploy>
+                                </configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.openejb.maven</groupId>
