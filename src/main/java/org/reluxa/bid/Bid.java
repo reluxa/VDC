@@ -11,6 +11,7 @@ import org.reluxa.vaadin.annotation.GUI;
 import org.reluxa.vaadin.annotation.Table;
 
 import com.db4o.config.annotations.Indexed;
+import com.db4o.ext.Db4oUUID;
 
 @Data
 public class Bid implements IDObject {
@@ -52,5 +53,7 @@ public class Bid implements IDObject {
 	public transient String action;
 	
   private transient long id;
+  
+  private transient Db4oUUID db4ouuid;
 
 }

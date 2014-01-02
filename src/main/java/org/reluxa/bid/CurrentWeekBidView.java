@@ -1,7 +1,9 @@
 package org.reluxa.bid;
 
+import java.beans.Beans;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
@@ -18,6 +20,7 @@ import org.reluxa.vaadin.widget.TableFactory;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.util.AbstractBeanContainer;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -118,6 +121,8 @@ public class CurrentWeekBidView extends AbstractView {
 		bidsTable = bids.createTable();
 		bidsTable.setImmediate(true);
 		bidsTable.setSizeFull();
+		
+		
 
 		gridlayout.addComponent(bidsTable);
 		
@@ -137,8 +142,34 @@ public class CurrentWeekBidView extends AbstractView {
 			bids.addItem(event.getCreated());
 			bidsTable.addItem(event.getCreated());
 		}
+		
+		if (event.getUpdated() != null) {
+			
+				
+//			Bid bid = event.getUpdated()[0];
+//			System.out.println("udpdated model called...");
+//			System.out.println(bid);
+////			bids.refresh();
+////			Collection<?> pids = bidsTable.getContainerPropertyIds();
+////			for (Object pid : pids) {
+////				System.out.println(event.getUpdated()[0]);
+////				
+////				Property prop = bidsTable.getContainerProperty(event.getUpdated()[0], pid);
+////				((MethodProperty)prop).fireValueChange();
+////			}
+//			bids.getItem(bid);
+//			bids.removeItem(bid);
+//			bids.addItem(bid);
+//
+//			List<Bid> bs = bids.getItemIds();
+//			System.out.println(bs);
+//			bids.refresh();
+				//bids.getItem(event.getUpdated()[0]).
+			
+			//bidsTable.refreshRowCache();
+		}
 		//bidsTable.setContainerDataSource(bids);
-		//bidsTable.markAsDirtyRecursive();
+
 	}
 
 }

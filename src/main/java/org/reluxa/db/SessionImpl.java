@@ -16,6 +16,10 @@ import com.db4o.query.Predicate;
 import com.db4o.query.Query;
 import com.db4o.query.QueryComparator;
 
+/**
+ * http://community.versant.com/documentation/reference/db4o-8.0/java/reference/Content/platform_specific_issues/web/servlets.htm
+ * @author U299873
+ */
 @RequestScoped
 public class SessionImpl implements Session {
 

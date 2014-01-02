@@ -24,4 +24,9 @@ public class CustomBeanItemContainer<BEANTYPE> extends BeanItemContainer<BEANTYP
 		this.removeAllItems();
 		this.addAll(collection);
 	}
+	
+	public void refresh() {
+		fireItemSetChange();
+	}
+	
 }

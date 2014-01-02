@@ -1,5 +1,6 @@
 package org.reluxa;
 
+import javax.enterprise.context.ContextNotActiveException;
 import javax.inject.Inject;
 
 import com.vaadin.annotations.Theme;
@@ -36,14 +37,12 @@ public class ExampleApp extends UI {
 		navigator = new Navigator(this, this);
 		navigator.addProvider(viewProvider);
 	} 
-
 	
 	@Override
 	public void addExtension(Extension extension) {
 	  // TODO Auto-generated method stub
 	  super.addExtension(extension);
 	}
-	
 	
 	@Override
 	public void removeExtension(Extension extension) {
@@ -53,7 +52,11 @@ public class ExampleApp extends UI {
 		
 	@Override
 	public void detach() {
-		beanStoreContainer.getUIBeanStore(this.getUIId()).dereferenceAllBeanInstances();
+		try {
+			beanStoreContainer.getUIBeanStore(this.getUIId()).dereferenceAllBeanInstances();
+		} catch (ContextNotActiveException ex) {
+			//swallow
+		}
 		UI.getCurrent().close();
 		UI.getCurrent().getPage().setLocation(VaadinService.getCurrentRequest().getContextPath()+"/VAADIN/logout.html");
 		VaadinSession.getCurrent().close();

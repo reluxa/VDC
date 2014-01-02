@@ -5,17 +5,20 @@ import java.util.Collection;
 import javax.enterprise.event.Observes;
 
 import org.reluxa.AbstractService;
+import org.reluxa.bid.AcceptBidEvent;
 import org.reluxa.bid.Bid;
 import org.reluxa.bid.BidModelChanged;
+import org.reluxa.bid.BidStatus;
 import org.reluxa.bid.DeleteBidEvent;
 
 import com.db4o.ObjectSet;
+import com.db4o.ext.Db4oUUID;
 
 public class BidService extends AbstractService {
 
 	public void createBid(Bid bid) {
 		db.store(bid);
-		bid.setId(db.ext().getID(bid));
+//		bid.setId(db.ext().getID(bid));
 		BidModelChanged created = new BidModelChanged();
 		created.setCreated(bid);
 		beanManager.fireEvent(created);
@@ -26,20 +29,27 @@ public class BidService extends AbstractService {
 		return bids.subList(0, bids.size());
 	}
 
+	
+	public void bidAccepted(@Observes AcceptBidEvent event) {
+		Bid bid = event.getBid();
+		System.out.println(bid.getId());
+		Bid original = db.ext().getByID(bid.getId());
+		System.out.println(original);
+		
+		
+		bid.setStatus(BidStatus.PENDING.toString());
+		db.ext().bind(bid, bid.getId());
+		db.store(bid);
+
+		BidModelChanged mchanged = new BidModelChanged();
+		mchanged.setUpdated(new Bid[] {bid});
+		beanManager.fireEvent(mchanged);
+	}
+	
 	public void delete(@Observes DeleteBidEvent deleteBidEvent) {
-		//Bid bid2 = db.ext().getByID(deleteBidEvent.getBid().getId());
-		//System.out.println(bid2);
-		
-		
 		Bid bid = deleteBidEvent.getBid();
 		db.ext().bind(bid, bid.getId());
 		db.delete(bid);
-//		System.out.println("Bid delete was called..");
-//		ObjectSet<Bid> bids = db.queryByExample(deleteBidEvent.getBid());
-//		if (bids.size() != 1) {
-//			throw new RuntimeException("Invalid object for delete:" + deleteBidEvent.getBid());
-//		}
-//		db.delete(bids.get(0));
 
 		BidModelChanged mchanged = new BidModelChanged();
 		mchanged.setDeleted(new Bid[] {bid});

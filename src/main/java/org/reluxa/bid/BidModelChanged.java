@@ -10,5 +10,7 @@ public class BidModelChanged extends AbstractEvent {
 	private Bid created;
 	
 	private Bid[] deleted;
+	
+	private Bid[] updated;
 
 }

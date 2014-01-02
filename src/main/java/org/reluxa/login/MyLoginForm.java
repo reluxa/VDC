@@ -1,27 +1,17 @@
 package org.reluxa.login;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.reluxa.ExampleApp;
 import org.reluxa.player.view.PlayerView;
 import org.reluxa.player.view.RegisterPlayer;
 import org.reluxa.vaadin.auth.VaadinAccessControl;
 import org.reluxa.vaadin.widget.SimpleNavigationButton;
 
 import com.ejt.vaadin.loginform.LoginForm;
-import com.ejt.vaadin.loginform.shared.LoginFormConnector;
-import com.github.wolfie.refresher.Refresher;
-import com.github.wolfie.refresher.Refresher.RefreshListener;
 import com.vaadin.navigator.Navigator;
-import com.vaadin.server.RequestHandler;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinResponse;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -50,8 +40,8 @@ public class MyLoginForm extends LoginForm {
 		inner.addComponent(new Label("<h2>Please enter the login credentials<h2>", ContentMode.HTML));
 		formLayout.addComponent(getUserNameField());
 		formLayout.addComponent(getPasswordField());
-		HorizontalLayout buttonLine = new HorizontalLayout(getLoginButton(), new SimpleNavigationButton("Signup",
-		    RegisterPlayer.VIEW_NAME));
+		HorizontalLayout buttonLine = new HorizontalLayout(getLoginButton(), 
+									  new SimpleNavigationButton("Signup",RegisterPlayer.VIEW_NAME));
 		buttonLine.setSpacing(true);
 		inner.addComponent(formLayout);
 		inner.addComponent(buttonLine);
