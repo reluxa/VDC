@@ -54,7 +54,7 @@ public class DBConnectionFactory {
 			public void onEvent(Event4<ObjectInfoEventArgs> arg0, ObjectInfoEventArgs arg1) {
 				if (arg1.object() instanceof IDObject) {
 					((IDObject)arg1.object()).setId(arg1.info().getInternalID());
-					//System.out.println("ID is set: "+arg1.object());
+					System.out.println("ID is set: "+arg1.object());
 				}
 			}
 		});

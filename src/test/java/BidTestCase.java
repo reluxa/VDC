@@ -34,6 +34,7 @@ public class BidTestCase {
 		
 		
 		Bid bid2 = session2.ext().getByUUID(bid.getDb4ouuid());
+		session2.activate(bid2, 1);
 		System.out.println(bid2);
 
 		session2.commit(); session2.close();
