@@ -13,7 +13,7 @@ import org.reluxa.player.service.DeletePlayerEvent;
 import org.reluxa.player.service.DuplicateUserException;
 import org.reluxa.player.service.PlayerService;
 import org.reluxa.vaadin.util.ImageStreamSource;
-import org.reluxa.vaadin.widget.TableFactory;
+import org.reluxa.vaadin.widget.TableBeanItemFactory;
 import org.reluxa.vaadin.widget.GeneratedForm;
 import org.vaadin.easyuploads.MultiFileUpload;
 
@@ -51,7 +51,7 @@ public class PlayerView extends AbstractView {
 	@Inject
 	private PlayerService playerService;
 
-	private TableFactory<Player> container = new TableFactory<>(Player.class, PlayerView.class);
+	private TableBeanItemFactory<Player> container = new TableBeanItemFactory<>(Player.class, PlayerView.class);
 
 	private GeneratedForm<Player> detailForm = new GeneratedForm<>(Player.class, PlayerView.class);
 	

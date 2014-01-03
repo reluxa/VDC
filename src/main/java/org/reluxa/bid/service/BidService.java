@@ -12,13 +12,11 @@ import org.reluxa.bid.BidStatus;
 import org.reluxa.bid.DeleteBidEvent;
 
 import com.db4o.ObjectSet;
-import com.db4o.ext.Db4oUUID;
 
 public class BidService extends AbstractService {
 
 	public void createBid(Bid bid) {
 		db.store(bid);
-//		bid.setId(db.ext().getID(bid));
 		BidModelChanged created = new BidModelChanged();
 		created.setCreated(bid);
 		beanManager.fireEvent(created);
@@ -29,7 +27,6 @@ public class BidService extends AbstractService {
 		return bids.subList(0, bids.size());
 	}
 
-	
 	public void bidAccepted(@Observes AcceptBidEvent event) {
 		Bid bid = event.getBid();
 		System.out.println(bid.getId());

@@ -8,10 +8,11 @@ import org.reluxa.vaadin.util.BeanManagerUtil;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
 
-public class TableFactory<BEANTYPE> extends CustomBeanItemContainer<BEANTYPE>{
+public class TableBeanFactory<IDTYPE, BEANTYPE> extends CustomBeanContainer<IDTYPE, BEANTYPE> {
 	
-	public TableFactory(Class<? super BEANTYPE> type, Class<?> viewName) throws IllegalArgumentException {
-	  super(type,viewName);
+	public TableBeanFactory(Class<? super BEANTYPE> type, Class<?> viewName) throws IllegalArgumentException {
+	  super(type, viewName);
+	  setBeanIdProperty("id");
   }
 	
 	public Class<?> getTableBeanType() {

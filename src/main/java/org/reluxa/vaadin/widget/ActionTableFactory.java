@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import org.reluxa.vaadin.util.BeanIntrospector;
 
-public class ActionTableFactory<BEANTYPE> extends TableFactory<BEANTYPE> {
+public class ActionTableFactory<BEANTYPE> extends TableBeanItemFactory<BEANTYPE> {
 
 	Class<?> actionBean;
 	

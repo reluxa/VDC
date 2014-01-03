@@ -1,7 +1,5 @@
 package org.reluxa.vaadin.auth;
 
-import java.util.Collection;
-
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 
@@ -10,9 +8,6 @@ import org.reluxa.login.service.LoginService;
 import org.reluxa.player.Player;
 
 import com.vaadin.cdi.access.AccessControl;
-import com.vaadin.server.RequestHandler;
-import com.vaadin.server.VaadinService;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
 @Alternative

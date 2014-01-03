@@ -88,7 +88,6 @@ public class Player implements Validatable, IDObject {
   
   private byte[] image;
 
-  
   private transient long id;
-
+  
 }

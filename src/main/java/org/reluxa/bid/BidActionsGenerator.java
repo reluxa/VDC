@@ -6,15 +6,15 @@ import javax.inject.Inject;
 import org.reluxa.player.Player;
 import org.reluxa.player.service.AbstractEvent;
 import org.reluxa.vaadin.auth.VaadinAccessControl;
+import org.reluxa.vaadin.widget.AbstractColumnGenerator;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.Table.ColumnGenerator;
 
-public class BidActionsGenerator implements ColumnGenerator {
+public class BidActionsGenerator extends AbstractColumnGenerator<Bid, Component> {
 
 	@Inject 
 	BeanManager bm;
@@ -23,8 +23,7 @@ public class BidActionsGenerator implements ColumnGenerator {
 	private VaadinAccessControl accessControl;
 
 	@Override
-	public Object generateCell(Table source, final Object itemId, Object columnId) {
-		Bid bid = (Bid)itemId;
+	public Component generateCell(Bid bid) {
 		Player player = accessControl.getCurrentPlayer();
 		HorizontalLayout buttons = new HorizontalLayout();
 		buttons.setSpacing(true);
@@ -39,6 +38,7 @@ public class BidActionsGenerator implements ColumnGenerator {
 		
 		return buttons;
 	}
+
 
 	private Button createEventButton(String caption, final AbstractEvent sendEvent) {
 		Button deleteButton = new Button(caption);
@@ -61,5 +61,6 @@ public class BidActionsGenerator implements ColumnGenerator {
 	private boolean isPartner(Bid bid, Player player) {
 		return player.equals(bid.getPartner());
 	}
+
 
 }
