@@ -16,6 +16,12 @@ import com.db4o.ObjectSet;
 public class BidService extends AbstractService {
 
 	public void createBid(Bid bid) {
+		System.out.println("from create"+bid);
+		
+		System.out.println("my id"+db.ext().getID(bid.getCreator()));
+		System.out.println("partner id"+db.ext().getID(bid.getPartner()));
+		
+		
 		db.store(bid);
 		BidModelChanged created = new BidModelChanged();
 		created.setCreated(bid);

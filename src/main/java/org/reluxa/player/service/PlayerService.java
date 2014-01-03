@@ -1,5 +1,6 @@
 package org.reluxa.player.service;
 import java.util.Collection;
+import java.util.List;
 
 import javax.enterprise.event.Observes;
 
@@ -13,7 +14,12 @@ public class PlayerService extends AbstractService {
 	
 	public Collection<Player> getAllPlayers() {
 		ObjectSet<Player> players =  db.query(Player.class);
-		return players.subList(0, players.size());
+
+		List<Player> pl = players.subList(0, players.size());
+		for (Player player : pl) {
+			System.out.println(db.ext().getID(player)+"\t"+player);
+		}
+		return pl;
 	}
 	
 	public void createUser(Player user) throws DuplicateUserException {

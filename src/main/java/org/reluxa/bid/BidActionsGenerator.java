@@ -32,7 +32,7 @@ public class BidActionsGenerator extends AbstractColumnGenerator<Bid, Component>
 			buttons.addComponent(createEventButton("Delete",new DeleteBidEvent(bid)));
 		}
 		
-		if (isPartner(bid, player)) {
+		if (isPartner(bid, player) && isWaitingForApproval(bid)) {
 			buttons.addComponent(createEventButton("Accept",new AcceptBidEvent(bid)));
 		}
 		
@@ -53,6 +53,12 @@ public class BidActionsGenerator extends AbstractColumnGenerator<Bid, Component>
 		});
 		return deleteButton;
 	}
+	
+	
+	private boolean isWaitingForApproval(Bid bid) {
+		return BidStatus.WAITING_FOR_APPOVAL.toString().equals(bid.getStatus());
+	}
+	
 	
 	private boolean isOwner(Bid bid, Player player) {
 		return bid.getCreator().equals(player);

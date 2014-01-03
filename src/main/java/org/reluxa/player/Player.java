@@ -37,7 +37,7 @@ public class Player implements Validatable, IDObject {
 		@Detail(context = LoginView.class, order = 1),
 		@Detail(context = PlayerView.class, order = 1)
 	}, table = {
-		@Table(context = PlayerView.class, order = 2)
+		@Table(context = PlayerView.class, order = 4)
 	})
 	@Pattern(message = "Please provide a valid email address!", regexp = ValidationPattern.EMAIL_PATTERN)
 	@NotNull
@@ -60,7 +60,7 @@ public class Player implements Validatable, IDObject {
 		@Detail(context = RegisterPlayer.class, order = 4),
 		@Detail(context = PlayerView.class, order = 2)
 	}, table = {
-		@Table(context = PlayerView.class, order = 1),
+		@Table(context = PlayerView.class, order = 2),
 		@Table(context = CurrentWeekBidView.class, order = 1)
 	})
 	@NotNull
@@ -71,14 +71,14 @@ public class Player implements Validatable, IDObject {
 	@GUI(detail = { 
 		@Detail(context = PlayerView.class, order = 4)
 	}, table = {
-		@Table(context = PlayerView.class, order = 2)	
+		@Table(context = PlayerView.class, order = 3)	
 	})
 	private boolean admin;
 
 	@GUI(detail = { 
 			@Detail(context = PlayerView.class, order = 3)
 	}, table = {
-			@Table(context = PlayerView.class, order = 4)	
+			@Table(context = PlayerView.class, order = 5)	
 		})
 	private Date membershipValidUntil;
 
@@ -88,6 +88,7 @@ public class Player implements Validatable, IDObject {
   
   private byte[] image;
 
+  @GUI(table = { @Table(context = PlayerView.class, order = 1) })
   private transient long id;
   
 }

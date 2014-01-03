@@ -1,6 +1,8 @@
 package org.reluxa.bid;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.annotation.security.RolesAllowed;
@@ -11,15 +13,15 @@ import org.reluxa.AbstractView;
 import org.reluxa.bid.service.BidService;
 import org.reluxa.player.Player;
 import org.reluxa.player.service.PlayerService;
-import org.reluxa.vaadin.util.IDableIDResolver;
 import org.reluxa.vaadin.util.TableUtils;
 import org.reluxa.vaadin.widget.CustomBeanItemContainer;
 import org.reluxa.vaadin.widget.TableBeanFactory;
 
 import com.vaadin.cdi.CDIView;
+import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.data.util.AbstractBeanContainer.BeanIdResolver;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -46,16 +48,26 @@ public class CurrentWeekBidView extends AbstractView {
 
 	@Inject
 	private PlayerService playerService;
-
+	
 	@Inject
 	private BidService bidService;
 
 	private Table bidsTable;
+	
+	private Collection<Player> getAllPartners() {
+		ArrayList<Player> result = new ArrayList<>(playerService.getAllPlayers());
+		Player current = accessControl.getCurrentPlayer();
+		for (Player player : result) {
+			System.out.println(player.getId()+"\t"+player.getEmail()+"\t "+System.identityHashCode(player));
+		}
+		result.remove(current);
+		return result;
+	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
 		System.out.println("Entering view:" + this);
-		players.replaceAll(playerService.getAllPlayers());
+		players.replaceAll(getAllPartners());
 		players.sort(new Object[] { "fullName" }, new boolean[] { true });
 		bids.replaceAll(bidService.getAll());
 	}
@@ -106,7 +118,13 @@ public class CurrentWeekBidView extends AbstractView {
 					bid.setType(BidType.SINGLE.toString());
 					bid.setStatus(BidStatus.PENDING.toString());
 				} else {
-					bid.setPartner((Player) friends.getValue());
+					Player friend = (Player)friends.getValue();
+					BeanItem<Player> item = (BeanItem<Player>)friends.getItem(friend);
+					Player friend2 = item.getBean();
+			
+					System.out.println("one:"+System.identityHashCode(friend)+"\tother:"+System.identityHashCode(friend2));
+			
+					bid.setPartner(friend2);
 					bid.setType(BidType.WITH_FRIEND.toString());
 					bid.setStatus(BidStatus.WAITING_FOR_APPOVAL.toString());
 				}
