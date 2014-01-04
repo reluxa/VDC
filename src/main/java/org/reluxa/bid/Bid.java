@@ -28,7 +28,7 @@ public class Bid implements IDObject {
 	private Player partner;
 
 	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 7, type = BidActionsGenerator.class) })
-	public transient String action;
+	private transient String action;
 
 	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 1) })
 	private transient long id;

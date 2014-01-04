@@ -6,6 +6,9 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
+import org.reluxa.model.IDObject;
+import org.reluxa.vaadin.util.RequirsiveActivator;
+
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.ext.DatabaseClosedException;
@@ -96,7 +99,14 @@ public class SessionImpl implements Session {
 		delegate.rollback();
 	}
 
+	public void store(IDObject obj) throws DatabaseClosedException, DatabaseReadOnlyException {
+		delegate.store(obj);
+	}
+	
 	public void store(Object arg0) throws DatabaseClosedException, DatabaseReadOnlyException {
+		if (arg0 instanceof IDObject) {
+			RequirsiveActivator.activate((IDObject)arg0, delegate);
+		}
 		delegate.store(arg0);
 	}
 

@@ -35,13 +35,13 @@ public class BidService extends AbstractService {
 
 	public void bidAccepted(@Observes AcceptBidEvent event) {
 		Bid bid = event.getBid();
-		System.out.println(bid.getId());
-		Bid original = db.ext().getByID(bid.getId());
-		System.out.println(original);
-		
-		
-		bid.setStatus(BidStatus.PENDING.toString());
-		db.ext().bind(bid, bid.getId());
+//		System.out.println(bid.getId());
+//		Bid original = db.ext().getByID(bid.getId());
+//		System.out.println(original);
+//		
+//		
+//		bid.setStatus(BidStatus.PENDING.toString());
+//		db.ext().bind(bid, bid.getId());
 		db.store(bid);
 
 		BidModelChanged mchanged = new BidModelChanged();

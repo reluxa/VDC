@@ -18,12 +18,12 @@ import com.db4o.internal.config.EmbeddedConfigurationImpl;
 public class DBConnectionFactory {
 
 	private ObjectContainer db;
-
-	public DBConnectionFactory() {
+	
+	public DBConnectionFactory(String dbFile) {
 		Config4Impl config = new Config4Impl();
 		config.generateUUIDs(ConfigScope.GLOBALLY);
 		EmbeddedConfigurationImpl embeddedConfig = new EmbeddedConfigurationImpl(config);
-		db = Db4oEmbedded.openFile(embeddedConfig,"D:\\database.data");
+		db = Db4oEmbedded.openFile(embeddedConfig, dbFile);
 		
 		EventRegistryFactory.forObjectContainer(db).created().addListener(new EventListener4<ObjectInfoEventArgs>() {
 			@Override
@@ -45,6 +45,11 @@ public class DBConnectionFactory {
 			}
 		});
 
+	}
+		
+
+	public DBConnectionFactory() {
+		this("D:\\database.data");
 	}
 
 	public ObjectContainer getConnection() {
