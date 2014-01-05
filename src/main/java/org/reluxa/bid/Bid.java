@@ -1,5 +1,6 @@
 package org.reluxa.bid;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import lombok.Data;
@@ -32,5 +33,9 @@ public class Bid implements IDObject {
 
 	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 1) })
 	private transient long id;
+	
+	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 1) })
+	private transient double score;
+
 
 }

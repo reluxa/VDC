@@ -11,10 +11,10 @@ import org.reluxa.AbstractView;
 import org.reluxa.player.Player;
 import org.reluxa.player.service.DeletePlayerEvent;
 import org.reluxa.player.service.DuplicateUserException;
-import org.reluxa.player.service.PlayerService;
+import org.reluxa.player.service.PlayerServiceIF;
 import org.reluxa.vaadin.util.ImageStreamSource;
-import org.reluxa.vaadin.widget.TableBeanItemFactory;
 import org.reluxa.vaadin.widget.GeneratedForm;
+import org.reluxa.vaadin.widget.TableBeanItemFactory;
 import org.vaadin.easyuploads.MultiFileUpload;
 
 import com.google.gwt.thirdparty.guava.common.io.Files;
@@ -49,7 +49,7 @@ public class PlayerView extends AbstractView {
 	private javax.enterprise.event.Event<DeletePlayerEvent> deleteEvent;
 
 	@Inject
-	private PlayerService playerService;
+	private PlayerServiceIF playerService;
 
 	private TableBeanItemFactory<Player> container = new TableBeanItemFactory<>(Player.class, PlayerView.class);
 

@@ -5,7 +5,7 @@ import javax.inject.Inject;
 
 import org.reluxa.player.Player;
 import org.reluxa.player.service.DuplicateUserException;
-import org.reluxa.player.service.PlayerService;
+import org.reluxa.player.service.PlayerServiceIF;
 import org.reluxa.vaadin.widget.GeneratedForm;
 
 import com.vaadin.cdi.CDIView;
@@ -28,7 +28,7 @@ public class RegisterPlayer extends VerticalLayout implements View, Button.Click
 	public static final String VIEW_NAME = "signup";
 	
 	@Inject
-	PlayerService playerService;
+	PlayerServiceIF playerService;
 	
 	GeneratedForm<Player> form = new GeneratedForm<>(Player.class, RegisterPlayer.class);  
 	

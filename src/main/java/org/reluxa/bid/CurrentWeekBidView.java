@@ -10,15 +10,14 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.reluxa.AbstractView;
-import org.reluxa.bid.service.BidService;
+import org.reluxa.bid.service.BidServiceIF;
 import org.reluxa.player.Player;
-import org.reluxa.player.service.PlayerService;
+import org.reluxa.player.service.PlayerServiceIF;
 import org.reluxa.vaadin.util.TableUtils;
 import org.reluxa.vaadin.widget.CustomBeanItemContainer;
 import org.reluxa.vaadin.widget.TableBeanFactory;
 
 import com.vaadin.cdi.CDIView;
-import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanItem;
@@ -47,10 +46,10 @@ public class CurrentWeekBidView extends AbstractView {
 	private TableBeanFactory<Long, Bid> bids = new TableBeanFactory<>(Bid.class, CurrentWeekBidView.class);
 
 	@Inject
-	private PlayerService playerService;
+	private PlayerServiceIF playerService;
 	
 	@Inject
-	private BidService bidService;
+	private BidServiceIF bidService;
 
 	private Table bidsTable;
 	

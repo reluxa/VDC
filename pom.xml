@@ -56,22 +56,22 @@
 			<artifactId>vaadin-client-compiled</artifactId>
 			<version>${vaadin.version}</version>
 		</dependency>
-		
+
 		<dependency>
-   			<groupId>org.vaadin.addon</groupId>
-   			<artifactId>easyuploads</artifactId>
-   			<version>7.0.1</version>
+			<groupId>org.vaadin.addon</groupId>
+			<artifactId>easyuploads</artifactId>
+			<version>7.0.1</version>
 		</dependency>
-		
+
 		<dependency>
-   			<groupId>org.vaadin.addons</groupId>
-   			<artifactId>loginform</artifactId>
-   			<version>0.2</version>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>loginform</artifactId>
+			<version>0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.vaadin.addons</groupId>
-		        <artifactId>refresher</artifactId>
-		        <version>1.2.1.7</version>
+			<artifactId>refresher</artifactId>
+			<version>1.2.1.7</version>
 		</dependency>
 
 
@@ -131,10 +131,32 @@
 			<version>3.1</version>
 		</dependency>
 
+
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.3</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.0.2.GA</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jbehave</groupId>
+			<artifactId>jbehave-core</artifactId>
+			<version>3.8</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>jbehave-junit-runner</artifactId>
+			<version>1.0.1</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -154,9 +176,9 @@
 			<url>http://source.db4o.com/maven</url>
 		</repository>
 		<repository>
-   			<id>vaadin-addons</id>
-   			<url>http://maven.vaadin.com/vaadin-addons</url>
-		</repository>		
+			<id>vaadin-addons</id>
+			<url>http://maven.vaadin.com/vaadin-addons</url>
+		</repository>
 	</repositories>
 
 	<build>
@@ -190,12 +212,12 @@
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-maven-plugin</artifactId>
 				<version>7.1.9</version>
-                                <configuration>
-	    				<webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory>
-    					<hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets</hostedWebapp>
+				<configuration>
+					<webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory>
+					<hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets</hostedWebapp>
 					<persistentunitcachedir>${project.build.directory}</persistentunitcachedir>
 					<deploy>${project.build.directory}/gwt-deploy</deploy>
-                                </configuration>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.openejb.maven</groupId>
@@ -209,6 +231,40 @@
 					</webapps>
 				</configuration>
 			</plugin>
+
+
+<plugin>
+    <groupId>org.jbehave</groupId>
+    <artifactId>jbehave-maven-plugin</artifactId>
+    <version>3.8</version>
+    <executions>
+        <execution>
+            <id>run-stories-as-embeddables</id>
+            <phase>integration-test</phase>
+            <configuration>
+                <includes>
+                    <include>**/*Stories.java</include>
+                </includes>
+                <metaFilters>
+                    <metaFilter>+author *</metaFilter>
+                    <metaFilter>-skip</metaFilter>
+                </metaFilters>
+                <systemProperties>
+                    <property>
+                      <name>java.awt.headless</name>
+                      <value>true</value>
+                    </property>
+                </systemProperties>
+                <ignoreFailureInStories>true</ignoreFailureInStories>
+                <ignoreFailureInView>false</ignoreFailureInView>
+            </configuration>
+            <goals>
+                <goal>run-stories-as-embeddables</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+
 		</plugins>
 	</build>
 </project>
