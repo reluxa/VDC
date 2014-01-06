@@ -94,7 +94,7 @@ public class CurrentWeekBidView extends AbstractView {
 		
 		verticalLayout.addComponent(getTitleLine());
 
-		Button createButton = IconButtonFactory.get("Place new bid", "target"); 
+		Button createButton = IconButtonFactory.get("Place new bid", "wand"); 
 		HorizontalLayout newBidSection = new HorizontalLayout();
 		newBidSection.setHeight("50px");
 		newBidSection.setSpacing(true);

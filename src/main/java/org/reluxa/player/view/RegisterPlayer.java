@@ -36,6 +36,7 @@ public class RegisterPlayer extends VerticalLayout implements View, Button.Click
 	
 	@PostConstruct
 	private void init() {
+		setStyleName("root");
 		VerticalLayout inner = new VerticalLayout();
 		inner.setWidth(null);
 		inner.addComponent(new Label("<h2>User Registration<h2>", ContentMode.HTML));

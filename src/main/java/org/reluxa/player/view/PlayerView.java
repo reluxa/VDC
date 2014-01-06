@@ -62,6 +62,7 @@ public class PlayerView extends AbstractView {
 	public Component getContent() {
 		final Table table = container.createTable();
 		table.setSizeFull();
+		table.setPageLength(9);
 		table.addValueChangeListener(new ValueChangeListener() {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
