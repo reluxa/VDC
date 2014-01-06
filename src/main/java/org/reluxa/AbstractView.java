@@ -63,33 +63,35 @@ public abstract class AbstractView extends VerticalLayout implements View {
 	public MenuBar getMenuBar() {
 		MenuBar menu = new MenuBar();
 		menu.setHtmlContentAllowed(true);
-		menu.addItem(Icon.get("calendar")+"My bids", new Command() {
+		menu.addItem(Icon.get("calendar")+"Bids", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				UI.getCurrent().getNavigator().navigateTo(CurrentWeekBidView.VIEW_NAME);
 			}
 		});
-		menu.addItem(Icon.get("ticket")+"My vouchers", new Command() {
+		menu.addItem(Icon.get("ticket")+"Tickets", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				UI.getCurrent().getNavigator().navigateTo(CurrentWeekBidView.VIEW_NAME);
 			}
 		});
-		menu.addItem(Icon.get("users")+"Players", new Command() {
+		menu.addItem(Icon.get("history")+"History", new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				UI.getCurrent().getNavigator().navigateTo(CurrentWeekBidView.VIEW_NAME);
+			}
+		});
+		MenuItem admind = menu.addItem(Icon.get("wrench")+"Admin", null, null);
+		admind.addItem(Icon.get("users")+"Players", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				UI.getCurrent().getNavigator().navigateTo(PlayerView.VIEW_NAME);
 			}
 		});
-		MenuItem admind = menu.addItem(Icon.get("wrench")+"Admin", new Command() {
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				accessControl.logout();
-				UI.getCurrent().getNavigator().navigateTo(LoginView.LOGIN_VIEW);
-				Notification.show("Successfullly logged out.", Type.TRAY_NOTIFICATION);
-			}
-		});
-		admind.addItem(Icon.get("logout")+"Logout", new Command() {
+
+		
+		
+		menu.addItem(Icon.get("logout")+"Logout", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				accessControl.logout();
