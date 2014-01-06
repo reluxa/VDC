@@ -62,11 +62,13 @@ public class BidActionsGenerator extends AbstractColumnGenerator<Bid, Component>
 	
 	
 	private boolean isOwner(Bid bid, Player player) {
-		return bid.getCreator().equals(player);
+	  	return true;
+		//return bid.getCreator().equals(player);
 	}
 	
 	private boolean isPartner(Bid bid, Player player) {
-		return player.equals(bid.getPartner());
+	  	return true;
+		//return player.equals(bid.getPartner());
 	}
 
 

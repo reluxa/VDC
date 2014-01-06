@@ -27,6 +27,9 @@ public class BeanManagerUtil {
 	public static <T> T createBean(Class<T> beanClass) {
 		BeanManager bm = lookup();
 		Set<Bean<?>> beans = bm.getBeans(beanClass);
+		if (beans.size() == 0) {
+			throw new RuntimeException("Could not create bean:"+beanClass.getName());
+		}
 		Bean bean = beans.iterator().next();
 		CreationalContext cc = bm.createCreationalContext(bean);
 		return (T) bm.getReference(bean, beanClass, cc);

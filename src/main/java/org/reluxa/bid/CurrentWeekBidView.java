@@ -9,10 +9,15 @@ import javax.annotation.security.RolesAllowed;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.reluxa.AbstractView;
 import org.reluxa.bid.service.BidServiceIF;
 import org.reluxa.player.Player;
 import org.reluxa.player.service.PlayerServiceIF;
+import org.reluxa.time.TimeServiceIF;
 import org.reluxa.vaadin.util.TableUtils;
 import org.reluxa.vaadin.widget.CustomBeanItemContainer;
 import org.reluxa.vaadin.widget.Icon;
@@ -27,12 +32,12 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
@@ -56,6 +61,9 @@ public class CurrentWeekBidView extends AbstractView {
 	
 	@Inject
 	private BidServiceIF bidService;
+	
+	@Inject
+	private TimeServiceIF timeService;
 
 	private Table bidsTable;
 	
@@ -74,7 +82,7 @@ public class CurrentWeekBidView extends AbstractView {
 		System.out.println("Entering view:" + this);
 		players.replaceAll(getAllPartners());
 		players.sort(new Object[] { "fullName" }, new boolean[] { true });
-		bids.replaceAll(bidService.getAll());
+		bids.replaceAll(bidService.getAllBids(timeService.getWeekBegin()));
 	}
 
 	@Override
@@ -83,19 +91,14 @@ public class CurrentWeekBidView extends AbstractView {
 		verticalLayout.setSizeFull();
 		verticalLayout.setSpacing(true);
 		verticalLayout.setMargin(new MarginInfo(true, true, true, true));
-
-
-		verticalLayout.addComponent(new Label("<h1>"+Icon.get("calendar")+"Current week bids</h1>",
-				ContentMode.HTML));
-		Button createButton = IconButtonFactory.get("Place new bid", "plus"); 
-		//Button createButton = new Button("create new");
 		
+		verticalLayout.addComponent(getTitleLine());
+
+		Button createButton = IconButtonFactory.get("Place new bid", "plus"); 
 		HorizontalLayout newBidSection = new HorizontalLayout();
 		newBidSection.setHeight("50px");
 		newBidSection.setSpacing(true);
-		
 		newBidSection.addComponent(createButton);
-
 		final ComboBox friends = new ComboBox(null, players);
 		friends.setItemCaptionMode(ItemCaptionMode.PROPERTY);
 		friends.setItemCaptionPropertyId("fullName");
@@ -104,7 +107,7 @@ public class CurrentWeekBidView extends AbstractView {
 		// friends.setValue(friends.getItemIds().iterator().next());
 
 		final ComboBox type = new ComboBox(null, Arrays.asList("Bid alone",
-				"Bid with a fried"));
+				"Bid with a friend"));
 		type.setTextInputAllowed(false);
 		type.setImmediate(true);
 		type.setNullSelectionAllowed(false);
@@ -114,7 +117,7 @@ public class CurrentWeekBidView extends AbstractView {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				friends.setVisible((event.getProperty().getValue()
-						.equals("Bid with a fried")));
+						.equals("Bid with a friend")));
 			}
 		});
 
@@ -152,8 +155,39 @@ public class CurrentWeekBidView extends AbstractView {
 		bidsTable = bids.createTable();
 		bidsTable.setImmediate(true);
 		bidsTable.setSizeFull();
+		bidsTable.setPageLength(10);
 		verticalLayout.addComponent(bidsTable);
 		return verticalLayout;
+	}
+
+	private HorizontalLayout getTitleLine() {
+		DateTimeFormatter format = DateTimeFormat.forPattern("yyyy.MM.dd");
+		
+		LocalDate begin = new LocalDate(timeService.getWeekBegin());
+		LocalDate end = new LocalDate(timeService.getWeekEnd());
+
+		StringBuffer buf = new StringBuffer();
+		buf.append("CW");
+		buf.append(timeService.getCurrentWeekNumber());
+		buf.append(": ");
+		buf.append(begin.toString(format));
+		buf.append(" - ");
+		buf.append(end.toString(format));
+
+		HorizontalLayout titleLine = new HorizontalLayout();
+		titleLine.setSizeFull();
+		Label label = new Label("<h1>"+Icon.get("calendar")+"Current week bids</h1>",ContentMode.HTML);
+		label.setWidth("100%");
+		titleLine.addComponent(label);
+		//titleLine.setExpandRatio(label, 1f);
+		titleLine.setComponentAlignment(label, Alignment.MIDDLE_LEFT);
+
+
+		Label weekLabel = new Label("<h1>"+buf.toString()+"</h1>",ContentMode.HTML);
+		weekLabel.setWidth(null);
+		titleLine.addComponent(weekLabel);
+		titleLine.setComponentAlignment(weekLabel, Alignment.MIDDLE_RIGHT);
+		return titleLine;
 	}
 
 	public void updateModel(@Observes BidModelChanged event) {

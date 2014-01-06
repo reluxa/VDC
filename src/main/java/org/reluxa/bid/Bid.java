@@ -1,6 +1,5 @@
 package org.reluxa.bid;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import lombok.Data;
@@ -12,11 +11,14 @@ import org.reluxa.vaadin.annotation.Table;
 
 @Data
 public class Bid implements IDObject {
+	
+	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 1) })
+	private transient long id;
 
-	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 2) })
+	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 2, type = StatusGenerator.class) })
 	private String status;
 
-	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 3) })
+//	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 3) })
 	private String type;
 
 	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 4) })
@@ -31,11 +33,8 @@ public class Bid implements IDObject {
 	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 7, type = BidActionsGenerator.class) })
 	private transient String action;
 
-	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 1) })
-	private transient long id;
-	
-	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 1) })
-	private transient double score;
+	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 1, type = BidScoreGenerator.class) })
+	private transient Double score;
 
 
 }

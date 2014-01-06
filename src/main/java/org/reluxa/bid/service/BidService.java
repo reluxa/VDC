@@ -9,6 +9,7 @@ import org.reluxa.AbstractService;
 import org.reluxa.bid.AcceptBidEvent;
 import org.reluxa.bid.Bid;
 import org.reluxa.bid.BidModelChanged;
+import org.reluxa.bid.BidStatus;
 import org.reluxa.bid.DeleteBidEvent;
 
 import com.db4o.ObjectSet;
@@ -53,8 +54,10 @@ public class BidService extends AbstractService implements BidServiceIF {
 //		System.out.println(original);
 //		
 //		
-//		bid.setStatus(BidStatus.PENDING.toString());
+
+		
 //		db.ext().bind(bid, bid.getId());
+		bid.setStatus(BidStatus.PENDING.toString());
 		db.store(bid);
 
 		BidModelChanged mchanged = new BidModelChanged();
