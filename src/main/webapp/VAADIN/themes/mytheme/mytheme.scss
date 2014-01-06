@@ -1,12 +1,26 @@
 @import "../reindeer/reindeer.scss";
 
 
+transform: scale(1.5,1.5);
+-ms-transform: scale(1.5,1.5); /* IE 9 */
+-webkit-transform: scale(1.5,1.5); /* Safari and Chrome */
+
 //$font-size: 16px;
 
 @mixin mytheme {
   @include reindeer;
 
+  zoom: 1.5;
+
+.v-table-caption-container { 
+	text-transform: none !important;
+	font-size: 12px;
+}
+
+
 /*
+
+
 
 .v-app input {
     font-size: 14px;
@@ -26,6 +40,8 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+   // -moz-transform: scale(1.5); 
+  	//-moz-transform-origin: 0 0;
 }
 
 }

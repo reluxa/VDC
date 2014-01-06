@@ -26,6 +26,9 @@ public class BidEvaluator {
 
   @Inject @Getter @Setter
   private TimeServiceIF timeService;
+  
+  @Getter
+  private int getMaxEventsPerWeek = 5;
 
   public Collection<Bid> evaluteBidsForCurrentWeek() {
     ArrayList<Bid> allBids = new ArrayList<>(bidService.getAllBids(getIntervalBeginDate()));

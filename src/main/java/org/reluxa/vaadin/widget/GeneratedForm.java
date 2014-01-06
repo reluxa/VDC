@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.reluxa.vaadin.util.BeanIntrospector;
+import org.reluxa.vaadin.util.StringUtil;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
@@ -11,7 +12,6 @@ import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.DefaultFieldFactory;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.VerticalLayout;
@@ -49,9 +49,10 @@ public class GeneratedForm<T> extends VerticalLayout {
 		for (final Object propertyId : fieldGroup.getUnboundPropertyIds()) {
 			Field<?> field = null;
 			if (!Field.class.equals(fieldTypeMap.get(propertyId))) {
-				field = fieldGroup.buildAndBind(DefaultFieldFactory.createCaptionByPropertyId(propertyId), propertyId, fieldTypeMap.get(propertyId));
+				field = fieldGroup.buildAndBind(StringUtil.fieldToSentenceCase(propertyId.toString()), propertyId, fieldTypeMap.get(propertyId));
 			} else {
 				field = fieldGroup.buildAndBind(propertyId);
+				field.setCaption(StringUtil.fieldToSentenceCase(propertyId.toString()));
 			}
 			if (field instanceof AbstractTextField) {
 				((AbstractTextField) field).setNullRepresentation("");

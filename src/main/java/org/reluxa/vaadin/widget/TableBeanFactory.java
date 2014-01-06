@@ -1,9 +1,11 @@
 package org.reluxa.vaadin.widget;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.reluxa.vaadin.util.BeanIntrospector;
 import org.reluxa.vaadin.util.BeanManagerUtil;
+import org.reluxa.vaadin.util.StringUtil;
 
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
@@ -28,9 +30,15 @@ public class TableBeanFactory<IDTYPE, BEANTYPE> extends CustomBeanContainer<IDTY
        table.addGeneratedColumn(field,BeanManagerUtil.createBean(clazz));
 			}
     }
+		
+		Collection<String> ids = getContainerPropertyIds();
+		for (String id : ids) {
+			table.setColumnHeader(id, StringUtil.fieldToSentenceCase(id));
+    }
+		
+		
 		return table;
 	}
-	
 	
 
 

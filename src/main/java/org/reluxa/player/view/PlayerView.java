@@ -60,7 +60,7 @@ public class PlayerView extends AbstractView {
 	private VerticalLayout detailHolder = new VerticalLayout();
 
 	public Component getContent() {
-		final Table table = new Table(null, container);
+		final Table table = container.createTable();
 		table.setSizeFull();
 		table.addValueChangeListener(new ValueChangeListener() {
 			@Override

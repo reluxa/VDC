@@ -94,7 +94,7 @@ public class CurrentWeekBidView extends AbstractView {
 		
 		verticalLayout.addComponent(getTitleLine());
 
-		Button createButton = IconButtonFactory.get("Place new bid", "plus"); 
+		Button createButton = IconButtonFactory.get("Place new bid", "target"); 
 		HorizontalLayout newBidSection = new HorizontalLayout();
 		newBidSection.setHeight("50px");
 		newBidSection.setSpacing(true);
@@ -135,9 +135,15 @@ public class CurrentWeekBidView extends AbstractView {
 				} else {
 					Player friend = (Player)friends.getValue();
 					BeanItem<Player> item = (BeanItem<Player>)friends.getItem(friend);
+					
+					if (item == null || item.getBean() == null) {
+						Notification.show("A friend must be selected!", Type.ERROR_MESSAGE);
+						return;
+					}
+					
 					Player friend2 = item.getBean();
 			
-					System.out.println("one:"+System.identityHashCode(friend)+"\tother:"+System.identityHashCode(friend2));
+					//System.out.println("one:"+System.identityHashCode(friend)+"\tother:"+System.identityHashCode(friend2));
 			
 					bid.setPartner(friend2);
 					bid.setType(BidType.WITH_FRIEND.toString());
@@ -183,7 +189,7 @@ public class CurrentWeekBidView extends AbstractView {
 		titleLine.setComponentAlignment(label, Alignment.MIDDLE_LEFT);
 
 
-		Label weekLabel = new Label("<h1>"+buf.toString()+"</h1>",ContentMode.HTML);
+		Label weekLabel = new Label("<h2>"+buf.toString()+"</h2>",ContentMode.HTML);
 		weekLabel.setWidth(null);
 		titleLine.addComponent(weekLabel);
 		titleLine.setComponentAlignment(weekLabel, Alignment.MIDDLE_RIGHT);
