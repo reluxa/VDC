@@ -7,6 +7,7 @@ import org.reluxa.player.Player;
 import org.reluxa.player.service.AbstractEvent;
 import org.reluxa.vaadin.auth.VaadinAccessControl;
 import org.reluxa.vaadin.widget.AbstractColumnGenerator;
+import org.reluxa.vaadin.widget.IconButtonFactory;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -29,19 +30,19 @@ public class BidActionsGenerator extends AbstractColumnGenerator<Bid, Component>
 		buttons.setSpacing(true);
 		
 		if (isOwner(bid, player)) {
-			buttons.addComponent(createEventButton("Delete",new DeleteBidEvent(bid)));
+			buttons.addComponent(createEventButton("Delete","remove2",new DeleteBidEvent(bid)));
 		}
 		
 		if (isPartner(bid, player) && isWaitingForApproval(bid)) {
-			buttons.addComponent(createEventButton("Accept",new AcceptBidEvent(bid)));
+			buttons.addComponent(createEventButton("Accept","checkmark2",new AcceptBidEvent(bid)));
 		}
 		
 		return buttons;
 	}
 
 
-	private Button createEventButton(String caption, final AbstractEvent sendEvent) {
-		Button deleteButton = new Button(caption);
+	private Button createEventButton(String caption, String icon,  final AbstractEvent sendEvent) {
+		Button deleteButton = IconButtonFactory.get(caption, icon);
 		deleteButton.setStyleName("small");
 
 		deleteButton.addClickListener(new ClickListener() {

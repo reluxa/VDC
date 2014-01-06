@@ -12,7 +12,8 @@ public class SimpleNavigationButton extends Button {
 
 	public SimpleNavigationButton(String caption, final String target) {
 		super(caption);
-		
+		setHtmlContentAllowed(true);
+		setCaption(caption);
 		addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {

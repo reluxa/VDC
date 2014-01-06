@@ -15,6 +15,8 @@ import org.reluxa.player.Player;
 import org.reluxa.player.service.PlayerServiceIF;
 import org.reluxa.vaadin.util.TableUtils;
 import org.reluxa.vaadin.widget.CustomBeanItemContainer;
+import org.reluxa.vaadin.widget.Icon;
+import org.reluxa.vaadin.widget.IconButtonFactory;
 import org.reluxa.vaadin.widget.TableBeanFactory;
 
 import com.vaadin.cdi.CDIView;
@@ -31,8 +33,12 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.VerticalLayout;
 
 @CDIView(CurrentWeekBidView.VIEW_NAME)
 @RolesAllowed(value = Player.ROLE_USER)
@@ -73,31 +79,38 @@ public class CurrentWeekBidView extends AbstractView {
 
 	@Override
 	protected Component getContent() {
-		GridLayout gridlayout = new GridLayout();
-		gridlayout.setSizeFull();
-		gridlayout.setSpacing(true);
-		gridlayout.setMargin(new MarginInfo(true, true, true, true));
+		VerticalLayout verticalLayout = new VerticalLayout();
+		verticalLayout.setSizeFull();
+		verticalLayout.setSpacing(true);
+		verticalLayout.setMargin(new MarginInfo(true, true, true, true));
 
-		gridlayout.addComponent(new Label("<h2>Current week bids</h2>",
+
+		verticalLayout.addComponent(new Label("<h1>"+Icon.get("calendar")+"Current week bids</h1>",
 				ContentMode.HTML));
-		Button createButton = new Button("create new bid");
-		gridlayout.addComponent(createButton);
+		Button createButton = IconButtonFactory.get("Place new bid", "plus"); 
+		//Button createButton = new Button("create new");
+		
+		HorizontalLayout newBidSection = new HorizontalLayout();
+		newBidSection.setHeight("50px");
+		newBidSection.setSpacing(true);
+		
+		newBidSection.addComponent(createButton);
 
-		final ComboBox friends = new ComboBox("Friends", players);
+		final ComboBox friends = new ComboBox(null, players);
 		friends.setItemCaptionMode(ItemCaptionMode.PROPERTY);
 		friends.setItemCaptionPropertyId("fullName");
 		friends.setVisible(false);
 		friends.setNullSelectionAllowed(false);
 		// friends.setValue(friends.getItemIds().iterator().next());
 
-		final ComboBox box = new ComboBox("Type", Arrays.asList("Bid alone",
+		final ComboBox type = new ComboBox(null, Arrays.asList("Bid alone",
 				"Bid with a fried"));
-		box.setTextInputAllowed(false);
-		box.setImmediate(true);
-		box.setNullSelectionAllowed(false);
-		box.setValue(box.getItemIds().iterator().next());
+		type.setTextInputAllowed(false);
+		type.setImmediate(true);
+		type.setNullSelectionAllowed(false);
+		type.setValue(type.getItemIds().iterator().next());
 
-		box.addValueChangeListener(new ValueChangeListener() {
+		type.addValueChangeListener(new ValueChangeListener() {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				friends.setVisible((event.getProperty().getValue()
@@ -112,7 +125,7 @@ public class CurrentWeekBidView extends AbstractView {
 				bid.setCreationTime(new Date());
 				bid.setCreator(accessControl.getCurrentPlayer());
 
-				String value = (String) box.getValue();
+				String value = (String) type.getValue();
 				if ("Bid alone".equals(value)) {
 					bid.setType(BidType.SINGLE.toString());
 					bid.setStatus(BidStatus.PENDING.toString());
@@ -131,30 +144,34 @@ public class CurrentWeekBidView extends AbstractView {
 			}
 		});
 
-		gridlayout.addComponent(box);
-		gridlayout.addComponent(friends);
+		newBidSection.addComponent(type);
+		newBidSection.addComponent(friends);
+		
+		verticalLayout.addComponent(newBidSection);
 
 		bidsTable = bids.createTable();
 		bidsTable.setImmediate(true);
 		bidsTable.setSizeFull();
-
-		gridlayout.addComponent(bidsTable);
-		return gridlayout;
+		verticalLayout.addComponent(bidsTable);
+		return verticalLayout;
 	}
 
 	public void updateModel(@Observes BidModelChanged event) {
 		if (event.getDeleted() != null) {
 			for (Bid bid : event.getDeleted()) {
 				bids.removeItem(bid.getId());
+				Notification.show("Bid was removed",Type.TRAY_NOTIFICATION);
 			}
 		}
 		if (event.getCreated() != null) {
 			bids.addItem(event.getCreated().getId(), event.getCreated());
+			Notification.show("Bid was added",Type.TRAY_NOTIFICATION);
 		}
 
 		if (event.getUpdated() != null) {
 			for (Bid bid : event.getUpdated()) {
 				TableUtils.updateRow(bid.getId(), bids);
+				Notification.show("Bid was updated",Type.TRAY_NOTIFICATION);
 			}
 		}
 	}

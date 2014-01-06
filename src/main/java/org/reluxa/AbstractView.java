@@ -7,6 +7,7 @@ import org.reluxa.bid.CurrentWeekBidView;
 import org.reluxa.login.LoginView;
 import org.reluxa.player.view.PlayerView;
 import org.reluxa.vaadin.auth.VaadinAccessControl;
+import org.reluxa.vaadin.widget.Icon;
 
 import com.vaadin.navigator.View;
 import com.vaadin.ui.Alignment;
@@ -61,19 +62,20 @@ public abstract class AbstractView extends VerticalLayout implements View {
 	
 	public MenuBar getMenuBar() {
 		MenuBar menu = new MenuBar();
-		menu.addItem("My Bids", new Command() {
+		menu.setHtmlContentAllowed(true);
+		MenuItem myBids = menu.addItem(Icon.get("calendar")+"My Bids", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				UI.getCurrent().getNavigator().navigateTo(CurrentWeekBidView.VIEW_NAME);
 			}
-		});				
-		menu.addItem("Players", new Command() {
+		});
+		menu.addItem(Icon.get("users")+"Players", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				UI.getCurrent().getNavigator().navigateTo(PlayerView.VIEW_NAME);
 			}
 		});		
-		menu.addItem("Logout", new Command() {
+		menu.addItem(Icon.get("logout")+"Logout", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				accessControl.logout();
@@ -81,7 +83,7 @@ public abstract class AbstractView extends VerticalLayout implements View {
 				Notification.show("Successfullly logged out.", Type.TRAY_NOTIFICATION);
 			}
 		});
-		menu.addItem("Profile", new Command() {
+		menu.addItem(Icon.get("wrench")+"Profile", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				accessControl.logout();

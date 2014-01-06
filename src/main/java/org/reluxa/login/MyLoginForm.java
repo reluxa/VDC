@@ -4,10 +4,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.reluxa.player.view.PlayerView;
 import org.reluxa.player.view.RegisterPlayer;
 import org.reluxa.vaadin.auth.VaadinAccessControl;
+import org.reluxa.vaadin.widget.Icon;
 import org.reluxa.vaadin.widget.SimpleNavigationButton;
 
 import com.ejt.vaadin.loginform.LoginForm;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -26,11 +28,15 @@ public class MyLoginForm extends LoginForm {
 		VerticalLayout inner = new VerticalLayout();
 		FormLayout formLayout = new FormLayout();
 		inner.setWidth(null);
-		inner.addComponent(new Label("<h2>Please enter the login credentials<h2>", ContentMode.HTML));
+		Label loginlab = new Label("<h2>Please enter the login credentials<h2>", ContentMode.HTML);
+		inner.addComponent(loginlab);
 		formLayout.addComponent(getUserNameField());
 		formLayout.addComponent(getPasswordField());
-		HorizontalLayout buttonLine = new HorizontalLayout(getLoginButton(), 
-									  new SimpleNavigationButton("Signup",RegisterPlayer.VIEW_NAME));
+		Button loginButton = getLoginButton();
+		loginButton.setHtmlContentAllowed(true);
+		loginButton.setCaption(Icon.get("enter")+"Login");
+		HorizontalLayout buttonLine = new HorizontalLayout(loginButton, 
+									  new SimpleNavigationButton(Icon.get("user-add")+"Signup",RegisterPlayer.VIEW_NAME));
 		buttonLine.setSpacing(true);
 		inner.addComponent(formLayout);
 		inner.addComponent(buttonLine);

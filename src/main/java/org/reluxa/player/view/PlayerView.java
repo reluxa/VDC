@@ -14,6 +14,8 @@ import org.reluxa.player.service.DuplicateUserException;
 import org.reluxa.player.service.PlayerServiceIF;
 import org.reluxa.vaadin.util.ImageStreamSource;
 import org.reluxa.vaadin.widget.GeneratedForm;
+import org.reluxa.vaadin.widget.Icon;
+import org.reluxa.vaadin.widget.IconButtonFactory;
 import org.reluxa.vaadin.widget.TableBeanItemFactory;
 import org.vaadin.easyuploads.MultiFileUpload;
 
@@ -68,7 +70,7 @@ public class PlayerView extends AbstractView {
 		});
 		VerticalLayout tablePanel = new VerticalLayout();
 		HorizontalLayout buttonPanel = new HorizontalLayout();
-		Button deletePlayerButton = new Button("Delete");
+		Button deletePlayerButton = IconButtonFactory.get("Delete", "remove2"); 
 		deletePlayerButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -77,7 +79,7 @@ public class PlayerView extends AbstractView {
 			}
 		});
 
-		Button createPlayer = new Button("Create");
+		Button createPlayer = IconButtonFactory.get("Create", "user-add");
 		createPlayer.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -89,7 +91,7 @@ public class PlayerView extends AbstractView {
 		buttonPanel.setSpacing(true);
 
 		tablePanel.setSpacing(true);
-		tablePanel.addComponent(new Label("<h1>Player administration</h1>", ContentMode.HTML));
+		tablePanel.addComponent(new Label("<h1>"+Icon.USERS+"Player administration</h1>", ContentMode.HTML));
 		tablePanel.addComponent(table);
 		tablePanel.addComponent(buttonPanel);
 		tablePanel.addComponent(detailHolder);
@@ -112,7 +114,8 @@ public class PlayerView extends AbstractView {
 		HorizontalLayout detailButtons = new HorizontalLayout();
 		detailButtons.setSpacing(true);
 		detailForm.setBean(bean);
-		Button saveButton = new Button("Save", new ClickListener() {
+		Button saveButton = IconButtonFactory.get("save", "disk");
+		saveButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (EditMode.CREATE.equals(editMode)) {
