@@ -63,7 +63,13 @@ public abstract class AbstractView extends VerticalLayout implements View {
 	public MenuBar getMenuBar() {
 		MenuBar menu = new MenuBar();
 		menu.setHtmlContentAllowed(true);
-		MenuItem myBids = menu.addItem(Icon.get("calendar")+"My bids", new Command() {
+		menu.addItem(Icon.get("calendar")+"My bids", new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				UI.getCurrent().getNavigator().navigateTo(CurrentWeekBidView.VIEW_NAME);
+			}
+		});
+		menu.addItem(Icon.get("ticket")+"My vouchers", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				UI.getCurrent().getNavigator().navigateTo(CurrentWeekBidView.VIEW_NAME);
@@ -75,7 +81,7 @@ public abstract class AbstractView extends VerticalLayout implements View {
 				UI.getCurrent().getNavigator().navigateTo(PlayerView.VIEW_NAME);
 			}
 		});
-		menu.addItem(Icon.get("wrench")+"Admin", new Command() {
+		MenuItem admind = menu.addItem(Icon.get("wrench")+"Admin", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				accessControl.logout();
@@ -83,7 +89,7 @@ public abstract class AbstractView extends VerticalLayout implements View {
 				Notification.show("Successfullly logged out.", Type.TRAY_NOTIFICATION);
 			}
 		});
-		menu.addItem(Icon.get("logout")+"Logout", new Command() {
+		admind.addItem(Icon.get("logout")+"Logout", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				accessControl.logout();
