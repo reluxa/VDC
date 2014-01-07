@@ -3,6 +3,8 @@ package org.reluxa.vaadin.auth;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 
+import lombok.Getter;
+
 import org.apache.commons.lang3.StringUtils;
 import org.reluxa.login.service.LoginService;
 import org.reluxa.player.Player;
@@ -15,7 +17,7 @@ public class VaadinAccessControl extends AccessControl {
 
 	private static final String USER_EMAIL = "user";
 
-	@Inject
+	@Inject @Getter
 	LoginService loginService;
 
 	@Override

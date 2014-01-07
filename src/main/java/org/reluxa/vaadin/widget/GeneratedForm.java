@@ -29,6 +29,8 @@ public class GeneratedForm<T> extends VerticalLayout {
 	
 	FormLayout form = new FormLayout();
 	
+	FieldGroup fieldGroup;
+	
 	public GeneratedForm(Class<T> beanType, Class<?> context) {
 		addComponent(form);
 		this.beanType = beanType;
@@ -43,7 +45,7 @@ public class GeneratedForm<T> extends VerticalLayout {
 		}
 		Map<String, Class<? extends com.vaadin.ui.Field>> fieldTypeMap = BeanIntrospector.getFieldMap(bean.getClass(), context);
 		Item item = new BeanItem<T>(bean, BeanIntrospector.getDetailFieldsForView(bean.getClass(), context));
-		FieldGroup fieldGroup = new BeanFieldGroup<T>(beanType);
+		fieldGroup = new BeanFieldGroup<T>(beanType);
 		fieldGroup.setItemDataSource(item);
 		fieldGroup.setBuffered(false);
 		for (final Object propertyId : fieldGroup.getUnboundPropertyIds()) {
@@ -67,6 +69,10 @@ public class GeneratedForm<T> extends VerticalLayout {
 	
 	public Iterator<Component> getFormElements() {
 		return form.iterator();
+	}
+	
+	public boolean isValid() {
+	  return fieldGroup.isValid();
 	}
 
 }

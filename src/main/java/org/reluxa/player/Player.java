@@ -11,10 +11,10 @@ import lombok.Data;
 
 import org.reluxa.bid.Bid;
 import org.reluxa.bid.CurrentWeekBidView;
-import org.reluxa.login.LoginView;
 import org.reluxa.model.IDObject;
 import org.reluxa.model.SelfValidating;
 import org.reluxa.model.Validatable;
+import org.reluxa.player.view.PasswordResetView;
 import org.reluxa.player.view.PlayerView;
 import org.reluxa.player.view.RegisterPlayer;
 import org.reluxa.vaadin.annotation.Detail;
@@ -34,7 +34,6 @@ public class Player implements Validatable, IDObject {
 	@GUI(
 	detail = { 
 		@Detail(context = RegisterPlayer.class, order = 1), 
-		@Detail(context = LoginView.class, order = 1),
 		@Detail(context = PlayerView.class, order = 1)
 	}, table = {
 		@Table(context = PlayerView.class, order = 4)
@@ -45,13 +44,14 @@ public class Player implements Validatable, IDObject {
 
 	@GUI(detail = { 
 		@Detail(context = RegisterPlayer.class, order = 2, type = PasswordField.class),
-		@Detail(context = LoginView.class, order = 2, type = PasswordField.class)
+		@Detail(context = PasswordResetView.class, order = 1, type = PasswordField.class),
 	})
 	@Size(min = 6, message = "Password minimum length is 6 characters")
 	private String password;
 
 	@GUI(detail = {
-		@Detail(context = RegisterPlayer.class, order = 3, type = PasswordField.class) 
+		@Detail(context = RegisterPlayer.class, order = 3, type = PasswordField.class),
+		@Detail(context = PasswordResetView.class, order = 2, type = PasswordField.class),
 	})
 	@Size(min = 6)
 	private transient String passwordRetype;
@@ -82,13 +82,13 @@ public class Player implements Validatable, IDObject {
 		})
 	private Date membershipValidUntil;
 
-  public boolean isValid() {
-	  return password != null && password.equals(passwordRetype);
-  }
+    public boolean isValid() {
+  	  return password != null && password.equals(passwordRetype);
+    }
+    
+    private byte[] image;
   
-  private byte[] image;
-
-  @GUI(table = { @Table(context = PlayerView.class, order = 1) })
-  private transient long id;
-  
+    @GUI(table = { @Table(context = PlayerView.class, order = 1) })
+    private transient long id;
+    
 }
