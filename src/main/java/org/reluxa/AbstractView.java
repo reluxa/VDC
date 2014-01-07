@@ -89,8 +89,6 @@ public abstract class AbstractView extends VerticalLayout implements View {
 			}
 		});
 
-		
-		
 		menu.addItem(Icon.get("logout")+"Logout", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {

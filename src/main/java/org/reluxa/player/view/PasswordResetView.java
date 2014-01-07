@@ -4,7 +4,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.reluxa.login.LoginView;
 import org.reluxa.login.service.LoginService;
 import org.reluxa.player.Player;
 import org.reluxa.vaadin.widget.GeneratedForm;
@@ -13,6 +12,7 @@ import com.vaadin.cdi.CDIView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
+import com.vaadin.server.VaadinService;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -68,13 +68,13 @@ public class PasswordResetView extends VerticalLayout implements View, Button.Cl
     if (!StringUtils.isEmpty(uuid) && form.isValid() && StringUtils.equals(user.getPassword(), user.getPasswordRetype())) {
       boolean result = loginService.resetPassword(uuid, user.getPassword());
       if (result) {
-	Notification.show("Password changed successfully", Type.HUMANIZED_MESSAGE);
-	UI.getCurrent().getNavigator().navigateTo(LoginView.LOGIN_VIEW);
+	Notification.show("Password was changed successfully!", Type.HUMANIZED_MESSAGE);
+	UI.getCurrent().getPage().setLocation(VaadinService.getCurrentRequest().getContextPath());
       } else {
-	Notification.show("Unable to update password", Type.ERROR_MESSAGE);
+	Notification.show("Unable to update password!", Type.ERROR_MESSAGE);
       }
     } else {
-      Notification.show("Input is not valid", Type.ERROR_MESSAGE);
+      Notification.show("Input is not valid.", Type.ERROR_MESSAGE);
     }
   }
 }

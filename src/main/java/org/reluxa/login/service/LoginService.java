@@ -44,7 +44,7 @@ public class LoginService extends AbstractService {
       StringBuffer buffer = new StringBuffer();
       buffer.append("Dear "+users.get(0).getFullName());
       buffer.append("\r\n\r\n");
-      buffer.append("You password reset link is: ");
+      buffer.append("Your password reset link is: ");
       buffer.append(getRestLink(pwReset));
       buffer.append("\r\n\r\n");
       buffer.append("Best Regards, BLHSE Squash");
