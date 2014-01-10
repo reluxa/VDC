@@ -5,6 +5,9 @@ import java.util.Date;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 
+import com.sun.jersey.spi.resource.Singleton;
+
+@Singleton
 public class TimeService implements TimeServiceIF {
 
 	@Override

@@ -14,39 +14,46 @@ import javax.servlet.annotation.WebFilter;
 @WebFilter("/*")
 public class DBTransactionHandler implements Filter {
 
-	@Inject
-	SessionImpl sessionImpl;
+  @Inject
+  SessionProducer sp;
 
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
+  @Inject
+  DBConnectionFactory connectionFactory;
+
+  @Override
+  public void destroy() {
+    // TODO Auto-generated method stub
+  }
+
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    boolean hadException = false;
+    SessionImpl sessionImpl = new SessionImpl();
+    sessionImpl.setConnectionFactory(connectionFactory);
+    try {
+      sessionImpl.init();
+      sp.getCurrentSessionThreadLocal().set(sessionImpl);
+      chain.doFilter(request, response);
+    } catch (RuntimeException ex) {
+      hadException = true;
+      throw ex;
+    } finally {
+      if (sessionImpl != null) {
+	if (hadException || sessionImpl.isRollbackOnly()) {
+	  sessionImpl.rollback();
+	} else {
+	  sessionImpl.commit();
 	}
+	sessionImpl.close();
+	sp.getCurrentSessionThreadLocal().set(null);
+      }
+    }
+  }
 
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-	    ServletException {
-		boolean hadException = false;
-		try {
-			chain.doFilter(request, response);
-		} catch (RuntimeException ex) {
-			hadException = true;
-			throw ex;
-		} finally {
-			if (sessionImpl != null) {
-				if (hadException || sessionImpl.isRollbackOnly()) {
-					sessionImpl.rollback();
-				} else {
-					sessionImpl.commit();
-				}
-				sessionImpl.close();
-			}
-		}
-	}
+  @Override
+  public void init(FilterConfig arg0) throws ServletException {
+    // TODO Auto-generated method stub
 
-	@Override
-	public void init(FilterConfig arg0) throws ServletException {
-		// TODO Auto-generated method stub
-
-	}
+  }
 
 }

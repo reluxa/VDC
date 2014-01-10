@@ -57,9 +57,11 @@ public class ExampleApp extends UI {
 		} catch (ContextNotActiveException ex) {
 			//swallow
 		}
+		try {
 		UI.getCurrent().close();
 		UI.getCurrent().getPage().setLocation(VaadinService.getCurrentRequest().getContextPath()+"/VAADIN/logout.html");
 		VaadinSession.getCurrent().close();
+		} catch (Exception ex) {}
 		viewProvider = null;
 		navigator = null;
 	}

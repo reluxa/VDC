@@ -35,6 +35,6 @@ public class Bid implements IDObject {
 
 	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 1, type = BidScoreGenerator.class) })
 	private transient Double score;
-
+	
 
 }
