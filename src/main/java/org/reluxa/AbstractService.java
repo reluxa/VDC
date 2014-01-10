@@ -5,13 +5,18 @@ import javax.inject.Inject;
 
 import org.reluxa.db.Session;
 import org.reluxa.db.Transacted;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AbstractService {
-	
-	@Inject 
-	protected BeanManager beanManager;
+  
+  protected Logger log = LoggerFactory.getLogger(this.getClass()); 
 
-	@Inject @Transacted
-	protected Session db;
+  @Inject
+  protected BeanManager beanManager;
+
+  @Inject
+  @Transacted
+  protected Session db;
 
 }

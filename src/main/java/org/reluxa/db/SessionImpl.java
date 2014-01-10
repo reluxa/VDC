@@ -38,7 +38,6 @@ public class SessionImpl implements Session {
   public void init() {
     delegate = connectionFactory.getConnection().ext().openSession();
     id = counter.getAndIncrement();
-    System.out.println("SessionID: "+id);
   }
 
   public void activate(Object arg0, int arg1) throws Db4oIOException, DatabaseClosedException {

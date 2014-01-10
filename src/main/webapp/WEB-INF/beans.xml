@@ -4,4 +4,10 @@
     <alternatives>
         <class>org.reluxa.vaadin.auth.VaadinAccessControl</class>
     </alternatives>
+    
+  <interceptors>
+    <class>org.reluxa.LoggingInterceptor
+    </class>
+  </interceptors>
+    
 </beans>

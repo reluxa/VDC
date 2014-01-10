@@ -10,7 +10,6 @@ public class SessionProducer {
   
   @Produces @Transacted
   Session makeSession() {
-    System.out.println("Session was injected");
     return new SessionThreadLocalWrapper(this);
   }
   
