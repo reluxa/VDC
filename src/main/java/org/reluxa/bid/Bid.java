@@ -9,10 +9,13 @@ import org.reluxa.player.Player;
 import org.reluxa.vaadin.annotation.GUI;
 import org.reluxa.vaadin.annotation.Table;
 
+import com.db4o.config.annotations.Indexed;
+
 @Data
 public class Bid implements IDObject {
 	
 	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 1) })
+	@Indexed
 	private transient long id;
 
 	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 2, type = StatusGenerator.class) })
@@ -22,6 +25,7 @@ public class Bid implements IDObject {
 	private String type;
 
 	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 4) })
+	@Indexed
 	private Date creationTime;
 
 	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 5, type = CreatorColumnGenerator.class) })

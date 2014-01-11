@@ -6,10 +6,12 @@ import java.util.List;
 import javax.enterprise.event.Observes;
 
 import org.reluxa.AbstractService;
+import org.reluxa.Log;
 import org.reluxa.player.Player;
 
 import com.db4o.ObjectSet;
 
+@Log
 public class PlayerService extends AbstractService implements PlayerServiceIF {
 
   /*

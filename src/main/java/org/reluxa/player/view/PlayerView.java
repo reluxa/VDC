@@ -103,9 +103,9 @@ public class PlayerView extends AbstractView {
 		return tablePanel;
 	}
 	
-	public void showDetailPanel(final EditMode editMode, final Player bean) {
+	public void showDetailPanel(final EditMode editMode, final Player player) {
 		detailHolder.removeAllComponents();
-		if (bean == null) {
+		if (player == null) {
 			return;
 		}
 		
@@ -114,20 +114,32 @@ public class PlayerView extends AbstractView {
 		
 		HorizontalLayout detailButtons = new HorizontalLayout();
 		detailButtons.setSpacing(true);
-		detailForm.setBean(bean);
+		detailForm.setBean(player);
+		
+		Button clearImage = IconButtonFactory.get("clear image", "email");
+		clearImage.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				player.setImage(null);
+			}
+		});
+		
+		detailButtons.addComponent(clearImage);
+
+		
 		Button saveButton = IconButtonFactory.get("save", "disk");
 		saveButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (EditMode.CREATE.equals(editMode)) {
 					try {
-		        playerService.createUser(bean);
+		        playerService.createUser(player);
 		        Notification.show("User was created succesfully.", Notification.Type.TRAY_NOTIFICATION);
 	        } catch (DuplicateUserException e) {
 	    			Notification.show("User already exists with the same name!", Notification.Type.ERROR_MESSAGE);
 	        }
 				} else if (EditMode.UPDATE.equals(editMode)) {
-						playerService.updateUser(bean);
+						playerService.updateUser(player);
 						Notification.show("User was updated succesfully.", Notification.Type.TRAY_NOTIFICATION);
 				}
         container.removeAllItems();
@@ -140,7 +152,7 @@ public class PlayerView extends AbstractView {
 		detailHolder.addComponent(columns);
 		detailHolder.addComponent(detailButtons);
 		
-		columns.addComponent(getProfileImage(bean));
+		columns.addComponent(getProfileImage(player));
 		columns.addComponent(detailForm);
 
 	}

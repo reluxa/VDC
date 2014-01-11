@@ -34,7 +34,11 @@ public class SessionImpl implements Session {
 
   private int id;
 
-  @PostConstruct
+  public int getId() {
+		return id;
+	}
+
+	@PostConstruct
   public void init() {
     delegate = connectionFactory.getConnection().ext().openSession();
     id = counter.getAndIncrement();

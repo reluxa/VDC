@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import org.reluxa.AbstractService;
+import org.reluxa.Log;
 import org.reluxa.mail.MailSenderIF;
 import org.reluxa.player.PasswordReset;
 import org.reluxa.player.Player;
@@ -14,6 +15,7 @@ import org.reluxa.player.view.PasswordResetView;
 import com.db4o.ObjectSet;
 import com.vaadin.server.Page;
 
+@Log
 public class LoginService extends AbstractService {
   
   @Inject

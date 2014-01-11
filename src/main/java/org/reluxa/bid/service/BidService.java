@@ -19,38 +19,20 @@ import com.db4o.query.Predicate;
 @Log
 public class BidService extends AbstractService implements BidServiceIF {
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.reluxa.bid.service.BidServiceIF#createBid(org.reluxa.bid.Bid)
-   */
   @Override
   public void createBid(Bid bid) {
-    log.debug("create bid was called: "+bid);
     db.store(bid);
     BidModelChanged created = new BidModelChanged();
     created.setCreated(bid);
     beanManager.fireEvent(created);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.reluxa.bid.service.BidServiceIF#getAll()
-   */
   @Override
   public Collection<Bid> getAll() {
     ObjectSet<Bid> bids = db.query(Bid.class);
     return bids.subList(0, bids.size());
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * org.reluxa.bid.service.BidServiceIF#bidAccepted(org.reluxa.bid.AcceptBidEvent
-   * )
-   */
   @Override
   public void bidAccepted(@Observes AcceptBidEvent event) {
     Bid bid = event.getBid();
@@ -63,12 +45,7 @@ public class BidService extends AbstractService implements BidServiceIF {
     beanManager.fireEvent(mchanged);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * org.reluxa.bid.service.BidServiceIF#delete(org.reluxa.bid.DeleteBidEvent)
-   */
+  
   @Override
   public void delete(@Observes DeleteBidEvent deleteBidEvent) {
     Bid bid = deleteBidEvent.getBid();
