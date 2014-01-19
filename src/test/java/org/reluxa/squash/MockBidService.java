@@ -70,4 +70,10 @@ public class MockBidService implements BidServiceIF {
 	  
   }
 
+	@Override
+  public Collection<Bid> getAllBids(Date from, Date to) {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
+
 }

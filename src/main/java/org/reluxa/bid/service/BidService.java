@@ -80,6 +80,16 @@ public class BidService extends AbstractService implements BidServiceIF {
 		});
 	}
 	
+	@Override
+	public Collection<Bid> getAllBids(final Date from, final Date to) {
+		return getBids(new Predicate<Bid>() {
+			@Override
+			public boolean match(Bid bid) {
+				return from.before(bid.getCreationTime()) && to.after(bid.getCreationTime());
+			}
+		});
+	}
+	
 	
 	@Override
 	public Collection<Bid> getAllNotEvaluatedBids() {

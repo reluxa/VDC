@@ -29,4 +29,6 @@ public interface BidServiceIF {
 
 	Collection<Bid> getAllNotEvaluatedBids();
 
+	Collection<Bid> getAllBids(Date from, Date to);
+
 }

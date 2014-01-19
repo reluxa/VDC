@@ -3,6 +3,7 @@ package org.reluxa;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.reluxa.bid.view.BidHistoryView;
 import org.reluxa.bid.view.CurrentWeekBidView;
 import org.reluxa.login.LoginView;
 import org.reluxa.player.view.PlayerView;
@@ -81,7 +82,7 @@ public abstract class AbstractView extends VerticalLayout implements View {
     menu.addItem(Icon.get("history") + "History", new Command() {
       @Override
       public void menuSelected(MenuItem selectedItem) {
-	UI.getCurrent().getNavigator().navigateTo(CurrentWeekBidView.VIEW_NAME);
+	UI.getCurrent().getNavigator().navigateTo(BidHistoryView.VIEW_NAME);
       }
     });
     MenuItem admind = menu.addItem(Icon.get("wrench") + "Admin", null, null);
