@@ -5,20 +5,28 @@ import java.util.Date;
 
 import javax.enterprise.event.Observes;
 
-import org.reluxa.bid.AcceptBidEvent;
 import org.reluxa.bid.Bid;
-import org.reluxa.bid.DeleteBidEvent;
+import org.reluxa.bid.event.AcceptBidEvent;
+import org.reluxa.bid.event.DeleteBidEvent;
+
+import com.db4o.query.Predicate;
 
 public interface BidServiceIF {
 
-	public abstract void createBid(Bid bid);
+	void createBid(Bid bid);
 
-	public abstract Collection<Bid> getAll();
+	Collection<Bid> getAll();
 	
-	public abstract Collection<Bid> getAllBids(Date from);
+	Collection<Bid> getAllBids(Date from);
+	
+	Collection<Bid> getBids(Predicate<Bid> predicate);
+	
+	void updateAll(Collection<Bid> bids);
 
-	public abstract void bidAccepted(@Observes AcceptBidEvent event);
+	void bidAccepted(@Observes AcceptBidEvent event);
 
-	public abstract void delete(@Observes DeleteBidEvent deleteBidEvent);
+	void delete(@Observes DeleteBidEvent deleteBidEvent);
+
+	Collection<Bid> getAllNotEvaluatedBids();
 
 }

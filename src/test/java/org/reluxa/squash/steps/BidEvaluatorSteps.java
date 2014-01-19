@@ -10,7 +10,7 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.reluxa.bid.Bid;
-import org.reluxa.bid.BidEvaluator;
+import org.reluxa.bid.service.BidEvaluator;
 import org.reluxa.bid.service.BidServiceIF;
 import org.reluxa.squash.MockTimeService;
 

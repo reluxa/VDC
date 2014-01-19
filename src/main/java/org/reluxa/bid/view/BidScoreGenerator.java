@@ -1,14 +1,15 @@
-package org.reluxa.bid;
+package org.reluxa.bid.view;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.reluxa.bid.Bid;
+import org.reluxa.bid.service.BidEvaluator;
 import org.reluxa.time.TimeServiceIF;
 import org.reluxa.vaadin.widget.AbstractColumnGenerator;
 import org.reluxa.vaadin.widget.Icon;
@@ -49,7 +50,6 @@ public class BidScoreGenerator extends AbstractColumnGenerator<Bid, Component> {
 	
 	
 	private Collection<Bid> getWinners(Collection<Bid> all) {
-
 		all = Collections2.filter(all, new Predicate<Bid>(){
 			@Override
       public boolean apply(@Nullable Bid bid) {
@@ -58,23 +58,10 @@ public class BidScoreGenerator extends AbstractColumnGenerator<Bid, Component> {
 		});
 		
 		ArrayList<Bid> sorted = new ArrayList<>(all);
-		
-		Collections.sort(sorted, new Comparator<Bid>(){
-			@Override
-      public int compare(Bid o1, Bid o2) {
-				if (o1.getScore() == null) {
-					return 1;
-				} else if (o2.getScore() == null) {
-					return -1;
-				} else {
-					return o1.getScore().compareTo(o2.getScore());
-				}
-				
-      }
-		});
-		if (sorted.size() <  bidEvaluator.getGetMaxEventsPerWeek()) {
+		Collections.sort(sorted, BidEvaluator.SCORE_COMPARATOR);
+		if (sorted.size() <  bidEvaluator.getMaxEventsPerWeek()) {
 			return sorted;
 		}
-		return sorted.subList(0, bidEvaluator.getGetMaxEventsPerWeek());
+		return sorted.subList(0, bidEvaluator.getMaxEventsPerWeek());
 	}
 }

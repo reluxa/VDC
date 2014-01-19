@@ -8,9 +8,9 @@ import java.util.List;
 import javax.annotation.Nullable;
 import javax.enterprise.event.Observes;
 
-import org.reluxa.bid.AcceptBidEvent;
 import org.reluxa.bid.Bid;
-import org.reluxa.bid.DeleteBidEvent;
+import org.reluxa.bid.event.AcceptBidEvent;
+import org.reluxa.bid.event.DeleteBidEvent;
 import org.reluxa.bid.service.BidServiceIF;
 
 import com.google.common.base.Predicate;
@@ -48,6 +48,24 @@ public class MockBidService implements BidServiceIF {
 
 	@Override
   public void delete(@Observes DeleteBidEvent deleteBidEvent) {
+	  // TODO Auto-generated method stub
+	  
+  }
+
+	@Override
+  public Collection<Bid> getBids(com.db4o.query.Predicate<Bid> predicate) {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
+
+	@Override
+  public Collection<Bid> getAllNotEvaluatedBids() {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
+
+	@Override
+  public void updateAll(Collection<Bid> bids) {
 	  // TODO Auto-generated method stub
 	  
   }

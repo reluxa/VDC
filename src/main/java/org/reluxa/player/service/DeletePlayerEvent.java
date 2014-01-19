@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import org.reluxa.AbstractEvent;
 import org.reluxa.player.Player;
 
 @Data

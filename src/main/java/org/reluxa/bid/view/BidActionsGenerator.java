@@ -1,10 +1,14 @@
-package org.reluxa.bid;
+package org.reluxa.bid.view;
 
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 
+import org.reluxa.AbstractEvent;
+import org.reluxa.bid.Bid;
+import org.reluxa.bid.BidStatus;
+import org.reluxa.bid.event.AcceptBidEvent;
+import org.reluxa.bid.event.DeleteBidEvent;
 import org.reluxa.player.Player;
-import org.reluxa.player.service.AbstractEvent;
 import org.reluxa.vaadin.auth.VaadinAccessControl;
 import org.reluxa.vaadin.widget.AbstractColumnGenerator;
 import org.reluxa.vaadin.widget.IconButtonFactory;

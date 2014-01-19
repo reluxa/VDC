@@ -1,17 +1,17 @@
-package org.reluxa.bid;
+package org.reluxa.bid.event;
 
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import org.reluxa.player.service.AbstractEvent;
+import org.reluxa.AbstractEvent;
+import org.reluxa.bid.Bid;
 
 @Data
 @RequiredArgsConstructor
-public class AcceptBidEvent extends AbstractEvent {
+public class DeleteBidEvent extends AbstractEvent {
 	
 	@NonNull
 	private Bid bid;
-
 
 }

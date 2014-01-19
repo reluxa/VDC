@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 import org.reluxa.bid.Bid;
-import org.reluxa.bid.CurrentWeekBidView;
+import org.reluxa.bid.view.CurrentWeekBidView;
 import org.reluxa.model.IDObject;
 import org.reluxa.model.SelfValidating;
 import org.reluxa.model.Validatable;

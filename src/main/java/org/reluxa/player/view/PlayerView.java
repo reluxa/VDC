@@ -42,7 +42,6 @@ import com.vaadin.ui.VerticalLayout;
 
 @CDIView(PlayerView.VIEW_NAME)
 @RolesAllowed(value = Player.ROLE_USER)
-//@RequestScoped
 public class PlayerView extends AbstractView {
 	
 	public static final String VIEW_NAME = "player_view";

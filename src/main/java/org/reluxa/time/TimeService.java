@@ -14,34 +14,54 @@ public class TimeService implements TimeServiceIF {
 	public Date getCurrentTime() {
 		return new Date();
 	}
-	
-	
+
 	@Override
 	public Date getIntervalBeginDate() {
-		LocalDate currentLocal = new LocalDate(getCurrentTime());
+		return getIntervalBeginDate(getCurrentTime());
+	}
+
+	@Override
+	public Date getIntervalBeginDate(Date ref) {
+		LocalDate currentLocal = new LocalDate(ref);
 		LocalDate thisSunday = currentLocal.withDayOfWeek(DateTimeConstants.SUNDAY);
 		LocalDate forWeeksBefore = thisSunday.minusWeeks(4);
 		return forWeeksBefore.toDate();
 	}
-	
+
 	@Override
 	public Date getWeekBegin() {
 		LocalDate currentLocal = new LocalDate(getCurrentTime());
 		return currentLocal.withDayOfWeek(DateTimeConstants.MONDAY).toDate();
 	}
-	
+
 	@Override
 	public Date getWeekEnd() {
 		LocalDate currentLocal = new LocalDate(getCurrentTime());
 		return currentLocal.withDayOfWeek(DateTimeConstants.SUNDAY).toDate();
 	}
+
+	@Override
+	public Date getWeekBegin(Date ref) {
+		LocalDate currentLocal = new LocalDate(ref);
+		return currentLocal.withDayOfWeek(DateTimeConstants.MONDAY).toDate();
+	}
 	
+	@Override
+	public Date getNextJobScheduleDate() {
+		LocalDate currentLocal = new LocalDate(getCurrentTime());
+		return currentLocal.withDayOfWeek(DateTimeConstants.MONDAY).plusDays(7).toDate();
+	}
+
+	@Override
+	public Date getWeekEnd(Date ref) {
+		LocalDate currentLocal = new LocalDate(ref);
+		return currentLocal.withDayOfWeek(DateTimeConstants.SUNDAY).toDate();
+	}
+
 	@Override
 	public int getCurrentWeekNumber() {
 		LocalDate currentLocal = new LocalDate(getCurrentTime());
 		return currentLocal.weekOfWeekyear().get();
 	}
-
-
 
 }

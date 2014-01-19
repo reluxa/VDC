@@ -14,30 +14,17 @@ import com.db4o.ObjectSet;
 @Log
 public class PlayerService extends AbstractService implements PlayerServiceIF {
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.reluxa.player.service.PlayerServiceIF#getAllPlayers()
-   */
   @Override
   public Collection<Player> getAllPlayers() {
     ObjectSet<Player> players = db.query(Player.class);
 
     List<Player> pl = players.subList(0, players.size());
-    System.out.println("Meret:"+pl.size());
     for (Player player : pl) {
-      System.out.println(db.ext().getID(player) + "\t" + player);
+      log.debug(db.ext().getID(player) + "\t" + player);
     }
     return pl;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * org.reluxa.player.service.PlayerServiceIF#createUser(org.reluxa.player.
-   * Player)
-   */
   @Override
   public void createUser(Player user) throws DuplicateUserException {
     if (hasNoDuplicates(user)) {
@@ -47,13 +34,6 @@ public class PlayerService extends AbstractService implements PlayerServiceIF {
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * org.reluxa.player.service.PlayerServiceIF#hasNoDuplicates(org.reluxa.player
-   * .Player)
-   */
   @Override
   public boolean hasNoDuplicates(Player user) {
     Player temp = new Player();
@@ -61,13 +41,6 @@ public class PlayerService extends AbstractService implements PlayerServiceIF {
     return db.queryByExample(temp).size() == 0;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * org.reluxa.player.service.PlayerServiceIF#deletePlayer(org.reluxa.player
-   * .service.DeletePlayerEvent)
-   */
   @Override
   public void deletePlayer(@Observes DeletePlayerEvent deletePlayerEvent) {
     ObjectSet<Player> players = db.queryByExample(deletePlayerEvent.getPlayer());
@@ -77,13 +50,6 @@ public class PlayerService extends AbstractService implements PlayerServiceIF {
     db.delete(players.get(0));
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * org.reluxa.player.service.PlayerServiceIF#updateUser(org.reluxa.player.
-   * Player)
-   */
   @Override
   public void updateUser(Player bean) {
     db.ext().bind(bean, bean.getId());

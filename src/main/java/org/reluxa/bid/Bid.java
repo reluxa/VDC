@@ -4,6 +4,12 @@ import java.util.Date;
 
 import lombok.Data;
 
+import org.reluxa.bid.view.BidActionsGenerator;
+import org.reluxa.bid.view.BidScoreGenerator;
+import org.reluxa.bid.view.CreatorColumnGenerator;
+import org.reluxa.bid.view.CurrentWeekBidView;
+import org.reluxa.bid.view.PartnerColumnGenerator;
+import org.reluxa.bid.view.StatusGenerator;
 import org.reluxa.model.IDObject;
 import org.reluxa.player.Player;
 import org.reluxa.vaadin.annotation.GUI;
@@ -40,5 +46,6 @@ public class Bid implements IDObject {
 	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 1, type = BidScoreGenerator.class) })
 	private transient Double score;
 	
-
+	private String ticketCode;
+	
 }

@@ -34,5 +34,29 @@ public class MockTimeService implements TimeServiceIF {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+  public Date getWeekEnd(Date ref) {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
+
+	@Override
+  public Date getWeekBegin(Date ref) {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
+
+	@Override
+  public Date getIntervalBeginDate(Date ref) {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
+
+	@Override
+  public Date getNextJobScheduleDate() {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
 	
 }

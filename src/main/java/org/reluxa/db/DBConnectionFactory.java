@@ -31,7 +31,7 @@ public class DBConnectionFactory {
 				if (arg1.object() instanceof IDObject) {
 					((IDObject)arg1.object()).setId(arg1.info().getInternalID());
 				}
-				System.out.println("Created: "+arg1.object());
+				//System.out.println("Created: "+arg1.object());
 
 			}
 		});
@@ -44,7 +44,6 @@ public class DBConnectionFactory {
 				}
 			}
 		});
-
 	}
 		
 

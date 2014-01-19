@@ -6,8 +6,8 @@
     </alternatives>
     
   <interceptors>
-    <class>org.reluxa.LoggingInterceptor
-    </class>
+    <class>org.reluxa.LoggingInterceptor</class>
+    <class>org.reluxa.bid.service.BidCacheInterceptor</class>
   </interceptors>
     
 </beans>

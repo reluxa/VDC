@@ -4,14 +4,28 @@ import java.util.Date;
 
 public interface TimeServiceIF {
 
-	public Date getCurrentTime();
+	Date getCurrentTime();
 
-	public abstract int getCurrentWeekNumber();
+	int getCurrentWeekNumber();
 
-	public abstract Date getWeekEnd();
+	Date getWeekEnd();
 
-	public abstract Date getWeekBegin();
+	Date getWeekBegin();
+	
+	Date getWeekEnd(Date ref);
 
-	public abstract Date getIntervalBeginDate();
+	Date getWeekBegin(Date ref);
+
+	/**
+	 * @return 4 week earlier date compared to the start of the current week;
+	 */
+	Date getIntervalBeginDate();
+
+	/**
+	 * @return 4 week earlier date based on the date in reference;
+	 */
+	Date getIntervalBeginDate(Date ref);
+
+	Date getNextJobScheduleDate();
 	
 }

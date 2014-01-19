@@ -1,5 +1,6 @@
-package org.reluxa.bid;
+package org.reluxa.bid.view;
 
+import org.reluxa.bid.Bid;
 import org.reluxa.vaadin.widget.AbstractColumnGenerator;
 import org.reluxa.vaadin.widget.Icon;
 

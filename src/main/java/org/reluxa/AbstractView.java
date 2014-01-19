@@ -3,7 +3,7 @@ package org.reluxa;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.reluxa.bid.CurrentWeekBidView;
+import org.reluxa.bid.view.CurrentWeekBidView;
 import org.reluxa.login.LoginView;
 import org.reluxa.player.view.PlayerView;
 import org.reluxa.vaadin.auth.VaadinAccessControl;

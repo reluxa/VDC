@@ -1,4 +1,4 @@
-package org.reluxa.player.service;
+package org.reluxa;
 
 public abstract class AbstractEvent {
 

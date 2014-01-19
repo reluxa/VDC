@@ -27,54 +27,55 @@ import com.vaadin.ui.VerticalLayout;
 @CDIView(PasswordResetView.VIEW_NAME)
 public class PasswordResetView extends VerticalLayout implements View, Button.ClickListener {
 
-  public static final String VIEW_NAME = "passwordreset";
-  
-  @Inject
-  LoginService loginService;;
+	public static final String VIEW_NAME = "passwordreset";
 
-  GeneratedForm<Player> form = new GeneratedForm<>(Player.class, PasswordResetView.class);
+	@Inject
+	LoginService loginService;;
 
-  Player user;
-  
-  String uuid;
+	GeneratedForm<Player> form = new GeneratedForm<>(Player.class, PasswordResetView.class);
 
-  @PostConstruct
-  private void init() {
-    setStyleName("root");
-    VerticalLayout inner = new VerticalLayout();
-    inner.setWidth(null);
-    inner.addComponent(new Label("<h2>Password reset<h2>", ContentMode.HTML));
-    setSizeFull();
-    inner.addComponent(form);
-    HorizontalLayout buttonLine = new HorizontalLayout();
-    buttonLine.setSpacing(true);
-    Button signupButton = new Button("Reset");
-    signupButton.addClickListener(this);
-    buttonLine.addComponent(signupButton);
-    form.addComponent(buttonLine);
-    addComponent(inner);
-    setComponentAlignment(inner, Alignment.MIDDLE_CENTER);
-  }
+	Player user;
 
-  @Override
-  public void enter(ViewChangeEvent event) {
-    uuid = Page.getCurrent().getLocation().getQuery().split("=")[1];
-    user = new Player();
-    form.setBean(user);
-  }
+	String uuid;
 
-  @Override
-  public void buttonClick(ClickEvent event) {
-    if (!StringUtils.isEmpty(uuid) && form.isValid() && StringUtils.equals(user.getPassword(), user.getPasswordRetype())) {
-      boolean result = loginService.resetPassword(uuid, user.getPassword());
-      if (result) {
-	Notification.show("Password was changed successfully!", Type.HUMANIZED_MESSAGE);
-	UI.getCurrent().getPage().setLocation(VaadinService.getCurrentRequest().getContextPath());
-      } else {
-	Notification.show("Unable to update password!", Type.ERROR_MESSAGE);
-      }
-    } else {
-      Notification.show("Input is not valid.", Type.ERROR_MESSAGE);
-    }
-  }
+	@PostConstruct
+	private void init() {
+		setStyleName("root");
+		VerticalLayout inner = new VerticalLayout();
+		inner.setWidth(null);
+		inner.addComponent(new Label("<h2>Password reset<h2>", ContentMode.HTML));
+		setSizeFull();
+		inner.addComponent(form);
+		HorizontalLayout buttonLine = new HorizontalLayout();
+		buttonLine.setSpacing(true);
+		Button signupButton = new Button("Reset");
+		signupButton.addClickListener(this);
+		buttonLine.addComponent(signupButton);
+		form.addComponent(buttonLine);
+		addComponent(inner);
+		setComponentAlignment(inner, Alignment.MIDDLE_CENTER);
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		uuid = Page.getCurrent().getLocation().getQuery().split("=")[1];
+		user = new Player();
+		form.setBean(user);
+	}
+
+	@Override
+	public void buttonClick(ClickEvent event) {
+		if (!StringUtils.isEmpty(uuid) && form.isValid()
+		    && StringUtils.equals(user.getPassword(), user.getPasswordRetype())) {
+			boolean result = loginService.resetPassword(uuid, user.getPassword());
+			if (result) {
+				Notification.show("Password was changed successfully!", Type.HUMANIZED_MESSAGE);
+				UI.getCurrent().getPage().setLocation(VaadinService.getCurrentRequest().getContextPath());
+			} else {
+				Notification.show("Unable to update password!", Type.ERROR_MESSAGE);
+			}
+		} else {
+			Notification.show("Input is not valid.", Type.ERROR_MESSAGE);
+		}
+	}
 }

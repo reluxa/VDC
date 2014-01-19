@@ -1,4 +1,4 @@
-package org.reluxa.bid;
+package org.reluxa.bid.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +14,10 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.reluxa.AbstractView;
+import org.reluxa.bid.Bid;
+import org.reluxa.bid.BidStatus;
+import org.reluxa.bid.BidType;
+import org.reluxa.bid.event.BidModelChanged;
 import org.reluxa.bid.service.BidServiceIF;
 import org.reluxa.player.Player;
 import org.reluxa.player.service.PlayerServiceIF;
@@ -124,33 +128,35 @@ public class CurrentWeekBidView extends AbstractView {
 		createButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				Bid bid = new Bid();
-				bid.setCreationTime(new Date());
-				bid.setCreator(accessControl.getCurrentPlayer());
-
-				String value = (String) type.getValue();
-				if ("Bid alone".equals(value)) {
-					bid.setType(BidType.SINGLE.toString());
-					bid.setStatus(BidStatus.PENDING.toString());
-				} else {
-					Player friend = (Player)friends.getValue();
-					BeanItem<Player> item = (BeanItem<Player>)friends.getItem(friend);
-					
-					if (item == null || item.getBean() == null) {
-						Notification.show("A friend must be selected!", Type.ERROR_MESSAGE);
-						return;
+				//for (int i=1;i<1000;i++) {
+					Bid bid = new Bid();
+					bid.setCreationTime(new Date());
+					bid.setCreator(accessControl.getCurrentPlayer());
+	
+					String value = (String) type.getValue();
+					if ("Bid alone".equals(value)) {
+						bid.setType(BidType.SINGLE.toString());
+						bid.setStatus(BidStatus.PENDING.toString());
+					} else {
+						Player friend = (Player)friends.getValue();
+						BeanItem<Player> item = (BeanItem<Player>)friends.getItem(friend);
+						
+						if (item == null || item.getBean() == null) {
+							Notification.show("A friend must be selected!", Type.ERROR_MESSAGE);
+							return;
+						}
+						
+						Player friend2 = item.getBean();
+				
+						//System.out.println("one:"+System.identityHashCode(friend)+"\tother:"+System.identityHashCode(friend2));
+				
+						bid.setPartner(friend2);
+						bid.setType(BidType.WITH_FRIEND.toString());
+						bid.setStatus(BidStatus.WAITING_FOR_APPOVAL.toString());
 					}
-					
-					Player friend2 = item.getBean();
-			
-					//System.out.println("one:"+System.identityHashCode(friend)+"\tother:"+System.identityHashCode(friend2));
-			
-					bid.setPartner(friend2);
-					bid.setType(BidType.WITH_FRIEND.toString());
-					bid.setStatus(BidStatus.WAITING_FOR_APPOVAL.toString());
+					bidService.createBid(bid);
 				}
-				bidService.createBid(bid);
-			}
+			//}
 		});
 
 		newBidSection.addComponent(type);

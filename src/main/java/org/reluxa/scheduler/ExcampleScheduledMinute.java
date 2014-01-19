@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import org.reluxa.player.service.PlayerServiceIF;
 
-public abstract class ExcampleScheduledMinute implements Scheduled {
+public abstract class ExcampleScheduledMinute extends Scheduled {
 
   @Inject
   PlayerServiceIF playerService;
