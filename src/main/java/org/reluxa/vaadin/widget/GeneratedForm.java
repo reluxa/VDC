@@ -51,7 +51,15 @@ public class GeneratedForm<T> extends VerticalLayout {
 		for (final Object propertyId : fieldGroup.getUnboundPropertyIds()) {
 			Field<?> field = null;
 			if (!Field.class.equals(fieldTypeMap.get(propertyId))) {
-				field = fieldGroup.buildAndBind(StringUtil.fieldToSentenceCase(propertyId.toString()), propertyId, fieldTypeMap.get(propertyId));
+				try {
+	        field = fieldTypeMap.get(propertyId).newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        }
+				fieldGroup.bind(field, propertyId);
+				field.setCaption(StringUtil.fieldToSentenceCase(propertyId.toString()));
+				//field = fieldGroup.buildAndBind(StringUtil.fieldToSentenceCase(propertyId.toString()), propertyId, fieldTypeMap.get(propertyId));
 			} else {
 				field = fieldGroup.buildAndBind(propertyId);
 				field.setCaption(StringUtil.fieldToSentenceCase(propertyId.toString()));

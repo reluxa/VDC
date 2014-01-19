@@ -111,7 +111,7 @@ public class BidEvaluator {
 		for (int i=0;i<sorted.size();i++) {
 			if (i <= getMaxEventsPerWeek() && BidStatus.PENDING.toString().equals(sorted.get(i).getStatus())) {
 				sorted.get(i).setStatus(BidStatus.WON.toString());
-				sorted.get(i).setTicketCode(RandomStringUtils.random(2)+RandomStringUtils.randomNumeric(4));
+				sorted.get(i).setTicketCode(RandomStringUtils.randomAlphabetic(2)+RandomStringUtils.randomNumeric(4));
 			} else {
 				sorted.get(i).setStatus(BidStatus.LOST.toString());
 			}

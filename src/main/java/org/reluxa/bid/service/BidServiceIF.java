@@ -8,6 +8,7 @@ import javax.enterprise.event.Observes;
 import org.reluxa.bid.Bid;
 import org.reluxa.bid.event.AcceptBidEvent;
 import org.reluxa.bid.event.DeleteBidEvent;
+import org.reluxa.player.Player;
 
 import com.db4o.query.Predicate;
 
@@ -30,5 +31,7 @@ public interface BidServiceIF {
 	Collection<Bid> getAllNotEvaluatedBids();
 
 	Collection<Bid> getAllBids(Date from, Date to);
+
+	Collection<Bid> getTicketsForPlayer(Player player);
 
 }

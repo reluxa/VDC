@@ -11,6 +11,7 @@ import org.reluxa.bid.view.CreatorColumnGenerator;
 import org.reluxa.bid.view.CurrentWeekBidView;
 import org.reluxa.bid.view.PartnerColumnGenerator;
 import org.reluxa.bid.view.StatusGenerator;
+import org.reluxa.bid.view.TicketView;
 import org.reluxa.model.IDObject;
 import org.reluxa.player.Player;
 import org.reluxa.vaadin.annotation.GUI;
@@ -24,6 +25,7 @@ public class Bid implements IDObject {
 	@GUI(table = {
 			@Table(context = CurrentWeekBidView.class, order = 1),
 			@Table(context = BidHistoryView.class, order = 1),
+			@Table(context = TicketView.class, order = 1)
 	})
 	@Indexed
 	private transient long id;
@@ -39,7 +41,8 @@ public class Bid implements IDObject {
 
 	@GUI(table = { 
 			@Table(context = CurrentWeekBidView.class, order = 4),
-			@Table(context = BidHistoryView.class, order = 4)
+			@Table(context = BidHistoryView.class, order = 4),
+			@Table(context = TicketView.class, order = 3)
 	})
 	@Indexed
 	private Date creationTime;
@@ -47,12 +50,14 @@ public class Bid implements IDObject {
 	@GUI(table = { 
 			@Table(context = CurrentWeekBidView.class, order = 5, type = CreatorColumnGenerator.class),
 			@Table(context = BidHistoryView.class, order = 5, type = CreatorColumnGenerator.class),
+			@Table(context = TicketView.class, order = 4, type = CreatorColumnGenerator.class),
 	})
 	private Player creator;
 
 	@GUI(table = { 
 			@Table(context = CurrentWeekBidView.class, order = 6, type = PartnerColumnGenerator.class),
 			@Table(context = BidHistoryView.class, order = 6, type = PartnerColumnGenerator.class),
+			@Table(context = TicketView.class, order = 5, type = PartnerColumnGenerator.class),
 	})
 	private Player partner;
 
@@ -62,6 +67,9 @@ public class Bid implements IDObject {
 	@GUI(table = { @Table(context = CurrentWeekBidView.class, order = 1, type = BidScoreGenerator.class) })
 	private transient Double score;
 	
+	@GUI(table = { 
+			@Table(context = TicketView.class, order = 2) 
+	})
 	private String ticketCode;
 	
 }

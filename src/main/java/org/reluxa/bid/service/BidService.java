@@ -13,6 +13,7 @@ import org.reluxa.bid.BidStatus;
 import org.reluxa.bid.event.AcceptBidEvent;
 import org.reluxa.bid.event.BidModelChanged;
 import org.reluxa.bid.event.DeleteBidEvent;
+import org.reluxa.player.Player;
 
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
@@ -90,13 +91,24 @@ public class BidService extends AbstractService implements BidServiceIF {
 		});
 	}
 	
+	@Override
+	public Collection<Bid> getTicketsForPlayer(final Player player) {
+		return getBids(new Predicate<Bid>() {
+			@Override
+			public boolean match(Bid bid) {
+				return (bid.getTicketCode() != null && (player.equals(bid.getCreator()) || player.equals(bid.getPartner())));
+			}
+		});
+	}
+
+
+	
 	
 	@Override
 	public Collection<Bid> getAllNotEvaluatedBids() {
 		return getBids(new Predicate<Bid>() {
 			@Override
 			public boolean match(Bid bid) {
-				System.out.println(bid);
 				return BidStatus.PENDING.toString().equals(bid.getStatus()) || 
 							  BidStatus.WAITING_FOR_APPOVAL.toString().equals(bid.getStatus());
 			}

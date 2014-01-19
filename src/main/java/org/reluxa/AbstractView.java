@@ -5,8 +5,10 @@ import javax.inject.Inject;
 
 import org.reluxa.bid.view.BidHistoryView;
 import org.reluxa.bid.view.CurrentWeekBidView;
+import org.reluxa.bid.view.TicketView;
 import org.reluxa.login.LoginView;
 import org.reluxa.player.view.PlayerView;
+import org.reluxa.settings.SettingsView;
 import org.reluxa.vaadin.auth.VaadinAccessControl;
 import org.reluxa.vaadin.widget.Icon;
 import org.slf4j.Logger;
@@ -27,81 +29,87 @@ import com.vaadin.ui.VerticalLayout;
 
 public abstract class AbstractView extends VerticalLayout implements View {
 
-  protected Logger log = LoggerFactory.getLogger(this.getClass()); 
-  
-  public enum EditMode {
-    UPDATE, CREATE,
-  }
+	protected Logger log = LoggerFactory.getLogger(this.getClass());
 
-  @Inject
-  protected VaadinAccessControl accessControl;
+	public enum EditMode {
+		UPDATE, CREATE,
+	}
 
-  protected abstract Component getContent();
+	@Inject
+	protected VaadinAccessControl accessControl;
 
-  @PostConstruct
-  public void init() {
-    VerticalLayout page = new VerticalLayout();
-    setStyleName("root");
-    setSizeFull();
+	protected abstract Component getContent();
 
-    HorizontalLayout menuLine = new HorizontalLayout();
-    menuLine.setSizeFull();
+	@PostConstruct
+	public void init() {
+		VerticalLayout page = new VerticalLayout();
+		setStyleName("root");
+		setSizeFull();
 
-    MenuBar menu = getMenuBar();
-    menu.setWidth("100%");
-    menuLine.addComponent(menu);
-    menuLine.setExpandRatio(menu, 1f);
-    menuLine.setComponentAlignment(menu, Alignment.MIDDLE_LEFT);
+		HorizontalLayout menuLine = new HorizontalLayout();
+		menuLine.setSizeFull();
 
-    Label label = new Label("Current user: " + accessControl.getPrincipalName());
-    label.setWidth(null);
-    label.setStyleName("v-menubar v-widget");
-    menuLine.addComponent(label);
-    menuLine.setComponentAlignment(label, Alignment.MIDDLE_RIGHT);
+		MenuBar menu = getMenuBar();
+		menu.setWidth("100%");
+		menuLine.addComponent(menu);
+		menuLine.setExpandRatio(menu, 1f);
+		menuLine.setComponentAlignment(menu, Alignment.MIDDLE_LEFT);
 
-    page.addComponent(menuLine);
-    page.addComponent(getContent());
-    addComponent(page);
-  }
+		Label label = new Label("Current user: " + accessControl.getPrincipalName());
+		label.setWidth(null);
+		label.setStyleName("v-menubar v-widget");
+		menuLine.addComponent(label);
+		menuLine.setComponentAlignment(label, Alignment.MIDDLE_RIGHT);
 
-  public MenuBar getMenuBar() {
-    MenuBar menu = new MenuBar();
-    menu.setHtmlContentAllowed(true);
-    menu.addItem(Icon.get("calendar") + "Bids", new Command() {
-      @Override
-      public void menuSelected(MenuItem selectedItem) {
-	UI.getCurrent().getNavigator().navigateTo(CurrentWeekBidView.VIEW_NAME);
-      }
-    });
-    menu.addItem(Icon.get("ticket") + "Tickets", new Command() {
-      @Override
-      public void menuSelected(MenuItem selectedItem) {
-	UI.getCurrent().getNavigator().navigateTo(CurrentWeekBidView.VIEW_NAME);
-      }
-    });
-    menu.addItem(Icon.get("history") + "History", new Command() {
-      @Override
-      public void menuSelected(MenuItem selectedItem) {
-	UI.getCurrent().getNavigator().navigateTo(BidHistoryView.VIEW_NAME);
-      }
-    });
-    MenuItem admind = menu.addItem(Icon.get("wrench") + "Admin", null, null);
-    admind.addItem(Icon.get("users") + "Players", new Command() {
-      @Override
-      public void menuSelected(MenuItem selectedItem) {
-	UI.getCurrent().getNavigator().navigateTo(PlayerView.VIEW_NAME);
-      }
-    });
+		page.addComponent(menuLine);
+		page.addComponent(getContent());
+		addComponent(page);
+	}
 
-    menu.addItem(Icon.get("logout") + "Logout", new Command() {
-      @Override
-      public void menuSelected(MenuItem selectedItem) {
-	accessControl.logout();
-	UI.getCurrent().getNavigator().navigateTo(LoginView.LOGIN_VIEW);
-	Notification.show("Successfullly logged out.", Type.TRAY_NOTIFICATION);
-      }
-    });
-    return menu;
-  }
+	public MenuBar getMenuBar() {
+		MenuBar menu = new MenuBar();
+		menu.setHtmlContentAllowed(true);
+		menu.addItem(Icon.get("calendar") + "Bids", new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				UI.getCurrent().getNavigator().navigateTo(CurrentWeekBidView.VIEW_NAME);
+			}
+		});
+		menu.addItem(Icon.get("ticket") + "Tickets", new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				UI.getCurrent().getNavigator().navigateTo(TicketView.VIEW_NAME);
+			}
+		});
+		menu.addItem(Icon.get("history") + "History", new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				UI.getCurrent().getNavigator().navigateTo(BidHistoryView.VIEW_NAME);
+			}
+		});
+		MenuItem admind = menu.addItem(Icon.get("wrench") + "Admin", null, null);
+		admind.addItem(Icon.get("users") + "Players", new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				UI.getCurrent().getNavigator().navigateTo(PlayerView.VIEW_NAME);
+			}
+		});
+		admind.addItem(Icon.get("settings") + "Settings", new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				UI.getCurrent().getNavigator().navigateTo(SettingsView.VIEW_NAME);
+			}
+		});
+
+		menu.addItem(Icon.get("logout") + "Logout", new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				accessControl.logout();
+				UI.getCurrent().getNavigator().navigateTo(LoginView.LOGIN_VIEW);
+				Notification.show("Successfullly logged out.", Type.TRAY_NOTIFICATION);
+			}
+		});
+		return menu;
+	}
 
 }

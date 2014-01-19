@@ -12,6 +12,7 @@ import org.reluxa.bid.Bid;
 import org.reluxa.bid.event.AcceptBidEvent;
 import org.reluxa.bid.event.DeleteBidEvent;
 import org.reluxa.bid.service.BidServiceIF;
+import org.reluxa.player.Player;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -72,6 +73,12 @@ public class MockBidService implements BidServiceIF {
 
 	@Override
   public Collection<Bid> getAllBids(Date from, Date to) {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
+
+	@Override
+  public Collection<Bid> getTicketsForPlayer(Player player) {
 	  // TODO Auto-generated method stub
 	  return null;
   }
