@@ -59,7 +59,8 @@ public class ExampleApp extends UI {
 		}
 		try {
 		UI.getCurrent().close();
-		UI.getCurrent().getPage().setLocation(VaadinService.getCurrentRequest().getContextPath()+"/VAADIN/logout.html");
+		//UI.getCurrent().getPage().setLocation(VaadinService.getCurrentRequest().getContextPath()+"/VAADIN/logout.html");
+		UI.getCurrent().getPage().setLocation(VaadinService.getCurrentRequest().getContextPath());
 		VaadinSession.getCurrent().close();
 		} catch (Exception ex) {}
 		viewProvider = null;

@@ -3,18 +3,25 @@ package org.reluxa;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.reluxa.bid.view.BidHistoryView;
 import org.reluxa.bid.view.CurrentWeekBidView;
 import org.reluxa.bid.view.TicketView;
 import org.reluxa.login.LoginView;
 import org.reluxa.player.view.PlayerView;
 import org.reluxa.settings.SettingsView;
+import org.reluxa.time.TimeServiceIF;
 import org.reluxa.vaadin.auth.VaadinAccessControl;
 import org.reluxa.vaadin.widget.Icon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.wolfie.refresher.Refresher;
+import com.github.wolfie.refresher.Refresher.RefreshListener;
 import com.vaadin.navigator.View;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
@@ -27,7 +34,7 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-public abstract class AbstractView extends VerticalLayout implements View {
+public abstract class AbstractView extends VerticalLayout implements View, RefreshListener {
 
 	protected Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -37,8 +44,15 @@ public abstract class AbstractView extends VerticalLayout implements View {
 
 	@Inject
 	protected VaadinAccessControl accessControl;
+	
+	@Inject 
+	protected TimeServiceIF timeService;
 
 	protected abstract Component getContent();
+	
+	private DateTimeFormatter format = DateTimeFormat.forPattern("yyyy.MM.dd HH:mm");
+	
+	private Label label = null; 
 
 	@PostConstruct
 	public void init() {
@@ -55,8 +69,9 @@ public abstract class AbstractView extends VerticalLayout implements View {
 		menuLine.setExpandRatio(menu, 1f);
 		menuLine.setComponentAlignment(menu, Alignment.MIDDLE_LEFT);
 
-		Label label = new Label("Current user: " + accessControl.getPrincipalName());
+		label = new Label(Icon.get("user2") + accessControl.getPrincipalName()+" | "+getCurrentTimeStamp());
 		label.setWidth(null);
+		label.setContentMode(ContentMode.HTML);
 		label.setStyleName("v-menubar v-widget");
 		menuLine.addComponent(label);
 		menuLine.setComponentAlignment(label, Alignment.MIDDLE_RIGHT);
@@ -64,6 +79,22 @@ public abstract class AbstractView extends VerticalLayout implements View {
 		page.addComponent(menuLine);
 		page.addComponent(getContent());
 		addComponent(page);
+		
+		Refresher refresher = new Refresher();
+		refresher.setRefreshInterval(60000);
+		refresher.addListener(this);
+		addExtension(refresher);
+	}
+	
+	private String getCurrentTimeStamp() {
+		LocalDateTime time = new LocalDateTime(timeService.getCurrentTime());
+		return time.toString(format);
+	}
+	
+	
+	@Override
+	public void refresh(Refresher source) {
+		label.setValue(Icon.get("user2") + accessControl.getPrincipalName()+" | "+getCurrentTimeStamp());
 	}
 
 	public MenuBar getMenuBar() {

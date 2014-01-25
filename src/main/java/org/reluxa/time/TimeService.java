@@ -2,16 +2,26 @@ package org.reluxa.time;
 
 import java.util.Date;
 
+import javax.inject.Inject;
+
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
+import org.reluxa.settings.service.SettingsServiceIF;
 
 import com.sun.jersey.spi.resource.Singleton;
 
 @Singleton
 public class TimeService implements TimeServiceIF {
 
+	@Inject
+	SettingsServiceIF settings;
+	
+	
 	@Override
 	public Date getCurrentTime() {
+		if (settings.getConfig().isFixedTime()) {
+			return settings.getConfig().getCurrentTime();
+		}
 		return new Date();
 	}
 

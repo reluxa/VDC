@@ -3,6 +3,7 @@ import java.util.Date;
 
 import lombok.Data;
 
+import org.reluxa.model.IDObject;
 import org.reluxa.vaadin.annotation.Detail;
 import org.reluxa.vaadin.annotation.GUI;
 import org.reluxa.vaadin.widget.TimeField;
@@ -10,12 +11,12 @@ import org.reluxa.vaadin.widget.TimeField;
 import com.vaadin.ui.RichTextArea;
 
 @Data
-public class Config {
+public class Config implements IDObject {
 
 	@GUI(detail = { 
 		@Detail(context = SettingsView.class, order = 1), 
 	})
-	private Integer numberOfEvents;
+	private Integer numberOfEventsPerWeek;
 
 	@GUI(detail = { 
 			@Detail(context = SettingsView.class, order = 2), 
@@ -27,10 +28,17 @@ public class Config {
 	})
 	private Date currentTime;
 	
+	@GUI(detail = { 
+			@Detail(context = SettingsView.class, order = 4), 
+	})
+	private String redirectEmailAddress;
+	
 	
 	@GUI(detail = { 
-			@Detail(context = SettingsView.class, order = 4, type=RichTextArea.class), 
+			@Detail(context = SettingsView.class, order = 5, type=RichTextArea.class), 
 	})
 	private String passwordResetTemplate;
+	
+	private transient long id;
 	
 }

@@ -130,7 +130,7 @@ public class CurrentWeekBidView extends AbstractView {
 			public void buttonClick(ClickEvent event) {
 				//for (int i=1;i<1000;i++) {
 					Bid bid = new Bid();
-					bid.setCreationTime(new Date());
+					bid.setCreationTime(timeService.getCurrentTime());
 					bid.setCreator(accessControl.getCurrentPlayer());
 	
 					String value = (String) type.getValue();

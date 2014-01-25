@@ -19,7 +19,7 @@ import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 
 @Log
-@BidCache
+//@BidCache
 public class BidService extends AbstractService implements BidServiceIF {
 
 	@Override
