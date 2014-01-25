@@ -74,9 +74,6 @@ public class CurrentWeekBidView extends AbstractView {
 	private Collection<Player> getAllPartners() {
 		ArrayList<Player> result = new ArrayList<>(playerService.getAllPlayers());
 		Player current = accessControl.getCurrentPlayer();
-		for (Player player : result) {
-			System.out.println(player.getId()+"\t"+player.getEmail()+"\t "+System.identityHashCode(player));
-		}
 		result.remove(current);
 		return result;
 	}

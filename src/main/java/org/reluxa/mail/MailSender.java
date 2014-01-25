@@ -7,6 +7,7 @@ import java.net.ProxySelector;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -41,14 +42,16 @@ public class MailSender implements MailSenderIF {
 
 
   @Override
-  public boolean sendMail(String sender, String recipient, String subject, String body, String htmlText) {
+  public boolean sendMail(String sender, Collection<String> recipients, String subject, String body, String htmlText) {
     URLConnectionClientHandler ch = new URLConnectionClientHandler(factory);
     Client client = new Client(ch);
     client.addFilter(new HTTPBasicAuthFilter("api", "key-1vxsx9uh6z185hq4ny0frl8iednc1si8"));
     WebResource webResource = client.resource("https://api.mailgun.net/v2/squash.reluxa.org" + "/messages");
     MultivaluedMapImpl formData = new MultivaluedMapImpl();
     formData.add("from", sender);
-    formData.add("to", recipient);
+    for (String recipient : recipients) {
+    	formData.add("to", recipient);  
+    }
     formData.add("subject", subject);
     formData.add("html", htmlText);
     formData.add("text", body);

@@ -10,6 +10,7 @@ import org.reluxa.bid.view.BidHistoryView;
 import org.reluxa.bid.view.CurrentWeekBidView;
 import org.reluxa.bid.view.TicketView;
 import org.reluxa.login.LoginView;
+import org.reluxa.message.MessageView;
 import org.reluxa.player.Player;
 import org.reluxa.player.view.PlayerView;
 import org.reluxa.settings.SettingsView;
@@ -122,7 +123,7 @@ public abstract class AbstractView extends VerticalLayout implements View, Refre
 		menu.addItem(Icon.get("bullhorn") + "Message", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().getNavigator().navigateTo(BidHistoryView.VIEW_NAME);
+				UI.getCurrent().getNavigator().navigateTo(MessageView.VIEW_NAME);
 			}
 		});
 		

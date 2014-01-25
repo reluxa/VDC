@@ -1,5 +1,7 @@
 package org.reluxa.login.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -51,7 +53,7 @@ public class LoginService extends AbstractService {
       buffer.append(getRestLink(pwReset));
       buffer.append("\r\n\r\n");
       buffer.append("Best Regards, BLHSE Squash");
-      result = mailSender.sendMail(MailSenderIF.SENDER_ADDRESS, email, "Password reset", buffer.toString(), null);
+      result = mailSender.sendMail(MailSenderIF.SENDER_ADDRESS, Arrays.asList(email) , "Password reset", buffer.toString(), null);
     }
     return result;
   }
