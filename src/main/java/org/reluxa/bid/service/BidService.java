@@ -109,8 +109,7 @@ public class BidService extends AbstractService implements BidServiceIF {
 		return getBids(new Predicate<Bid>() {
 			@Override
 			public boolean match(Bid bid) {
-				return BidStatus.PENDING.toString().equals(bid.getStatus()) || 
-							  BidStatus.WAITING_FOR_APPOVAL.toString().equals(bid.getStatus());
+				return "PENDING".equals(bid.getStatus());
 			}
 		});
 	}

@@ -7,6 +7,10 @@ import org.reluxa.db.SessionImpl;
 import org.reluxa.db.SessionProducer;
 import org.reluxa.vaadin.util.BeanManagerUtil;
 
+/**
+ * Creates a DB context for the actual thread. 
+ * @author reluxa
+ */
 public class DBTaskWrapper implements Runnable {
 
 	private Runnable delegate;

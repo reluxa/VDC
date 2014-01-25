@@ -89,6 +89,6 @@ public class Player implements Validatable, IDObject {
     private byte[] image;
   
     @GUI(table = { @Table(context = PlayerView.class, order = 1) })
-    private transient long id;
+    private long id;
     
 }

@@ -39,6 +39,6 @@ public class Config implements IDObject {
 	})
 	private String passwordResetTemplate;
 	
-	private transient long id;
+	private long id;
 	
 }

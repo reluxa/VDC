@@ -27,8 +27,7 @@ public class Bid implements IDObject {
 			@Table(context = BidHistoryView.class, order = 1),
 			@Table(context = TicketView.class, order = 1)
 	})
-	@Indexed
-	private transient long id;
+	private long id;
 
 	@GUI(table = { 
 			@Table(context = CurrentWeekBidView.class, order = 2, type = StatusGenerator.class),

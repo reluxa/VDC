@@ -16,7 +16,6 @@ public class TimeService implements TimeServiceIF {
 	@Inject
 	SettingsServiceIF settings;
 	
-	
 	@Override
 	public Date getCurrentTime() {
 		if (settings.getConfig().isFixedTime()) {

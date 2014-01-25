@@ -24,7 +24,6 @@ public class SchedulerExtension implements Extension {
   ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
  
   void afterBeanDiscovery(@Observes final AfterBeanDiscovery afterBeanDiscovery, final BeanManager bm) {
-  	
   	Runnable initSched = new Runnable() {
 			@Override
 			public void run() {
@@ -40,8 +39,6 @@ public class SchedulerExtension implements Extension {
 		};
 		new DBTaskWrapper(initSched, bm).run();
   }
-  
-  
 
   public long calculateInitDelay(Date date, BeanManager bm) {
     Date now = getTimeService(bm).getCurrentTime();

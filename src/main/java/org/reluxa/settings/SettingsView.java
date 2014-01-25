@@ -4,6 +4,8 @@ import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 
 import org.reluxa.AbstractView;
+import org.reluxa.bid.service.BidEvaluator;
+import org.reluxa.bid.service.BidServiceIF;
 import org.reluxa.player.Player;
 import org.reluxa.settings.service.SettingsServiceIF;
 import org.reluxa.vaadin.widget.GeneratedForm;
@@ -29,15 +31,20 @@ public class SettingsView extends AbstractView implements ClickListener {
 
   private GeneratedForm<Config> form = new GeneratedForm<>(Config.class, SettingsView.class);
 
-  private Config config = new Config();
+  private Config config;
   
   @Inject
   SettingsServiceIF settingsService;
+  
+  @Inject 
+  BidEvaluator bidEvaluator;
+
   
   
 	@Override
   public void enter(ViewChangeEvent event) {
 		config = settingsService.getConfig();
+		System.out.println(config);
 		form.setBean(config);
   }
 
@@ -53,6 +60,19 @@ public class SettingsView extends AbstractView implements ClickListener {
 		vl.addComponent(label);
 		vl.addComponent(form);
 		vl.addComponent(saveButton);
+		
+		
+		Button runNow = IconButtonFactory.get("Run evaluation", "hammer2");
+		runNow.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				bidEvaluator.runWeeklyEvaluation();				
+			}
+		});
+		
+		
+		vl.addComponent(runNow);
+
 		return vl;
   }
 
