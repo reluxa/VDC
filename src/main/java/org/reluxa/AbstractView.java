@@ -102,47 +102,15 @@ public abstract class AbstractView extends VerticalLayout implements View, Refre
 	public MenuBar getMenuBar() {
 		MenuBar menu = new MenuBar();
 		menu.setHtmlContentAllowed(true);
-		menu.addItem(Icon.get("calendar") + "Bids", new Command() {
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().getNavigator().navigateTo(CurrentWeekBidView.VIEW_NAME);
-			}
-		});
-		menu.addItem(Icon.get("ticket") + "Tickets", new Command() {
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().getNavigator().navigateTo(TicketView.VIEW_NAME);
-			}
-		});
-		menu.addItem(Icon.get("history") + "History", new Command() {
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().getNavigator().navigateTo(BidHistoryView.VIEW_NAME);
-			}
-		});
-		menu.addItem(Icon.get("bullhorn") + "Message", new Command() {
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().getNavigator().navigateTo(MessageView.VIEW_NAME);
-			}
-		});
-		
+		addMenu(menu, "calendar", "Bids", CurrentWeekBidView.VIEW_NAME);
+		addMenu(menu, "ticket", "Tickets", TicketView.VIEW_NAME);
+		addMenu(menu, "history", "History", BidHistoryView.VIEW_NAME);
+		addMenu(menu, "bullhorn", "Messenger", MessageView.VIEW_NAME);
 		if (accessControl.isUserInRole(Player.ROLE_ADMIN)) {
 			MenuItem admind = menu.addItem(Icon.get("wrench") + "Admin", null, null);
-			admind.addItem(Icon.get("users") + "Players", new Command() {
-				@Override
-				public void menuSelected(MenuItem selectedItem) {
-					UI.getCurrent().getNavigator().navigateTo(PlayerView.VIEW_NAME);
-				}
-			});
-			admind.addItem(Icon.get("settings") + "Settings", new Command() {
-				@Override
-				public void menuSelected(MenuItem selectedItem) {
-					UI.getCurrent().getNavigator().navigateTo(SettingsView.VIEW_NAME);
-				}
-			});
+			addMenu(admind, "users", "Players", PlayerView.VIEW_NAME);
+			addMenu(admind, "settings", "Settings", SettingsView.VIEW_NAME);
 		}
-
 		menu.addItem(Icon.get("logout") + "Logout", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -152,6 +120,24 @@ public abstract class AbstractView extends VerticalLayout implements View, Refre
 			}
 		});
 		return menu;
+	}
+	
+	public MenuItem addMenu(MenuBar menu, String icon, String caption, final String viewName) {
+		return menu.addItem(Icon.get(icon) + caption, new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				UI.getCurrent().getNavigator().navigateTo(viewName);
+			}
+		});
+	}
+	
+	public MenuItem addMenu(MenuItem item, String icon, String caption, final String viewName) {
+		return item.addItem(Icon.get(icon) + caption, new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				UI.getCurrent().getNavigator().navigateTo(viewName);
+			}
+		});
 	}
 
 }
