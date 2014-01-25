@@ -5,7 +5,6 @@ import javax.inject.Inject;
 
 import org.reluxa.AbstractView;
 import org.reluxa.bid.service.BidEvaluator;
-import org.reluxa.bid.service.BidServiceIF;
 import org.reluxa.player.Player;
 import org.reluxa.settings.service.SettingsServiceIF;
 import org.reluxa.vaadin.widget.GeneratedForm;
@@ -24,7 +23,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 @CDIView(SettingsView.VIEW_NAME)
-@RolesAllowed(value = Player.ROLE_USER)
+@RolesAllowed(value = Player.ROLE_ADMIN)
 public class SettingsView extends AbstractView implements ClickListener {
 	
 	public static final String VIEW_NAME = "settings";

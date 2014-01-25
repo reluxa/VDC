@@ -177,6 +177,14 @@
 			<artifactId>velocity</artifactId>
 			<version>1.7</version>
 		</dependency>
+		
+		<!-- Storing encrypted passwords -->
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.3m</version>
+		</dependency>		
+		
         
 		<dependency>
 			<groupId>org.hibernate</groupId>

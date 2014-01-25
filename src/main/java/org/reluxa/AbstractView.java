@@ -10,6 +10,7 @@ import org.reluxa.bid.view.BidHistoryView;
 import org.reluxa.bid.view.CurrentWeekBidView;
 import org.reluxa.bid.view.TicketView;
 import org.reluxa.login.LoginView;
+import org.reluxa.player.Player;
 import org.reluxa.player.view.PlayerView;
 import org.reluxa.settings.SettingsView;
 import org.reluxa.time.TimeServiceIF;
@@ -118,19 +119,28 @@ public abstract class AbstractView extends VerticalLayout implements View, Refre
 				UI.getCurrent().getNavigator().navigateTo(BidHistoryView.VIEW_NAME);
 			}
 		});
-		MenuItem admind = menu.addItem(Icon.get("wrench") + "Admin", null, null);
-		admind.addItem(Icon.get("users") + "Players", new Command() {
+		menu.addItem(Icon.get("bullhorn") + "Message", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().getNavigator().navigateTo(PlayerView.VIEW_NAME);
+				UI.getCurrent().getNavigator().navigateTo(BidHistoryView.VIEW_NAME);
 			}
 		});
-		admind.addItem(Icon.get("settings") + "Settings", new Command() {
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().getNavigator().navigateTo(SettingsView.VIEW_NAME);
-			}
-		});
+		
+		if (accessControl.isUserInRole(Player.ROLE_ADMIN)) {
+			MenuItem admind = menu.addItem(Icon.get("wrench") + "Admin", null, null);
+			admind.addItem(Icon.get("users") + "Players", new Command() {
+				@Override
+				public void menuSelected(MenuItem selectedItem) {
+					UI.getCurrent().getNavigator().navigateTo(PlayerView.VIEW_NAME);
+				}
+			});
+			admind.addItem(Icon.get("settings") + "Settings", new Command() {
+				@Override
+				public void menuSelected(MenuItem selectedItem) {
+					UI.getCurrent().getNavigator().navigateTo(SettingsView.VIEW_NAME);
+				}
+			});
+		}
 
 		menu.addItem(Icon.get("logout") + "Logout", new Command() {
 			@Override

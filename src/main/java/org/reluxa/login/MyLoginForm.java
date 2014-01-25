@@ -1,6 +1,7 @@
 package org.reluxa.login;
 
 import org.apache.commons.lang3.StringUtils;
+import org.reluxa.bid.view.CurrentWeekBidView;
 import org.reluxa.player.view.PlayerView;
 import org.reluxa.player.view.RegisterPlayer;
 import org.reluxa.vaadin.auth.VaadinAccessControl;
@@ -86,7 +87,7 @@ public class MyLoginForm extends LoginForm {
   protected void submitCompleted() {
     super.submitCompleted();
     if (authOk) {
-      UI.getCurrent().getNavigator().navigateTo(PlayerView.VIEW_NAME);
+      UI.getCurrent().getNavigator().navigateTo(CurrentWeekBidView.VIEW_NAME);
     }
   }
 

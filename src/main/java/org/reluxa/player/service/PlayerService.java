@@ -27,6 +27,10 @@ public class PlayerService extends AbstractService implements PlayerServiceIF {
 
   @Override
   public void createUser(Player user) throws DuplicateUserException {
+  	//this is to make sure, that there is an admin
+  	if (firstUser()) {
+  		user.setAdmin(true);
+  	}
     if (hasNoDuplicates(user)) {
       db.store(user);
     } else {
@@ -34,7 +38,11 @@ public class PlayerService extends AbstractService implements PlayerServiceIF {
     }
   }
 
-  @Override
+  private boolean firstUser() {
+  	return db.query(Player.class).size() == 0;
+  }
+
+	@Override
   public boolean hasNoDuplicates(Player user) {
     Player temp = new Player();
     temp.setEmail(user.getEmail());

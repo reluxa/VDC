@@ -3,6 +3,7 @@ package org.reluxa.player.view;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.reluxa.player.Player;
 import org.reluxa.player.service.DuplicateUserException;
 import org.reluxa.player.service.PlayerServiceIF;
@@ -61,6 +62,7 @@ public class RegisterPlayer extends VerticalLayout implements View, Button.Click
   @Override
   public void buttonClick(ClickEvent event) {
     try {
+    	user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
       playerService.createUser(user);
       UI.getCurrent().getNavigator().navigateTo("");
       Notification.show("User created successfully.", Type.TRAY_NOTIFICATION);

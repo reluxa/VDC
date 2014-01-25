@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.mindrot.jbcrypt.BCrypt;
 import org.reluxa.AbstractService;
 import org.reluxa.Log;
 import org.reluxa.mail.MailSenderIF;
@@ -68,7 +69,7 @@ public class LoginService extends AbstractService {
     if (objects.size() == 1) {
       PasswordReset actual = objects.get(0);
       Player dbPlayer = actual.getPlayer();
-      dbPlayer.setPassword(password);
+      dbPlayer.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
       db.store(dbPlayer);
       db.delete(actual);
       result = true;
