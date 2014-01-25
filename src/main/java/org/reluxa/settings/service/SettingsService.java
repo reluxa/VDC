@@ -6,7 +6,6 @@ import org.reluxa.settings.Config;
 
 import com.db4o.ObjectSet;
 
-@Log
 public class SettingsService extends AbstractService implements SettingsServiceIF {
 	
 	public static Config DEFAULT = createDefault(); 

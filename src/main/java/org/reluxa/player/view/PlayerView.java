@@ -2,6 +2,7 @@ package org.reluxa.player.view;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Iterator;
 
 import javax.annotation.security.RolesAllowed;
@@ -39,6 +40,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 
 @CDIView(PlayerView.VIEW_NAME)
 @RolesAllowed(value = Player.ROLE_ADMIN)
@@ -61,14 +63,19 @@ public class PlayerView extends AbstractView {
 	public Component getContent() {
 		final Table table = container.createTable();
 		table.setSizeFull();
+		table.setMultiSelect(true);
 		table.setPageLength(9);
 		table.addValueChangeListener(new ValueChangeListener() {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				showDetailPanel(EditMode.UPDATE, (Player) table.getValue());
+				if (((Collection)table.getValue()).size() == 1) {
+					showDetailPanel(EditMode.UPDATE, ((Collection<Player>)table.getValue()).iterator().next());	
+				} else if ((((Collection)table.getValue()).size() == 1)) {
+					showDetailPanel(EditMode.UPDATE, null);
+				}
 			}
 		});
-		VerticalLayout tablePanel = new VerticalLayout();
+		final VerticalLayout tablePanel = new VerticalLayout();
 		HorizontalLayout buttonPanel = new HorizontalLayout();
 		Button deletePlayerButton = IconButtonFactory.get("Delete", "remove2"); 
 		deletePlayerButton.addClickListener(new ClickListener() {
@@ -86,8 +93,24 @@ public class PlayerView extends AbstractView {
 				showDetailPanel(EditMode.CREATE, new Player());
 			}
 		});
+		
+		Button setMembershipTime = IconButtonFactory.get("Set membership validity", "alarm2");
+		setMembershipTime.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Collection<Player> players = (Collection<Player>)table.getValue();
+				MemberShipValiditySetWindow sw = new MemberShipValiditySetWindow(players);
+				Window subwindow = new Window("Select membership time");
+				sw.center();
+				getUI().addWindow(sw);
+			}
+		});
+		
+
+		
 		buttonPanel.addComponent(deletePlayerButton);
 		buttonPanel.addComponent(createPlayer);
+		buttonPanel.addComponent(setMembershipTime);
 		buttonPanel.setSpacing(true);
 
 		tablePanel.setSpacing(true);

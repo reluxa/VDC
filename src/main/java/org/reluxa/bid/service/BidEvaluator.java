@@ -21,6 +21,7 @@ import org.joda.time.LocalDate;
 import org.reluxa.bid.Bid;
 import org.reluxa.bid.BidStatus;
 import org.reluxa.player.Player;
+import org.reluxa.settings.Config;
 import org.reluxa.settings.service.SettingsServiceIF;
 import org.reluxa.time.TimeServiceIF;
 import org.slf4j.Logger;
@@ -109,11 +110,13 @@ public class BidEvaluator {
 		});
 		List<Bid> sorted = new ArrayList<>(thisWeekBids);
 		Collections.sort(sorted, SCORE_COMPARATOR);
+
+		Config config = settings.getConfig();
 		
 		//set the status and ticket id.
 		for (int i=0;i<sorted.size();i++) {
 			Bid bid = sorted.get(i);
-			if (i < settings.getConfig().getNumberOfEventsPerWeek() && isPending(bid)) {
+			if (i < config.getNumberOfEventsPerWeek() && isPending(bid)) {
 				bid.setStatus(BidStatus.WON.toString());
 				bid.setTicketCode(generateTicketCode());
 			} else if (isPending(bid) || isWaitingForApproval(bid)) {
