@@ -1,21 +1,25 @@
 package org.reluxa.player.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.enterprise.event.Observes;
 
 import org.reluxa.player.Player;
+import org.reluxa.player.event.DeletePlayerEvent;
 
 public interface PlayerServiceIF {
 
-	public abstract Collection<Player> getAllPlayers();
+	Collection<Player> getAllPlayers();
 
-	public abstract void createUser(Player user) throws DuplicateUserException;
+	void createUser(Player user) throws DuplicateUserException;
 
-	public abstract boolean hasNoDuplicates(Player user);
+	boolean hasNoDuplicates(Player user);
 
-	public abstract void deletePlayer(@Observes DeletePlayerEvent deletePlayerEvent);
+	void deletePlayer(@Observes DeletePlayerEvent deletePlayerEvent);
 
-	public abstract void updateUser(Player bean);
+	void updateUser(Player bean);
+	
+	void updateUser(Collection<Player> players);
 
 }

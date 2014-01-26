@@ -3,6 +3,7 @@ package org.reluxa.player.view;
 import java.util.Collection;
 
 import org.reluxa.player.Player;
+import org.reluxa.player.service.PlayerServiceIF;
 import org.reluxa.vaadin.widget.IconButtonFactory;
 
 import com.vaadin.ui.Alignment;
@@ -16,23 +17,30 @@ import com.vaadin.ui.Window;
 
 public class MemberShipValiditySetWindow extends Window {
 
-	Collection<Player> selectedPlayers;
-	
-	public MemberShipValiditySetWindow(Collection<Player> selectedPlayers) {
+	public MemberShipValiditySetWindow(final Collection<Player> selectedPlayers, final PlayerServiceIF ps) {
 		this.setModal(true);
 		this.setClosable(false);
 		this.setResizable(false);
-		this.selectedPlayers = selectedPlayers;
 		this.setCaption("Select membership validity date:");
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(true);
-		InlineDateField pdf = new InlineDateField();
+		final InlineDateField pdf = new InlineDateField();
 		
 		HorizontalLayout buttonLine = new HorizontalLayout();
 		buttonLine.setSpacing(true);
 		buttonLine.setSizeFull();
 		
 		Button save = IconButtonFactory.get("Save", "disk");
+		save.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				for (Player player: selectedPlayers) {
+					player.setMembershipValidUntil(pdf.getValue());
+        }
+				ps.updateUser(selectedPlayers);
+				MemberShipValiditySetWindow.this.close();
+			}
+		});
 		save.setWidth(null);
 		
 		Button cancel = IconButtonFactory.get("Cancel", "cancel-circle");

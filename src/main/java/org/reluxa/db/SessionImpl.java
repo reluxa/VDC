@@ -98,9 +98,9 @@ public class SessionImpl implements Session {
     delegate.rollback();
   }
 
-  public void store(IDObject obj) throws DatabaseClosedException, DatabaseReadOnlyException {
-    delegate.store(obj);
-  }
+//  public void store(IDObject obj) throws DatabaseClosedException, DatabaseReadOnlyException {
+//    delegate.store(obj);
+//  }
 
   public void store(Object arg0) throws DatabaseClosedException, DatabaseReadOnlyException {
     if (arg0 instanceof IDObject) {

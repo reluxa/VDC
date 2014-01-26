@@ -6,14 +6,19 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import javax.annotation.security.RolesAllowed;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.reluxa.AbstractView;
+import org.reluxa.bid.Bid;
+import org.reluxa.bid.event.BidModelChanged;
 import org.reluxa.player.Player;
-import org.reluxa.player.service.DeletePlayerEvent;
+import org.reluxa.player.event.DeletePlayerEvent;
+import org.reluxa.player.event.PlayerModelChanged;
 import org.reluxa.player.service.DuplicateUserException;
 import org.reluxa.player.service.PlayerServiceIF;
 import org.reluxa.vaadin.util.ImageStreamSource;
+import org.reluxa.vaadin.util.TableUtils;
 import org.reluxa.vaadin.widget.GeneratedForm;
 import org.reluxa.vaadin.widget.Icon;
 import org.reluxa.vaadin.widget.IconButtonFactory;
@@ -32,6 +37,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DragAndDropWrapper;
 import com.vaadin.ui.HorizontalLayout;
@@ -99,7 +105,7 @@ public class PlayerView extends AbstractView {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				Collection<Player> players = (Collection<Player>)table.getValue();
-				MemberShipValiditySetWindow sw = new MemberShipValiditySetWindow(players);
+				MemberShipValiditySetWindow sw = new MemberShipValiditySetWindow(players, playerService);
 				Window subwindow = new Window("Select membership time");
 				sw.center();
 				getUI().addWindow(sw);
@@ -255,10 +261,16 @@ public class PlayerView extends AbstractView {
 		return "Details";
 	}
 
+	
+	public void updateModel(@Observes PlayerModelChanged event) {
+		log.debug("event captured");
+		container.replaceAll(playerService.getAllPlayers());
+	}
+	
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		container.addAll(playerService.getAllPlayers());
+		container.replaceAll(playerService.getAllPlayers());
 	}
 
 }

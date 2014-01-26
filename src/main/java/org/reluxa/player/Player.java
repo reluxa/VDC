@@ -79,7 +79,7 @@ public class Player implements Validatable, IDObject {
 			@Detail(context = PlayerView.class, order = 3)
 	}, table = {
 			@Table(context = PlayerView.class, order = 5)	
-		})
+	})
 	private Date membershipValidUntil;
 
     public boolean isValid() {

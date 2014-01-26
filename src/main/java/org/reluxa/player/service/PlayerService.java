@@ -8,6 +8,8 @@ import javax.enterprise.event.Observes;
 import org.reluxa.AbstractService;
 import org.reluxa.Log;
 import org.reluxa.player.Player;
+import org.reluxa.player.event.DeletePlayerEvent;
+import org.reluxa.player.event.PlayerModelChanged;
 
 import com.db4o.ObjectSet;
 
@@ -17,11 +19,10 @@ public class PlayerService extends AbstractService implements PlayerServiceIF {
   @Override
   public Collection<Player> getAllPlayers() {
     ObjectSet<Player> players = db.query(Player.class);
-
     List<Player> pl = players.subList(0, players.size());
-    for (Player player : pl) {
-      log.debug(db.ext().getID(player) + "\t" + player);
-    }
+//    for (Player player : pl) {
+//      log.debug(db.ext().getID(player) + "\t" + player);
+//    }
     return pl;
   }
 
@@ -59,9 +60,20 @@ public class PlayerService extends AbstractService implements PlayerServiceIF {
   }
 
   @Override
-  public void updateUser(Player bean) {
-    db.ext().bind(bean, bean.getId());
-    db.store(bean);
+  public void updateUser(Player player) {
+    db.store(player);
   }
+  
+  
+  @Override
+  public void updateUser(Collection<Player> players) {
+  	PlayerModelChanged pmc = new PlayerModelChanged();
+  	for (Player player : players) {
+	    db.store(player);
+    }
+  	pmc.setUpdated(players.toArray(new Player[]{}));
+  	beanManager.fireEvent(pmc);
+  }
+
 
 }

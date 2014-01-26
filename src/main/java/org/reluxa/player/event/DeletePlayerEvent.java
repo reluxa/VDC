@@ -1,4 +1,4 @@
-package org.reluxa.player.service;
+package org.reluxa.player.event;
 
 import lombok.Data;
 import lombok.NonNull;
