@@ -21,6 +21,8 @@ import org.joda.time.LocalDate;
 import org.reluxa.bid.Bid;
 import org.reluxa.bid.BidStatus;
 import org.reluxa.player.Player;
+import org.reluxa.settings.Config;
+import org.reluxa.settings.service.SettingsServiceIF;
 import org.reluxa.time.TimeServiceIF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +33,15 @@ import com.google.common.collect.Ordering;
 
 public class BidEvaluator {
 	
+	@Inject @Getter @Setter
+	private BidServiceIF bidService;
+	
+	@Inject	@Getter	@Setter
+	private TimeServiceIF timeService;
+	
+	@Inject 
+	private SettingsServiceIF settings;
+
 	protected Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	public static Comparator<Bid> SCORE_COMPARATOR = new Comparator<Bid>() {
@@ -45,15 +56,6 @@ public class BidEvaluator {
 			}
 		}
 	};
-
-	@Inject @Getter @Setter
-	private BidServiceIF bidService;
-	
-	@Inject	@Getter	@Setter
-	private TimeServiceIF timeService;
-
-	@Getter
-	private int maxEventsPerWeek = 5;
 
 	/**
 	 * @return Collection<Bid> which contains the scores associated for the bid. 
@@ -91,10 +93,12 @@ public class BidEvaluator {
 			return;
 		}
 		
-		final Date weekStart = getIntervalBeginDateForReferenceDate(firstBidCreationTime);
+		final Date periodStart = getIntervalBeginDateForReferenceDate(firstBidCreationTime);
+		final Date weekStart = timeService.getWeekBegin(firstBidCreationTime);
+
 		
 		//do the eval
-		Collection<Bid> evaluatedBids = evaluteBidsForCurrentWeek(weekStart);
+		Collection<Bid> evaluatedBids = evaluteBidsForCurrentWeek(periodStart);
 
 		//get the current week
 		final Date weekEnd = timeService.getWeekEnd(firstBidCreationTime);
@@ -106,22 +110,23 @@ public class BidEvaluator {
 		});
 		List<Bid> sorted = new ArrayList<>(thisWeekBids);
 		Collections.sort(sorted, SCORE_COMPARATOR);
+
+		Config config = settings.getConfig();
 		
 		//set the status and ticket id.
 		for (int i=0;i<sorted.size();i++) {
-			if (i <= getMaxEventsPerWeek() && BidStatus.PENDING.toString().equals(sorted.get(i).getStatus())) {
-				sorted.get(i).setStatus(BidStatus.WON.toString());
-				sorted.get(i).setTicketCode(RandomStringUtils.randomAlphabetic(2)+RandomStringUtils.randomNumeric(4));
-			} else {
+			Bid bid = sorted.get(i);
+			if (i < config.getNumberOfEventsPerWeek() && isPending(bid)) {
+				bid.setStatus(BidStatus.WON.toString());
+				bid.setTicketCode(generateTicketCode());
+			} else if (isPending(bid) || isWaitingForApproval(bid)) {
 				sorted.get(i).setStatus(BidStatus.LOST.toString());
 			}
 		}
-
 		//save to the database
 		bidService.updateAll(sorted);
 	}
-
-
+	
 	private Date getFirstBidCreationTime() {
 	  Collection<Bid> bids = getBidService().getAllNotEvaluatedBids();
 	  if (bids.size() > 0) {
@@ -140,7 +145,7 @@ public class BidEvaluator {
 	private void updateScores(Bid bid, Map<Player, Integer> scoreTable) {
 		Player creator = bid.getCreator();
 		Player partner = bid.getPartner();
-		if (partner != null && !BidStatus.WAITING_FOR_APPOVAL.toString().equals(bid.getStatus())) {
+		if (partner != null && !isWaitingForApproval(bid)) {
 			double ppoints = getAndIncrement(partner, scoreTable, 1);
 			double cpoints = getAndIncrement(creator, scoreTable, 1);
 			bid.setScore((ppoints + cpoints) * 0.5);
@@ -173,5 +178,18 @@ public class BidEvaluator {
 		LocalDate forWeeksBefore = thisSunday.minusWeeks(4);
 		return forWeeksBefore.toDate();
 	}
+	
+	private boolean isPending(Bid bid) {
+		return BidStatus.PENDING.toString().equals(bid.getStatus());
+	}
+	
+	private boolean isWaitingForApproval(Bid bid) {
+		return BidStatus.WAITING_FOR_APPOVAL.toString().equals(bid.getStatus());
+	}
+	
+	private String generateTicketCode() {
+		return RandomStringUtils.randomAlphabetic(2).toUpperCase()+RandomStringUtils.randomNumeric(4);
+	}
+
 
 }

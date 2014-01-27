@@ -7,13 +7,17 @@ import org.reluxa.db.SessionImpl;
 import org.reluxa.db.SessionProducer;
 import org.reluxa.vaadin.util.BeanManagerUtil;
 
-public class ScheduledTaskWrapper implements Runnable {
+/**
+ * Creates a DB context for the actual thread. 
+ * @author reluxa
+ */
+public class DBTaskWrapper implements Runnable {
 
 	private Runnable delegate;
 
 	private BeanManager bm;
 
-	public ScheduledTaskWrapper(Runnable delegate, BeanManager bm) {
+	public DBTaskWrapper(Runnable delegate, BeanManager bm) {
 		this.delegate = delegate;
 		this.bm = bm;
 	}

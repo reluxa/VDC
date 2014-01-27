@@ -3,13 +3,11 @@ package org.reluxa.bid.view;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -74,9 +72,6 @@ public class CurrentWeekBidView extends AbstractView {
 	private Collection<Player> getAllPartners() {
 		ArrayList<Player> result = new ArrayList<>(playerService.getAllPlayers());
 		Player current = accessControl.getCurrentPlayer();
-		for (Player player : result) {
-			System.out.println(player.getId()+"\t"+player.getEmail()+"\t "+System.identityHashCode(player));
-		}
 		result.remove(current);
 		return result;
 	}
@@ -130,7 +125,7 @@ public class CurrentWeekBidView extends AbstractView {
 			public void buttonClick(ClickEvent event) {
 				//for (int i=1;i<1000;i++) {
 					Bid bid = new Bid();
-					bid.setCreationTime(new Date());
+					bid.setCreationTime(timeService.getCurrentTime());
 					bid.setCreator(accessControl.getCurrentPlayer());
 	
 					String value = (String) type.getValue();
@@ -162,7 +157,9 @@ public class CurrentWeekBidView extends AbstractView {
 		newBidSection.addComponent(type);
 		newBidSection.addComponent(friends);
 		
-		verticalLayout.addComponent(newBidSection);
+		if (isMembershipValid()) {
+			verticalLayout.addComponent(newBidSection);
+		}
 
 		bidsTable = bids.createTable();
 		bidsTable.setImmediate(true);
@@ -171,7 +168,7 @@ public class CurrentWeekBidView extends AbstractView {
 		verticalLayout.addComponent(bidsTable);
 		return verticalLayout;
 	}
-
+	
 	private HorizontalLayout getTitleLine() {
 		DateTimeFormatter format = DateTimeFormat.forPattern("yyyy.MM.dd");
 		
@@ -200,6 +197,17 @@ public class CurrentWeekBidView extends AbstractView {
 		titleLine.addComponent(weekLabel);
 		titleLine.setComponentAlignment(weekLabel, Alignment.MIDDLE_RIGHT);
 		return titleLine;
+	}
+	
+	private boolean isMembershipValid() {
+		return isMembershipValid(accessControl.getCurrentPlayer());
+	}
+	
+	private boolean isMembershipValid(Player player) {
+		if (player.getMembershipValidUntil() != null) {
+			return timeService.getCurrentTime().before(player.getMembershipValidUntil());
+		}
+		return false;
 	}
 
 	public void updateModel(@Observes BidModelChanged event) {

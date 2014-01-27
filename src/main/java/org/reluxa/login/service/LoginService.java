@@ -1,10 +1,13 @@
 package org.reluxa.login.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.mindrot.jbcrypt.BCrypt;
 import org.reluxa.AbstractService;
 import org.reluxa.Log;
 import org.reluxa.mail.MailSenderIF;
@@ -50,7 +53,7 @@ public class LoginService extends AbstractService {
       buffer.append(getRestLink(pwReset));
       buffer.append("\r\n\r\n");
       buffer.append("Best Regards, BLHSE Squash");
-      result = mailSender.sendMail(MailSenderIF.SENDER_ADDRESS, email, "Password reset", buffer.toString(), null);
+      result = mailSender.sendMail(MailSenderIF.SENDER_ADDRESS, Arrays.asList(email) , "Password reset", buffer.toString(), null);
     }
     return result;
   }
@@ -68,7 +71,7 @@ public class LoginService extends AbstractService {
     if (objects.size() == 1) {
       PasswordReset actual = objects.get(0);
       Player dbPlayer = actual.getPlayer();
-      dbPlayer.setPassword(password);
+      dbPlayer.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
       db.store(dbPlayer);
       db.delete(actual);
       result = true;

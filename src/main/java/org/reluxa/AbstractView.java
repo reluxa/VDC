@@ -3,18 +3,27 @@ package org.reluxa;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.reluxa.bid.view.BidHistoryView;
 import org.reluxa.bid.view.CurrentWeekBidView;
 import org.reluxa.bid.view.TicketView;
 import org.reluxa.login.LoginView;
+import org.reluxa.message.MessageView;
+import org.reluxa.player.Player;
 import org.reluxa.player.view.PlayerView;
 import org.reluxa.settings.SettingsView;
+import org.reluxa.time.TimeServiceIF;
 import org.reluxa.vaadin.auth.VaadinAccessControl;
 import org.reluxa.vaadin.widget.Icon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.wolfie.refresher.Refresher;
+import com.github.wolfie.refresher.Refresher.RefreshListener;
 import com.vaadin.navigator.View;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
@@ -27,7 +36,7 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-public abstract class AbstractView extends VerticalLayout implements View {
+public abstract class AbstractView extends VerticalLayout implements View, RefreshListener {
 
 	protected Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -37,8 +46,15 @@ public abstract class AbstractView extends VerticalLayout implements View {
 
 	@Inject
 	protected VaadinAccessControl accessControl;
+	
+	@Inject 
+	protected TimeServiceIF timeService;
 
 	protected abstract Component getContent();
+	
+	private DateTimeFormatter format = DateTimeFormat.forPattern("yyyy.MM.dd HH:mm");
+	
+	private Label label = null; 
 
 	@PostConstruct
 	public void init() {
@@ -55,8 +71,9 @@ public abstract class AbstractView extends VerticalLayout implements View {
 		menuLine.setExpandRatio(menu, 1f);
 		menuLine.setComponentAlignment(menu, Alignment.MIDDLE_LEFT);
 
-		Label label = new Label("Current user: " + accessControl.getPrincipalName());
+		label = new Label(Icon.get("user2") + accessControl.getPrincipalName()+" | "+getCurrentTimeStamp());
 		label.setWidth(null);
+		label.setContentMode(ContentMode.HTML);
 		label.setStyleName("v-menubar v-widget");
 		menuLine.addComponent(label);
 		menuLine.setComponentAlignment(label, Alignment.MIDDLE_RIGHT);
@@ -64,43 +81,36 @@ public abstract class AbstractView extends VerticalLayout implements View {
 		page.addComponent(menuLine);
 		page.addComponent(getContent());
 		addComponent(page);
+		
+		Refresher refresher = new Refresher();
+		refresher.setRefreshInterval(60000);
+		refresher.addListener(this);
+		addExtension(refresher);
+	}
+	
+	private String getCurrentTimeStamp() {
+		LocalDateTime time = new LocalDateTime(timeService.getCurrentTime());
+		return time.toString(format);
+	}
+	
+	
+	@Override
+	public void refresh(Refresher source) {
+		label.setValue(Icon.get("user2") + accessControl.getPrincipalName()+" | "+getCurrentTimeStamp());
 	}
 
 	public MenuBar getMenuBar() {
 		MenuBar menu = new MenuBar();
 		menu.setHtmlContentAllowed(true);
-		menu.addItem(Icon.get("calendar") + "Bids", new Command() {
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().getNavigator().navigateTo(CurrentWeekBidView.VIEW_NAME);
-			}
-		});
-		menu.addItem(Icon.get("ticket") + "Tickets", new Command() {
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().getNavigator().navigateTo(TicketView.VIEW_NAME);
-			}
-		});
-		menu.addItem(Icon.get("history") + "History", new Command() {
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().getNavigator().navigateTo(BidHistoryView.VIEW_NAME);
-			}
-		});
-		MenuItem admind = menu.addItem(Icon.get("wrench") + "Admin", null, null);
-		admind.addItem(Icon.get("users") + "Players", new Command() {
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().getNavigator().navigateTo(PlayerView.VIEW_NAME);
-			}
-		});
-		admind.addItem(Icon.get("settings") + "Settings", new Command() {
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().getNavigator().navigateTo(SettingsView.VIEW_NAME);
-			}
-		});
-
+		addMenu(menu, "calendar", "Bids", CurrentWeekBidView.VIEW_NAME);
+		addMenu(menu, "ticket", "Tickets", TicketView.VIEW_NAME);
+		addMenu(menu, "history", "History", BidHistoryView.VIEW_NAME);
+		addMenu(menu, "bullhorn", "Messenger", MessageView.VIEW_NAME);
+		if (accessControl.isUserInRole(Player.ROLE_ADMIN)) {
+			MenuItem admind = menu.addItem(Icon.get("wrench") + "Admin", null, null);
+			addMenu(admind, "users", "Players", PlayerView.VIEW_NAME);
+			addMenu(admind, "settings", "Settings", SettingsView.VIEW_NAME);
+		}
 		menu.addItem(Icon.get("logout") + "Logout", new Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -110,6 +120,24 @@ public abstract class AbstractView extends VerticalLayout implements View {
 			}
 		});
 		return menu;
+	}
+	
+	public MenuItem addMenu(MenuBar menu, String icon, String caption, final String viewName) {
+		return menu.addItem(Icon.get(icon) + caption, new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				UI.getCurrent().getNavigator().navigateTo(viewName);
+			}
+		});
+	}
+	
+	public MenuItem addMenu(MenuItem item, String icon, String caption, final String viewName) {
+		return item.addItem(Icon.get(icon) + caption, new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				UI.getCurrent().getNavigator().navigateTo(viewName);
+			}
+		});
 	}
 
 }

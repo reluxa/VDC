@@ -22,16 +22,22 @@ public class SchedulerExtension implements Extension {
   protected Logger log = LoggerFactory.getLogger(this.getClass()); 
 	
   ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
-
+ 
   void afterBeanDiscovery(@Observes final AfterBeanDiscovery afterBeanDiscovery, final BeanManager bm) {
-    Set<Bean<?>> beans = bm.getBeans(Scheduled.class);
-    for (Bean<?> bean : beans) {
-      CreationalContext<?> ctx = bm.createCreationalContext(bean);
-      Scheduled sched = (Scheduled) bm.getReference(bean, Scheduled.class, ctx);
-      log.info(sched.getClass().getName()+" is scheduled at "+ sched.getFirstRun()+" and repeating in "+sched.getPeriodTimeInSeconds() + " seconds");
-      exec.scheduleAtFixedRate(new ScheduledTaskWrapper(sched, bm), calculateInitDelay(sched.getFirstRun(), bm),
-	  sched.getPeriodTimeInSeconds(), TimeUnit.SECONDS);
-    }
+  	Runnable initSched = new Runnable() {
+			@Override
+			public void run() {
+		    Set<Bean<?>> beans = bm.getBeans(Scheduled.class);
+		    for (Bean<?> bean : beans) {
+		      CreationalContext<?> ctx = bm.createCreationalContext(bean);
+		      Scheduled sched = (Scheduled) bm.getReference(bean, Scheduled.class, ctx);
+		      log.info(sched.getClass().getName()+" is scheduled at "+ sched.getFirstRun()+" and repeating in "+sched.getPeriodTimeInSeconds() + " seconds");
+		      exec.scheduleAtFixedRate(new DBTaskWrapper(sched, bm), calculateInitDelay(sched.getFirstRun(), bm),
+			  sched.getPeriodTimeInSeconds(), TimeUnit.SECONDS);
+		    }
+			}
+		};
+		new DBTaskWrapper(initSched, bm).run();
   }
 
   public long calculateInitDelay(Date date, BeanManager bm) {

@@ -8,7 +8,7 @@ import javax.enterprise.event.Observes;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.reluxa.player.Player;
-import org.reluxa.player.service.DeletePlayerEvent;
+import org.reluxa.player.event.DeletePlayerEvent;
 import org.reluxa.player.service.DuplicateUserException;
 import org.reluxa.player.service.PlayerServiceIF;
 
@@ -40,5 +40,10 @@ public class MockPlayerService implements PlayerServiceIF {
 	public void updateUser(Player bean) {
 		throw new NotImplementedException();
 	}
+
+	@Override
+  public void updateUser(Collection<Player> players) {
+		throw new NotImplementedException();
+  }
 
 }

@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import lombok.Getter;
 
 import org.apache.commons.lang3.StringUtils;
+import org.mindrot.jbcrypt.BCrypt;
 import org.reluxa.login.service.LoginService;
 import org.reluxa.player.Player;
 
@@ -29,9 +30,9 @@ public class VaadinAccessControl extends AccessControl {
 	public boolean isUserInRole(String role) {
 		if (getPrincipalName() != null) {
 			Player player = getCurrentPlayer();
-			if (Player.ROLE_USER.equals(role) && player != null) {
+			if (player != null && Player.ROLE_USER.equals(role)) {
 				return true;
-			} else if (Player.ROLE_ADMIN.equals(role) && player != null) {
+			} else if (player != null && Player.ROLE_ADMIN.equals(role) && player.isAdmin()) {
 				return true;
 			}
 		}
@@ -52,10 +53,8 @@ public class VaadinAccessControl extends AccessControl {
 		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
 			throw new IllegalArgumentException("Username and password must not be empty!");
 		}
-		Player player = new Player();
-		player.setEmail(username);
-		player.setPassword(password);
-		if (loginService.isUserExists(player)) {
+		Player player = loginService.getUser(username);
+		if (BCrypt.checkpw(password, player.getPassword())) {
 			UI.getCurrent().getSession().setAttribute(USER_EMAIL, player.getEmail());
 			return true;
 		}
