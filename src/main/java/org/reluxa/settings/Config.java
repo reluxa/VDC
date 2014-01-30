@@ -27,15 +27,20 @@ public class Config implements IDObject {
 			@Detail(context = SettingsView.class, order = 3, type=TimeField.class), 
 	})
 	private Date currentTime;
-	
+
 	@GUI(detail = { 
 			@Detail(context = SettingsView.class, order = 4), 
+	})
+	private String senderEmailAddress;
+	
+	@GUI(detail = { 
+			@Detail(context = SettingsView.class, order = 5), 
 	})
 	private String redirectEmailAddress;
 	
 	
 	@GUI(detail = { 
-			@Detail(context = SettingsView.class, order = 5, type=RichTextArea.class), 
+			@Detail(context = SettingsView.class, order = 6, type=RichTextArea.class), 
 	})
 	private String passwordResetTemplate;
 	

@@ -25,7 +25,7 @@ public class MessageService extends AbstractService implements MessageServiceIF 
 	    recipientEmails.add(player.getEmail());
     }
 		String subject = "Message from "+ accessControl.getCurrentPlayer().getFullName();
-		return mailSender.sendMail(MailSenderIF.SENDER_ADDRESS, recipientEmails, subject, text, text);
+		return mailSender.sendMail(recipientEmails, subject, text, text);
 	}
 	
 }

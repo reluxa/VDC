@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.mindrot.jbcrypt.BCrypt;
 import org.reluxa.AbstractService;
 import org.reluxa.Log;
+import org.reluxa.mail.EmailComposer;
 import org.reluxa.mail.MailSenderIF;
 import org.reluxa.player.PasswordReset;
 import org.reluxa.player.Player;
@@ -23,6 +24,9 @@ public class LoginService extends AbstractService {
   
   @Inject
   MailSenderIF mailSender;
+  
+  @Inject
+  EmailComposer composer;
 
   public boolean isUserExists(Player player) {
     ObjectSet<Player> users = db.queryByExample(player);
@@ -42,18 +46,12 @@ public class LoginService extends AbstractService {
     player.setEmail(email);
     ObjectSet<Player> users = db.queryByExample(player);
     if (users.size() > 0) {
-      PasswordReset pwReset = new PasswordReset();
+    	PasswordReset pwReset = new PasswordReset();
       pwReset.setUuid(UUID.randomUUID().toString());
       pwReset.setPlayer(users.get(0));
       db.store(pwReset);
-      StringBuffer buffer = new StringBuffer();
-      buffer.append("Dear "+users.get(0).getFullName());
-      buffer.append("\r\n\r\n");
-      buffer.append("Your password reset link is: ");
-      buffer.append(getRestLink(pwReset));
-      buffer.append("\r\n\r\n");
-      buffer.append("Best Regards, BLHSE Squash");
-      result = mailSender.sendMail(MailSenderIF.SENDER_ADDRESS, Arrays.asList(email) , "Password reset", buffer.toString(), null);
+      String resetEmail = composer.getPasswordResetEmail(pwReset);
+      result = mailSender.sendMail(Arrays.asList(email) , "Password reset", null, resetEmail);
     }
     return result;
   }
@@ -79,20 +77,6 @@ public class LoginService extends AbstractService {
     return result;
   }
   
-  private String getRestLink(PasswordReset pwReset) {
-    StringBuffer buffer = new StringBuffer();
-    buffer.append(Page.getCurrent().getLocation().getScheme());
-    buffer.append("://");
-    buffer.append(Page.getCurrent().getLocation().getHost());
-    buffer.append(":");
-    buffer.append(Page.getCurrent().getLocation().getPort());
-    buffer.append(Page.getCurrent().getLocation().getPath());
-    buffer.append("?");
-    buffer.append("id=");
-    buffer.append(pwReset.getUuid());
-    buffer.append("#!");
-    buffer.append(PasswordResetView.VIEW_NAME);
-    return buffer.toString();
-  }
+
 
 }

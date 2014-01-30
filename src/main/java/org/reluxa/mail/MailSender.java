@@ -55,14 +55,14 @@ public class MailSender implements MailSenderIF {
 	};
 
 	@Override
-	public boolean sendMail(String sender, Collection<String> recipients, String subject, String body, String htmlText) {
+	public boolean sendMail(Collection<String> recipients, String subject, String body, String htmlText) {
 		URLConnectionClientHandler ch = new URLConnectionClientHandler(factory);
 		Client client = new Client(ch);
 		client.addFilter(new HTTPBasicAuthFilter("api", "key-1vxsx9uh6z185hq4ny0frl8iednc1si8"));
 		WebResource webResource = client.resource("https://api.mailgun.net/v2/squash.reluxa.org" + "/messages");
 		MultivaluedMapImpl formData = new MultivaluedMapImpl();
-		formData.add("from", sender);
-		formData.add("to", MailSenderIF.SENDER_ADDRESS);
+		formData.add("from", settings.getConfig().getSenderEmailAddress());
+		formData.add("to", settings.getConfig().getSenderEmailAddress());
 		for (String recipient : recipients) {
 			formData.add("bcc", getEmail(recipient));
 		}
