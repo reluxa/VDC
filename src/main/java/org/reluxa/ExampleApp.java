@@ -1,7 +1,13 @@
 package org.reluxa;
 
+import java.io.IOException;
+import java.util.Properties;
+
 import javax.enterprise.context.ContextNotActiveException;
 import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -13,6 +19,7 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.server.Extension;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinService;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
@@ -22,6 +29,8 @@ import com.vaadin.ui.UI;
 @Widgetset("org.reluxa.AppWidgetSet")
 @VaadinServletConfiguration(productionMode = false, ui = ExampleApp.class, closeIdleSessions=true)
 public class ExampleApp extends UI {
+	
+  protected Logger log = LoggerFactory.getLogger(this.getClass()); 
 	
 	@Inject
 	private CDIViewProvider viewProvider;
@@ -33,10 +42,23 @@ public class ExampleApp extends UI {
 	
 	@Override
 	protected void init(VaadinRequest request) {
-		getPage().setTitle("BLHSE Squash");
+		getPage().setTitle("BLHSE Squash - "+getVersion());
 		navigator = new Navigator(this, this);
 		navigator.addProvider(viewProvider);
-	} 
+	}
+	
+	private String getVersion() {
+    String result = "build version";
+    try {
+    	Properties prop = new Properties();
+			prop.load(VaadinServlet.getCurrent().getServletContext().getResourceAsStream("/META-INF/MANIFEST.MF"));
+			log.error(prop.toString());
+			result = prop.getProperty("build-version") +" "+ prop.getProperty("build-revision"); 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    return result;
+	}
 	
 	@Override
 	public void addExtension(Extension extension) {
