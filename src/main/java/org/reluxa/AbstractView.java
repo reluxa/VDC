@@ -58,12 +58,29 @@ public abstract class AbstractView extends VerticalLayout implements View, Refre
 
 	@PostConstruct
 	public void init() {
-		VerticalLayout page = new VerticalLayout();
 		setStyleName("root");
 		setSizeFull();
 
-		HorizontalLayout menuLine = new HorizontalLayout();
-		menuLine.setSizeFull();
+		VerticalLayout page = new VerticalLayout();
+		page.setHeight("100%");
+		addComponent(page);
+
+		page.addComponent(getMenuLine());
+		Component content = getContent();
+		page.addComponent(content);
+		page.setExpandRatio(content, 1f);
+		
+		page.addComponent(getFooter());
+		
+		Refresher refresher = new Refresher();
+		refresher.setRefreshInterval(60000);
+		refresher.addListener(this);
+		addExtension(refresher);
+	}
+
+	private HorizontalLayout getMenuLine() {
+	  HorizontalLayout menuLine = new HorizontalLayout();
+		menuLine.setWidth("100%");
 
 		MenuBar menu = getMenuBar();
 		menu.setWidth("100%");
@@ -77,20 +94,19 @@ public abstract class AbstractView extends VerticalLayout implements View, Refre
 		label.setStyleName("v-menubar v-widget");
 		menuLine.addComponent(label);
 		menuLine.setComponentAlignment(label, Alignment.MIDDLE_RIGHT);
-
-		page.addComponent(menuLine);
-		page.addComponent(getContent());
-		addComponent(page);
-		
-		Refresher refresher = new Refresher();
-		refresher.setRefreshInterval(60000);
-		refresher.addListener(this);
-		addExtension(refresher);
-	}
+		menuLine.setHeight(null);
+	  return menuLine;
+  }
 	
 	private String getCurrentTimeStamp() {
 		LocalDateTime time = new LocalDateTime(timeService.getCurrentTime());
 		return time.toString(format);
+	}
+	
+	private Component getFooter() {
+		Label label = new Label("footer");
+		label.setStyleName("v-menubar v-widget");
+		return label;
 	}
 	
 	
@@ -139,5 +155,13 @@ public abstract class AbstractView extends VerticalLayout implements View, Refre
 			}
 		});
 	}
+	
+	protected void addSpacer(VerticalLayout verticalLayout) {
+	  Label spacer = new Label();
+		spacer.setHeight("100");
+		verticalLayout.addComponent(spacer);
+		verticalLayout.setExpandRatio(spacer, 1f);
+  }
+	
 
 }

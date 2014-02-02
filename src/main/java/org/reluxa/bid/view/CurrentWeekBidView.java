@@ -163,12 +163,14 @@ public class CurrentWeekBidView extends AbstractView {
 
 		bidsTable = bids.createTable();
 		bidsTable.setImmediate(true);
-		bidsTable.setSizeFull();
+		bidsTable.setWidth("100%");
 		bidsTable.setPageLength(10);
 		verticalLayout.addComponent(bidsTable);
+
+		addSpacer(verticalLayout);
 		return verticalLayout;
 	}
-	
+
 	private HorizontalLayout getTitleLine() {
 		DateTimeFormatter format = DateTimeFormat.forPattern("yyyy.MM.dd");
 		
@@ -184,7 +186,7 @@ public class CurrentWeekBidView extends AbstractView {
 		buf.append(end.toString(format));
 
 		HorizontalLayout titleLine = new HorizontalLayout();
-		titleLine.setSizeFull();
+		titleLine.setWidth("100%");
 		Label label = new Label("<h1>"+Icon.get("calendar")+"Current week bids</h1>",ContentMode.HTML);
 		label.setWidth("100%");
 		titleLine.addComponent(label);

@@ -40,7 +40,7 @@ public class TicketView extends AbstractView {
 
 	private HorizontalLayout getTitleLine() {
 		HorizontalLayout titleLine = new HorizontalLayout();
-		titleLine.setSizeFull();
+		titleLine.setWidth("100%");
 		Label label = new Label("<h1>" + Icon.get("ticket") + "My tickets</h1>", ContentMode.HTML);
 		label.setWidth("100%");
 		titleLine.addComponent(label);
@@ -57,9 +57,10 @@ public class TicketView extends AbstractView {
 		verticalLayout.addComponent(getTitleLine());
 		Table bidsTable = bids.createTable();
 		bidsTable.setImmediate(true);
-		bidsTable.setSizeFull();
+		bidsTable.setWidth("100%");
 		bidsTable.setPageLength(10);
 		verticalLayout.addComponent(bidsTable);
+		addSpacer(verticalLayout);
 		return verticalLayout;
 	}
 

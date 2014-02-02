@@ -77,7 +77,7 @@ public class BidHistoryView extends AbstractView {
 
 	private HorizontalLayout getTitleLine() {
 		HorizontalLayout titleLine = new HorizontalLayout();
-		titleLine.setSizeFull();
+		titleLine.setWidth("100%");
 		Label label = new Label("<h1>" + Icon.get("history") + "Bid history</h1>", ContentMode.HTML);
 		label.setWidth("100%");
 		titleLine.addComponent(label);
@@ -124,9 +124,10 @@ public class BidHistoryView extends AbstractView {
 		verticalLayout.addComponent(buttonLine);
 		bidsTable = bids.createTable();
 		bidsTable.setImmediate(true);
-		bidsTable.setSizeFull();
+		bidsTable.setWidth("100%");
 		bidsTable.setPageLength(10);
 		verticalLayout.addComponent(bidsTable);
+		addSpacer(verticalLayout);
 		return verticalLayout;
 	}
 

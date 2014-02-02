@@ -86,13 +86,14 @@ public class MessageView extends AbstractView {
 			}
 		});
 		verticalLayout.addComponent(sendButton);
+		addSpacer(verticalLayout);
 		return verticalLayout;
 	}
 
 
 	private Component getTitleLine() {
 		HorizontalLayout titleLine = new HorizontalLayout();
-		titleLine.setSizeFull();
+		titleLine.setWidth("100%");
 		Label label = new Label("<h1>"+Icon.get("bullhorn")+"Send message</h1>",ContentMode.HTML);
 		label.setWidth("100%");
 		titleLine.addComponent(label);
