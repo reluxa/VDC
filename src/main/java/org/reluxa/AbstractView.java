@@ -104,7 +104,7 @@ public abstract class AbstractView extends VerticalLayout implements View, Refre
 	}
 	
 	private Component getFooter() {
-		Label label = new Label("footer");
+		Label label = new Label("&copy; Budapest Lufthansa Sportegyesület 2014 | "+((ExampleApp)UI.getCurrent()).getVersion(), ContentMode.HTML);
 		label.setStyleName("v-menubar v-widget");
 		return label;
 	}

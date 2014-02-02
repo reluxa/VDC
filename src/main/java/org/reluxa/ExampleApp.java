@@ -47,12 +47,11 @@ public class ExampleApp extends UI {
 		navigator.addProvider(viewProvider);
 	}
 	
-	private String getVersion() {
+	public String getVersion() {
     String result = "build version";
     try {
     	Properties prop = new Properties();
 			prop.load(VaadinServlet.getCurrent().getServletContext().getResourceAsStream("/META-INF/MANIFEST.MF"));
-			log.error(prop.toString());
 			result = prop.getProperty("build-version") +" "+ prop.getProperty("build-revision"); 
 		} catch (IOException e) {
 			e.printStackTrace();
