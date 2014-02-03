@@ -61,16 +61,12 @@ public abstract class AbstractView extends VerticalLayout implements View, Refre
 		setStyleName("root");
 		setSizeFull();
 
-		VerticalLayout page = new VerticalLayout();
-		page.setHeight("100%");
-		addComponent(page);
-
-		page.addComponent(getMenuLine());
+		addComponent(getMenuLine());
 		Component content = getContent();
-		page.addComponent(content);
-		page.setExpandRatio(content, 1f);
+		addComponent(content);
+		setExpandRatio(content, 1f);
 		
-		page.addComponent(getFooter());
+		addComponent(getFooter());
 		
 		Refresher refresher = new Refresher();
 		refresher.setRefreshInterval(60000);
@@ -104,7 +100,7 @@ public abstract class AbstractView extends VerticalLayout implements View, Refre
 	}
 	
 	private Component getFooter() {
-		Label label = new Label("&copy; Budapest Lufthansa Sportegyesület 2014 | "+((ExampleApp)UI.getCurrent()).getVersion(), ContentMode.HTML);
+		Label label = new Label("&copy; Budapesti Lufthansa Sportegyesület 2014 | Build: "+((ExampleApp)UI.getCurrent()).getVersion(), ContentMode.HTML);
 		label.setStyleName("v-menubar v-widget");
 		return label;
 	}

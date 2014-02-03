@@ -42,7 +42,7 @@ public class ExampleApp extends UI {
 	
 	@Override
 	protected void init(VaadinRequest request) {
-		getPage().setTitle("BLHSE Squash - "+getVersion());
+		getPage().setTitle("BLHSE Squash");
 		navigator = new Navigator(this, this);
 		navigator.addProvider(viewProvider);
 	}
@@ -52,7 +52,7 @@ public class ExampleApp extends UI {
     try {
     	Properties prop = new Properties();
 			prop.load(VaadinServlet.getCurrent().getServletContext().getResourceAsStream("/META-INF/MANIFEST.MF"));
-			result = prop.getProperty("build-version") +" "+ prop.getProperty("build-revision"); 
+			result = prop.getProperty("build-version") +" "+ prop.getProperty("build-revision")+ " "+prop.getProperty("build-time"); 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
