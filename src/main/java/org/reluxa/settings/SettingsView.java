@@ -38,8 +38,6 @@ public class SettingsView extends AbstractView implements ClickListener {
   @Inject 
   BidEvaluator bidEvaluator;
 
-  
-  
 	@Override
   public void enter(ViewChangeEvent event) {
 		config = settingsService.getConfig();

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 
 import org.reluxa.AbstractService;
 import org.reluxa.Log;
@@ -14,13 +15,17 @@ import org.reluxa.bid.event.AcceptBidEvent;
 import org.reluxa.bid.event.BidModelChanged;
 import org.reluxa.bid.event.DeleteBidEvent;
 import org.reluxa.player.Player;
+import org.reluxa.time.TimeServiceIF;
 
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 
 @Log
-//@BidCache
 public class BidService extends AbstractService implements BidServiceIF {
+	
+	@Inject
+	TimeServiceIF timeService;
+	
 
 	@Override
 	public void createBid(Bid bid) {
@@ -100,9 +105,6 @@ public class BidService extends AbstractService implements BidServiceIF {
 			}
 		});
 	}
-
-
-	
 	
 	@Override
 	public Collection<Bid> getAllNotEvaluatedBids() {
@@ -119,5 +121,27 @@ public class BidService extends AbstractService implements BidServiceIF {
 	public Collection<Bid> getBids(Predicate<Bid> predicate) {
 		return new ArrayList<Bid>(db.query(predicate));
 	}
+
+	@Override
+  public boolean validateTicket(final Bid bid) {
+		Collection<Bid> bids = getBids(new Predicate<Bid>() {
+			@Override
+			public boolean match(Bid obj) {
+				return bid.getTicketCode().equals(obj.getTicketCode()) && "WON".equals(obj.getStatus());
+			}
+		});
+		if (bids.size() > 0) {
+			Bid dbBid = bids.iterator().next();
+			dbBid.setCourt(bid.getCourt());
+			dbBid.setDuration(bid.getDuration());
+			dbBid.setPrice(bid.getPrice());
+			dbBid.setStatus(BidStatus.USED.toString());
+			dbBid.setUsedAt(timeService.getCurrentTime());
+			db.store(dbBid);
+			return true;
+		} else {
+			return false;
+		}
+  }
 
 }

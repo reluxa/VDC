@@ -33,5 +33,7 @@ public interface BidServiceIF {
 	Collection<Bid> getAllBids(Date from, Date to);
 
 	Collection<Bid> getTicketsForPlayer(Player player);
+	
+	boolean validateTicket(Bid bid);
 
 }

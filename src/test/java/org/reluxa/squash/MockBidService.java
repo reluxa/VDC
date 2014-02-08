@@ -83,4 +83,10 @@ public class MockBidService implements BidServiceIF {
 	  return null;
   }
 
+	@Override
+  public boolean validateTicket(Bid bid) {
+	  // TODO Auto-generated method stub
+	  return false;
+  }
+
 }

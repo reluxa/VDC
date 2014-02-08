@@ -1,6 +1,5 @@
 package org.reluxa.vaadin.widget;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import org.reluxa.vaadin.util.BeanIntrospector;
@@ -11,7 +10,6 @@ import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.AbstractTextField;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.VerticalLayout;
@@ -73,11 +71,7 @@ public class GeneratedForm<T> extends VerticalLayout {
 			form.addComponent(field);
 		}
 	}
-	
-	
-	public Iterator<Component> getFormElements() {
-		return form.iterator();
-	}
+
 	
 	public boolean isValid() {
 	  return fieldGroup.isValid();

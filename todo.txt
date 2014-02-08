@@ -1,3 +1,1 @@
 - full validation for user signup, no empty user
-- uuid for entities
-- extract out the menubar

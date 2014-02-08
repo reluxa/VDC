@@ -95,7 +95,7 @@ public class BidHistoryView extends AbstractView {
 		VerticalLayout verticalLayout = new VerticalLayout();
 		verticalLayout.setSizeFull();
 		verticalLayout.setSpacing(true);
-		verticalLayout.setMargin(new MarginInfo(true, true, true, true));
+		verticalLayout.setMargin(true);
 
 		verticalLayout.addComponent(getTitleLine());
 
