@@ -42,7 +42,7 @@ public class ExampleApp extends UI {
 	
 	@Override
 	protected void init(VaadinRequest request) {
-		getPage().setTitle("BLHSE Squash");
+		getPage().setTitle("BLHSE Squash & Badminton");
 		navigator = new Navigator(this, this);
 		navigator.addProvider(viewProvider);
 	}
