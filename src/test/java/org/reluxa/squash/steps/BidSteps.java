@@ -28,7 +28,7 @@ public class BidSteps {
 		((MockPlayerService)playerService).players.clear();
 	}
 	
-	@Given("a bid with id $id where the creator is $email at $date")
+	@Given(value = "a bid with id $id where the creator is $email at $date")
 	public void createSingleBid(Integer id, String email, Date date) {
 		Bid bid = new Bid();
 		bid.setId(id);
@@ -37,7 +37,7 @@ public class BidSteps {
 		bidService.createBid(bid);
 	}
 	
-	@Given(value = "a bid with id $id where the creator is $email and partner is $email2 at $date", priority = 1)
+	@Given(value = "a multi user bid with id $id where the creator is $email and partner is $email2 at $date")
 	public void createWithPartner(Integer id, String email, String email2, Date date) {
 		Bid bid = new Bid();
 		bid.setId(id);

@@ -52,7 +52,7 @@ public class BidEvaluationStories extends JUnitStories {
 
 	@Override
   protected List<String> storyPaths() {
-		return Arrays.asList("org/reluxa/squash/features/example.story");
+		return Arrays.asList("example.story");
 	}
   
   
