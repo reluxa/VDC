@@ -32,7 +32,7 @@ public class LoginView extends VerticalLayout implements View {
 		MyLoginForm loginForm = new MyLoginForm(accessControl);
 		horizontal.addComponent(loginForm);
 		Label label = new Label("");
-		label.setWidth("100px");
+		label.setWidth("170px");
 		horizontal.addComponent(label);
 		horizontal.setComponentAlignment(label, Alignment.MIDDLE_CENTER);
 		horizontal.addComponent(tv);

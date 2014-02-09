@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import javax.enterprise.event.Observes;
 
 import org.reluxa.bid.Bid;
+import org.reluxa.bid.Ticket;
 import org.reluxa.bid.event.AcceptBidEvent;
 import org.reluxa.bid.event.DeleteBidEvent;
 import org.reluxa.bid.service.BidServiceIF;
@@ -84,7 +85,7 @@ public class MockBidService implements BidServiceIF {
   }
 
 	@Override
-  public boolean validateTicket(Bid bid) {
+  public boolean validateTicket(Ticket bid) {
 	  // TODO Auto-generated method stub
 	  return false;
   }

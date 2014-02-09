@@ -2,7 +2,7 @@ package org.reluxa.login;
 
 import javax.inject.Inject;
 
-import org.reluxa.bid.Bid;
+import org.reluxa.bid.Ticket;
 import org.reluxa.bid.service.BidServiceIF;
 import org.reluxa.bid.view.TicketValidationResultView;
 import org.reluxa.vaadin.widget.GeneratedForm;
@@ -23,29 +23,35 @@ import com.vaadin.ui.Window;
 
 public class TicketValidation extends VerticalLayout implements ClickListener {
 
-	private GeneratedForm<Bid> detailForm = new GeneratedForm<>(Bid.class, TicketValidation.class);
+	private GeneratedForm<Ticket> detailForm = new GeneratedForm<>(Ticket.class, TicketValidation.class);
 	
-	private Bid bidTicket;
+	private Ticket ticket;
 	
 	@Inject
 	private BidServiceIF bidService;
 	
+	final Button validationButton;
+	
 	public TicketValidation() {
-    Label label = new Label("<h2>Enter ticket validation information<h2>", ContentMode.HTML);
-    Button button = IconButtonFactory.get("Validate", "question");
-    button.addClickListener(this);
+    Label label = new Label("<h2>Ticket validation<h2>", ContentMode.HTML);
+    validationButton = IconButtonFactory.get("Validate", "question");
+    validationButton.addClickListener(this);
     addComponent(label);
     addComponent(detailForm);
-    addComponent(button);
+    addComponent(validationButton);
 	}
 	
 	public void reset() {
-		bidTicket = new Bid();
-		detailForm.setBean(bidTicket);
+		ticket = new Ticket();
+		detailForm.setBean(ticket);
 	}
 
 	@Override
   public void buttonClick(ClickEvent event) {
+		if (!detailForm.isValid()) {
+			Notification.show("Invalid data in form!");
+			return;
+		}
 		final Window confirmation = new Window("Confirmation");
 		confirmation.setModal(true);
 		confirmation.setResizable(false);
@@ -53,12 +59,12 @@ public class TicketValidation extends VerticalLayout implements ClickListener {
 		vl.setSpacing(true);
 		vl.setMargin(true);
 		
-		Label text = new Label("<h3>Please check that all the information below are correct:</h3>",ContentMode.HTML);
+		Label text = new Label("<h3>Please check all the information below are correct:</h3>",ContentMode.HTML);
 		StringBuilder builder = new StringBuilder();
-		builder.append("Ticket code: "+bidTicket.getTicketCode()+ "<br/>");
-		builder.append("Price: "+bidTicket.getPrice()+ " HUF<br/>");
-		builder.append("Duration: "+bidTicket.getDuration()+ " minutes<br/>");
-		builder.append("Court: "+bidTicket.getCourt());
+		builder.append("Ticket code: "+ticket.getTicketCode()+ "<br/>");
+		builder.append("Price: "+ticket.getPrice()+ " HUF<br/>");
+		builder.append("Duration: "+ticket.getDuration()+ " minutes<br/>");
+		builder.append("Court: "+ticket.getCourt());
 		
 		Label info = new Label(builder.toString(), ContentMode.HTML);
 
@@ -66,11 +72,11 @@ public class TicketValidation extends VerticalLayout implements ClickListener {
 		yes.addClickListener(new ClickListener() { 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (bidService.validateTicket(bidTicket)) {
+				if (bidService.validateTicket(ticket)) {
 					confirmation.close();
 					UI.getCurrent().getNavigator().navigateTo(TicketValidationResultView.VIEW_NAME);
 				} else {
-					Notification.show("Invalid ticket code!",Type.ERROR_MESSAGE);
+					Notification.show("Invalid ticket code!", Type.ERROR_MESSAGE);
 				}
 			}
 		});

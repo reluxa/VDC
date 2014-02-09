@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.enterprise.event.Observes;
 
 import org.reluxa.bid.Bid;
+import org.reluxa.bid.Ticket;
 import org.reluxa.bid.event.AcceptBidEvent;
 import org.reluxa.bid.event.DeleteBidEvent;
 import org.reluxa.player.Player;
@@ -34,6 +35,6 @@ public interface BidServiceIF {
 
 	Collection<Bid> getTicketsForPlayer(Player player);
 	
-	boolean validateTicket(Bid bid);
+	boolean validateTicket(Ticket bid);
 
 }

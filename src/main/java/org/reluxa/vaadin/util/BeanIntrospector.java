@@ -55,6 +55,19 @@ public class BeanIntrospector {
 		});
 		return result;
 	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public static Map<String, Detail> getDetailsForFeild(Class<?> clazz, Class<?> forView) {
+		final Map<String,Detail> result = new HashMap<>();
+		visit(clazz, forView, new DetailMatcher() {
+			@Override
+			public void found(Detail detail, Field field) {
+				result.put(field.getName(), detail);
+			}
+		});
+		return result;
+	}
 
 	public static Collection<String> getDetailFieldsForView(Class<?> clazz, Class<?> forView) {
 		final TreeMultimap<Integer, String> map = TreeMultimap.create();

@@ -62,7 +62,7 @@ public class SettingsView extends AbstractView implements ClickListener {
 		@Override
     public void buttonClick(ClickEvent event) {
 			bidEvaluator.runWeeklyEvaluation();
-			Notification.show("Weekly evaluation was executed!", Type.TRAY_NOTIFICATION);
+			Notification.show("Weekly evaluation executed!", Type.TRAY_NOTIFICATION);
     }
 	}
 

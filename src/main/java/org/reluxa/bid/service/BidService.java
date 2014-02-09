@@ -11,6 +11,7 @@ import org.reluxa.AbstractService;
 import org.reluxa.Log;
 import org.reluxa.bid.Bid;
 import org.reluxa.bid.BidStatus;
+import org.reluxa.bid.Ticket;
 import org.reluxa.bid.event.AcceptBidEvent;
 import org.reluxa.bid.event.BidModelChanged;
 import org.reluxa.bid.event.DeleteBidEvent;
@@ -123,7 +124,7 @@ public class BidService extends AbstractService implements BidServiceIF {
 	}
 
 	@Override
-  public boolean validateTicket(final Bid bid) {
+  public boolean validateTicket(final Ticket bid) {
 		Collection<Bid> bids = getBids(new Predicate<Bid>() {
 			@Override
 			public boolean match(Bid obj) {
