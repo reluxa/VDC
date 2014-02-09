@@ -35,7 +35,7 @@ import com.vaadin.ui.VerticalLayout;
 @RolesAllowed(value = Player.ROLE_USER)
 public class BidHistoryView extends AbstractView {
 
-	public static final String VIEW_NAME = "bidHistory";
+	public static final String VIEW_NAME = "history";
 	
 	@Inject
 	private TimeServiceIF timeService;

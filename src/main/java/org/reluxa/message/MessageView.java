@@ -40,7 +40,7 @@ public class MessageView extends AbstractView {
 	@Inject
 	MessageServiceIF messageService;
 	
-	public static final String VIEW_NAME = "message";
+	public static final String VIEW_NAME = "messages";
 	
 	private CustomBeanItemContainer<Player> players = new CustomBeanItemContainer<>(
 			Player.class, CurrentWeekBidView.class);

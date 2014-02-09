@@ -19,7 +19,11 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 @CDIView(SettingsView.VIEW_NAME)
@@ -44,9 +48,28 @@ public class SettingsView extends AbstractView implements ClickListener {
 		System.out.println(config);
 		form.setBean(config);
   }
+	
+	private class ResetClickListener implements ClickListener {
+		@Override
+    public void buttonClick(ClickEvent event) {
+			settingsService.resetConfig();
+			enter(null);
+			Notification.show("Settings have been restored!", Type.TRAY_NOTIFICATION);
+    }
+	}
+	
+	private class BidEvaluationClickListener implements ClickListener {
+		@Override
+    public void buttonClick(ClickEvent event) {
+			bidEvaluator.runWeeklyEvaluation();
+			Notification.show("Weekly evaluation was executed!", Type.TRAY_NOTIFICATION);
+    }
+	}
 
 	@Override
   protected Component getContent() {
+		Panel panel = new Panel();
+		panel.setHeight("100%");
 		VerticalLayout vl = new VerticalLayout();
 		vl.setSpacing(true);
 		vl.setMargin(new MarginInfo(true, true, true, true));
@@ -54,28 +77,34 @@ public class SettingsView extends AbstractView implements ClickListener {
 		label.setWidth("100%");
 		Button saveButton = IconButtonFactory.get("Save", "disk");
 		saveButton.addClickListener(this);
+		
+		Button resetButton = IconButtonFactory.get("Reset", "undo");
+		resetButton.addClickListener(new ResetClickListener());
+
+		HorizontalLayout buttonLine = new HorizontalLayout();
+		buttonLine.setSpacing(true);
+		buttonLine.addComponent(saveButton);
+		buttonLine.addComponent(resetButton);
+
+
 		vl.addComponent(label);
 		vl.addComponent(form);
-		vl.addComponent(saveButton);
-		
+		vl.addComponent(buttonLine);
 		
 		Button runNow = IconButtonFactory.get("Run evaluation", "hammer2");
-		runNow.addClickListener(new ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				bidEvaluator.runWeeklyEvaluation();				
-			}
-		});
+		runNow.addClickListener(new BidEvaluationClickListener());
 		
 		
 		vl.addComponent(runNow);
+		panel.setContent(vl);
 
-		return vl;
+		return panel;
   }
 
 	@Override
   public void buttonClick(ClickEvent event) {
 		settingsService.saveConfig(config);
+		Notification.show("Settings have been saved!", Type.TRAY_NOTIFICATION);
   }
 
 }

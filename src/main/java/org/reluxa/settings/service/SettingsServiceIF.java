@@ -8,4 +8,6 @@ public interface SettingsServiceIF {
 
 	void saveConfig(Config config);
 	
+	void resetConfig();
+	
 }

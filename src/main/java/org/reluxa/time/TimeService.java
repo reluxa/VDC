@@ -6,6 +6,8 @@ import javax.inject.Inject;
 
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 import org.reluxa.settings.service.SettingsServiceIF;
 
 import com.sun.jersey.spi.resource.Singleton;
@@ -45,8 +47,9 @@ public class TimeService implements TimeServiceIF {
 
 	@Override
 	public Date getWeekEnd() {
-		LocalDate currentLocal = new LocalDate(getCurrentTime());
-		return currentLocal.withDayOfWeek(DateTimeConstants.SUNDAY).toDate();
+		LocalDateTime currentLocal = new LocalDateTime(getWeekBegin());
+		currentLocal = currentLocal.plusWeeks(1).minusSeconds(1);
+		return currentLocal.toDate();
 	}
 
 	@Override
@@ -63,8 +66,9 @@ public class TimeService implements TimeServiceIF {
 
 	@Override
 	public Date getWeekEnd(Date ref) {
-		LocalDate currentLocal = new LocalDate(ref);
-		return currentLocal.withDayOfWeek(DateTimeConstants.SUNDAY).toDate();
+		LocalDateTime currentLocal = new LocalDateTime(getWeekBegin(ref));
+		currentLocal = currentLocal.plusWeeks(1).minusSeconds(1);
+		return currentLocal.toDate();
 	}
 
 	@Override

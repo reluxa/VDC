@@ -1,0 +1,63 @@
+<p>Kedves $user,</p>
+<p>
+	A h&eacute;ten $number darab p&aacute;ly&aacute;t sorsoltunk ki, amire
+	$bids.size() jelentkez&eacute;s &eacute;rkezett.<br />A sorsol&aacute;s
+	v&eacute;geredm&eacute;nye a k&ouml;vetkező:</p>
+<table border="1" cellspacing="0" cellpadding="0">
+	<thead>
+		<tr style="background-color: #c8c9c4;">
+			<td valign="top" width="160">N&eacute;v / Partner</td>
+			<td valign="top" width="76">Pontok</td>
+			<td valign="top" width="244">Eredm&eacute;ny</td>
+		</tr>
+	</thead>
+	<tbody>
+		#foreach( $bid in $bids)
+		<tr>
+			<td valign="top" width="160">$bid.creator.fullName #if($bid.partner)$bid.partner.fullName#end</td>
+			<td valign="top" width="76">$bid.score</td>
+			<td valign="top" width="244">$bid.status</td>
+		</tr>
+		#end
+	</tbody>
+</table>
+#if ($win.size() > 0)
+<p>A héten a következő pálya jegyeket használhatod fel:</p>
+	#foreach( $bid in $win)
+	<h3>$bid.ticketCode</h3>
+	#end
+#end
+<p>&Uuml;dv&ouml;zlettel,<br /> BLHSE Squash &amp; Tollaslabda
+	szakoszt&aacute;ly
+</p>
+<hr />
+<p>Dear $user,</p>
+<p>
+	This week $number court was available forwhich $bids.size() application was
+	arrived. <br />The weekly evalutaion result is the following:
+</p>
+<table border="1" cellspacing="0" cellpadding="0">
+	<thead>
+		<tr style="background-color: #c8c9c4;">
+			<td valign="top" width="160">Name / Partner</td>
+			<td valign="top" width="76">Points</td>
+			<td valign="top" width="244">Result</td>
+		</tr>
+	</thead>
+	<tbody>
+		#foreach( $bid in $bids)
+		<tr>
+			<td valign="top" width="160">$bid.creator.fullName #if($bid.partner)$bid.partner.fullName#end</td>
+			<td valign="top" width="76">$bid.score</td>
+			<td valign="top" width="244">$bid.status</td>
+		</tr>
+		#end
+	</tbody>
+</table>
+#if ($win.size() > 0)
+<p>This week you can use the following ticket codes:</p>
+	#foreach( $bid in $win)
+	<h3>$bid.ticketCode</h3>
+	#end
+#end
+<p>	Best Regards,<br />	BLHSE Squash &amp; Badminton Division</p>

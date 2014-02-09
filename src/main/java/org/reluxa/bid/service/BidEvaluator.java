@@ -1,13 +1,16 @@
 package org.reluxa.bid.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -20,6 +23,8 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 import org.reluxa.bid.Bid;
 import org.reluxa.bid.BidStatus;
+import org.reluxa.mail.EmailComposer;
+import org.reluxa.mail.MailSenderIF;
 import org.reluxa.player.Player;
 import org.reluxa.settings.Config;
 import org.reluxa.settings.service.SettingsServiceIF;
@@ -38,6 +43,12 @@ public class BidEvaluator {
 	
 	@Inject	@Getter	@Setter
 	private TimeServiceIF timeService;
+	
+	@Inject 
+	private EmailComposer emailComposer;
+	
+	@Inject 
+	private MailSenderIF mailSender;
 	
 	@Inject 
 	private SettingsServiceIF settings;
@@ -125,8 +136,25 @@ public class BidEvaluator {
 		}
 		//save to the database
 		bidService.updateAll(sorted);
+		
+		notifyEvalutaionResult(sorted);
 	}
 	
+	private void notifyEvalutaionResult(List<Bid> sorted) {
+		Set<Player> players = new HashSet<>();
+		for (Bid bid : sorted) {
+	    players.add(bid.getCreator());
+	    if (bid.getPartner() != null) {
+	    	players.add(bid.getPartner());
+	    }
+    }
+		
+		for (Player player : players) {
+	    String html = emailComposer.getWeeklyEvalEmail(sorted, player);
+	    mailSender.sendMail(Arrays.asList(player.getEmail()),"Sorsolás / Weekly evaluation result", null, html);
+    }
+  }
+
 	private Date getFirstBidCreationTime() {
 	  Collection<Bid> bids = getBidService().getAllNotEvaluatedBids();
 	  if (bids.size() > 0) {

@@ -20,9 +20,6 @@ public class PlayerService extends AbstractService implements PlayerServiceIF {
   public Collection<Player> getAllPlayers() {
     ObjectSet<Player> players = db.query(Player.class);
     List<Player> pl = players.subList(0, players.size());
-//    for (Player player : pl) {
-//      log.debug(db.ext().getID(player) + "\t" + player);
-//    }
     return pl;
   }
 

@@ -6,6 +6,7 @@ import java.util.Properties;
 import javax.enterprise.context.ContextNotActiveException;
 import javax.inject.Inject;
 
+import org.reluxa.db.SessionProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +17,7 @@ import com.vaadin.cdi.CDIUI;
 import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.cdi.internal.BeanStoreContainer;
 import com.vaadin.navigator.Navigator;
+import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.Extension;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinService;
@@ -33,6 +35,9 @@ public class ExampleApp extends UI {
   protected Logger log = LoggerFactory.getLogger(this.getClass()); 
 	
 	@Inject
+	SessionProducer sp;
+  
+	@Inject
 	private CDIViewProvider viewProvider;
 	
 	@Inject
@@ -45,6 +50,14 @@ public class ExampleApp extends UI {
 		getPage().setTitle("BLHSE Squash & Badminton");
 		navigator = new Navigator(this, this);
 		navigator.addProvider(viewProvider);
+		UI.getCurrent().setErrorHandler(new DefaultErrorHandler(){
+			@Override
+			public void error(com.vaadin.server.ErrorEvent event) {
+			  super.error(event);
+		  	log.error("Rollback set on the current session");
+		  	sp.getCurrentSessionThreadLocal().get().setRollbackOnly();
+			}
+		});
 	}
 	
 	public String getVersion() {

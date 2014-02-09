@@ -52,7 +52,7 @@ import com.vaadin.ui.Window;
 @RolesAllowed(value = Player.ROLE_ADMIN)
 public class PlayerView extends AbstractView {
 	
-	public static final String VIEW_NAME = "player_view";
+	public static final String VIEW_NAME = "players";
 
 	@Inject
 	private javax.enterprise.event.Event<DeletePlayerEvent> deleteEvent;

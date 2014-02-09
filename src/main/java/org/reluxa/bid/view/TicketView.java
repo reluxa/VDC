@@ -25,7 +25,7 @@ import com.vaadin.ui.VerticalLayout;
 @RolesAllowed(value = Player.ROLE_USER)
 public class TicketView extends AbstractView {
 
-	public static final String VIEW_NAME = "ticketView";
+	public static final String VIEW_NAME = "tickets";
 	
 	@Inject
 	private BidService bidService;

@@ -51,7 +51,7 @@ import com.vaadin.ui.VerticalLayout;
 @RolesAllowed(value = Player.ROLE_USER)
 public class CurrentWeekBidView extends AbstractView {
 
-	public static final String VIEW_NAME = "currentWeekBids";
+	public static final String VIEW_NAME = "bids";
 
 	private CustomBeanItemContainer<Player> players = new CustomBeanItemContainer<>(
 			Player.class, CurrentWeekBidView.class);

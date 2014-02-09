@@ -44,6 +44,11 @@ public class Config implements IDObject {
 	})
 	private String passwordResetTemplate;
 	
+	@GUI(detail = { 
+			@Detail(context = SettingsView.class, order = 7, type=RichTextArea.class), 
+	})
+	private String weeklyEvaluationTemplate;
+	
 	private long id;
 	
 }
