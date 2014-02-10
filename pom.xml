@@ -300,7 +300,7 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<build-version>V0.9</build-version>
+							<build-version>V1.0</build-version>
 							<build-revision>${buildNumber}</build-revision>
 							<build-time>${timestamp}</build-time>
 						</manifestEntries>
