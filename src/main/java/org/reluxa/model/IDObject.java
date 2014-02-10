@@ -1,6 +1,8 @@
 package org.reluxa.model;
 
-public interface IDObject {
+import java.io.Serializable;
+
+public interface IDObject extends Serializable {
 
 	void setId(long id);
 	

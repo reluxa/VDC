@@ -5,6 +5,7 @@ import javax.inject.Inject;
 
 import org.reluxa.AbstractView;
 import org.reluxa.bid.service.BidEvaluator;
+import org.reluxa.db.ExportService;
 import org.reluxa.player.Player;
 import org.reluxa.settings.service.SettingsServiceIF;
 import org.reluxa.vaadin.widget.GeneratedForm;
@@ -41,6 +42,9 @@ public class SettingsView extends AbstractView implements ClickListener {
   
   @Inject 
   BidEvaluator bidEvaluator;
+  
+  @Inject
+  ExportService exportService;
 
 	@Override
   public void enter(ViewChangeEvent event) {
@@ -63,6 +67,13 @@ public class SettingsView extends AbstractView implements ClickListener {
     public void buttonClick(ClickEvent event) {
 			bidEvaluator.runWeeklyEvaluation();
 			Notification.show("Weekly evaluation executed!", Type.TRAY_NOTIFICATION);
+    }
+	}
+	
+	private class DBExportClickListener implements ClickListener {
+		@Override
+    public void buttonClick(ClickEvent event) {
+			 System.out.println(exportService.getExportXML());
     }
 	}
 
@@ -93,9 +104,17 @@ public class SettingsView extends AbstractView implements ClickListener {
 		
 		Button runNow = IconButtonFactory.get("Run evaluation", "hammer2");
 		runNow.addClickListener(new BidEvaluationClickListener());
-		
-		
 		vl.addComponent(runNow);
+		
+
+		Button export = IconButtonFactory.get("Export", "download2");
+
+		
+		export.addClickListener(new DBExportClickListener());
+		vl.addComponent(export);
+
+		
+		
 		panel.setContent(vl);
 
 		return panel;

@@ -1,4 +1,6 @@
 package org.reluxa.bid;
+import java.io.Serializable;
+
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -11,7 +13,12 @@ import org.reluxa.vaadin.annotation.GUI;
 import org.reluxa.vaadin.util.ValidationPattern;
 
 @Data
-public class Ticket {
+public class Ticket implements Serializable {
+
+	/**
+	 * Serial ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@GUI(detail = { 
 			@Detail(context = TicketValidation.class, order = 1)

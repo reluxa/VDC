@@ -60,6 +60,7 @@ public class GeneratedForm<T> extends VerticalLayout implements ValueChangeListe
 		}
 		Map<String, Detail> details = BeanIntrospector.getDetailsForFeild(bean.getClass(), context);
 		Item item = new BeanItem<T>(bean, BeanIntrospector.getDetailFieldsForView(bean.getClass(), context));
+		fieldGroup = new BeanFieldGroup<T>(beanType);
 		fieldGroup.setItemDataSource(item);
 		fieldGroup.setBuffered(false);
 		for (final Object propertyId : fieldGroup.getUnboundPropertyIds()) {
