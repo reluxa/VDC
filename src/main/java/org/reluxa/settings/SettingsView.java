@@ -1,13 +1,23 @@
 package org.reluxa.settings;
 
+import java.awt.image.MemoryImageSource;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 
+import org.apache.commons.io.IOUtils;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.reluxa.AbstractView;
 import org.reluxa.bid.service.BidEvaluator;
 import org.reluxa.db.ExportService;
 import org.reluxa.player.Player;
 import org.reluxa.settings.service.SettingsServiceIF;
+import org.reluxa.vaadin.util.OnDemandFileDownloader;
+import org.reluxa.vaadin.util.OnDemandFileDownloader.OnDemandStreamResource;
 import org.reluxa.vaadin.widget.GeneratedForm;
 import org.reluxa.vaadin.widget.Icon;
 import org.reluxa.vaadin.widget.IconButtonFactory;
@@ -70,12 +80,12 @@ public class SettingsView extends AbstractView implements ClickListener {
     }
 	}
 	
-	private class DBExportClickListener implements ClickListener {
-		@Override
-    public void buttonClick(ClickEvent event) {
-			 System.out.println(exportService.getExportXML());
-    }
+	private String getCurrentTimeStamp() {
+		LocalDateTime dt = new LocalDateTime();
+		DateTimeFormatter format = DateTimeFormat.forPattern("yyyyMMdd_HHmm");
+		return dt.toString(format);
 	}
+	
 
 	@Override
   protected Component getContent() {
@@ -107,18 +117,30 @@ public class SettingsView extends AbstractView implements ClickListener {
 		vl.addComponent(runNow);
 		
 
-		Button export = IconButtonFactory.get("Export", "download2");
-
-		
-		export.addClickListener(new DBExportClickListener());
+		Button export = createExportButton();
 		vl.addComponent(export);
-
-		
 		
 		panel.setContent(vl);
-
 		return panel;
   }
+
+
+	private Button createExportButton() {
+		Button export = IconButtonFactory.get("Export", "download2");
+		OnDemandFileDownloader ond = new OnDemandFileDownloader(new OnDemandStreamResource() {
+			@Override
+			public InputStream getStream() {
+				return IOUtils.toInputStream(exportService.getExportXML());
+			}
+			
+			@Override
+			public String getFilename() {
+				return "export_"+getCurrentTimeStamp()+".xml";
+			}
+		});
+		ond.extend(export);
+		return export;
+	}
 
 	@Override
   public void buttonClick(ClickEvent event) {
