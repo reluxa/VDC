@@ -21,6 +21,18 @@ On the fly applies gzip compression on the downloaded content. The appsize has b
 
 **Spring loaded** - https://github.com/spring-projects/spring-loaded
 
+**Lombok** - http://projectlombok.org/
+
+**Velocity**
+
+**Mailgun**
+
+**jbcrypt**
+
+**Joda Time**
+
+**JBehave**
+
 
 
 Requirements

@@ -2,6 +2,7 @@ package org.reluxa.db;
 
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.StringUtils;
 import org.reluxa.model.IDObject;
 
 import com.db4o.Db4oEmbedded;
@@ -48,7 +49,15 @@ public class DBConnectionFactory {
 		
 
 	public DBConnectionFactory() {
-		this("D:\\database.data");
+		this(getDBFileName());	
+	}
+	
+	private static String getDBFileName() {
+		if (StringUtils.isNotEmpty(System.getenv("SQUASH_DB"))) {
+			return System.getenv("SQUASH_DB");
+		} else {
+			return "D:\\database.data";
+		}
 	}
 
 	public ObjectContainer getConnection() {
