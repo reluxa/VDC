@@ -19,7 +19,6 @@ import org.reluxa.vaadin.widget.TableBeanFactory;
 
 import com.vaadin.cdi.CDIView;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;

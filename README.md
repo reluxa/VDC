@@ -1,6 +1,11 @@
 VDC
 ===
 
+
+![login](https://raw.github.com/reluxa/VDC/images/login.png)
+![bid](https://raw.github.com/reluxa/VDC/images/bid.png)
+![settings](https://raw.github.com/reluxa/VDC/images/settings.png)
+
 Experimenting with new technologies. My goal is to evaluate existing framwork and combine them in a way which 
 allows rapid creation of web application. In general I always prefer plain Java based frameworks. 
 The reason is that the the Java Script based ones are nice but they are less convenient when it comes to debug, 

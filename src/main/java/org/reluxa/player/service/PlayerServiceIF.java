@@ -1,7 +1,6 @@
 package org.reluxa.player.service;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.enterprise.event.Observes;
 

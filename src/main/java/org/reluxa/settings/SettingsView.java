@@ -1,7 +1,5 @@
 package org.reluxa.settings;
 
-import java.awt.image.MemoryImageSource;
-import java.io.BufferedInputStream;
 import java.io.InputStream;
 
 import javax.annotation.security.RolesAllowed;

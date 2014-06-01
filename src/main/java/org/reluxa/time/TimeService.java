@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.joda.time.LocalTime;
 import org.reluxa.settings.service.SettingsServiceIF;
 
 import com.sun.jersey.spi.resource.Singleton;

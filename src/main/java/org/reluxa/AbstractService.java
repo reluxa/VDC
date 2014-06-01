@@ -5,7 +5,6 @@ import javax.inject.Inject;
 
 import org.reluxa.db.Session;
 import org.reluxa.db.Transacted;
-import org.reluxa.vaadin.auth.VaadinAccessControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

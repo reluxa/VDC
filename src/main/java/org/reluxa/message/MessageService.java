@@ -7,7 +7,6 @@ import javax.inject.Inject;
 
 import org.reluxa.AbstractService;
 import org.reluxa.mail.MailSender;
-import org.reluxa.mail.MailSenderIF;
 import org.reluxa.player.Player;
 import org.reluxa.vaadin.auth.VaadinAccessControl;
 
