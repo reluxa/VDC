@@ -2,9 +2,9 @@ VDC
 ===
 
 
-![login](https://raw.github.com/reluxa/VDC/tree/master/images/login.png)
-![bid](https://raw.github.com/reluxa/VDC/tree/master/images/bid.png)
-![settings](https://raw.github.com/reluxa/VDC/tree/master/images/settings.png)
+![login](https://raw.githubusercontent.com/reluxa/VDC/master/images/login.png)
+![bid](https://raw.githubusercontent.com/reluxa/VDC/master/images/bid.png)
+![settings](https://raw.githubusercontent.com/reluxa/VDC/master/images/settings.png)
 
 Experimenting with new technologies. My goal is to evaluate existing framwork and combine them in a way which 
 allows rapid creation of web application. In general I always prefer plain Java based frameworks. 
