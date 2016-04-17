@@ -238,7 +238,7 @@
 		</repository>
 		<repository>
 			<id>source.db4o</id>
-			<url>http://source.db4o.com/maven</url>
+			<url>https://raw.githubusercontent.com/dcherix/mavenrep/master/snapshots</url>
 		</repository>
 		<repository>
 			<id>vaadin-addons</id>
