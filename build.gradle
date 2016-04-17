@@ -7,8 +7,8 @@ version = '1.0-SNAPSHOT'
 
 description = """example"""
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 
 
@@ -29,7 +29,7 @@ dependencies {
     compile group: 'com.vaadin', name: 'vaadin-cdi', version:'1.0.0.alpha1'
     compile group: 'com.db4o', name: 'db4o-full-java5', version:'8.1-SNAPSHOT'
     compile(group: 'com.googlecode.webutilities', name: 'webutilities', version:'0.0.6') {
-exclude(module: 'closure-compiler')
+		exclude(module: 'closure-compiler')
     }
     compile group: 'commons-lang', name: 'commons-lang', version:'2.3'
     compile group: 'com.google.guava', name: 'guava-collections', version:'r03'
@@ -48,5 +48,5 @@ exclude(module: 'closure-compiler')
     testCompile group: 'org.jbehave', name: 'jbehave-core', version:'3.8'
     testCompile group: 'de.codecentric', name: 'jbehave-junit-runner', version:'1.0.1'
     providedCompile group: 'javax', name: 'javaee-api', version:'7.0'
-    providedCompile group: 'org.projectlombok', name: 'lombok', version:'1.12.2'
+    providedCompile group: 'org.projectlombok', name: 'lombok', version:'1.16.8'
 }
