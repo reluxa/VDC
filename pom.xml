@@ -237,8 +237,8 @@
 			<url>http://repo.maven.apache.org/maven2</url>
 		</repository>
 		<repository>
-			<id>source.db4o</id>
-			<url>http://source.db4o.com/maven</url>
+			<id>source.db4o.clone</id>
+			<url>https://rawgit.com/dcherix/mavenrep/master/snapshots</url>
 		</repository>
 		<repository>
 			<id>vaadin-addons</id>
